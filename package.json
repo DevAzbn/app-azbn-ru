@@ -1,0 +1,35 @@
+{
+  "name": "azbn-app-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app_azbn_ru.js",
+  "dependencies": {
+    "azbn-task-queue": "^0.5.1",
+    "azbn-tple": "^2.2.0",
+    "body-parser": "^1.15.2",
+    "cheerio": "^0.22.0",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "jade": "^1.11.0",
+    "method-override": "^2.3.6",
+    "mysql": "^2.11.1",
+    "nedb": "^1.8.0",
+    "node-telegram-bot-api": "^0.23.3",
+    "nodemailer": "^2.6.4",
+    "request": "^2.75.0",
+    "sqlite": "^2.2.0",
+    "sriracha-admin": "0.0.3",
+    "vhost": "^3.0.2",
+    "vksdk": "^5.3.2",
+    "vow": "^0.4.12",
+    "winston": "^2.2.0",
+    "ws": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "= <alexander.zybin@yandex.ru>",
+  "license": "ISC"
+}
