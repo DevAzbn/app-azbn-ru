@@ -8,15 +8,33 @@ function AzbNodeForkClient(azbn) {
 	
 	var fork = require('child_process').fork;
 	
+	ctrl.log = function(command) {
+		
+		if(command && command != '') {
+			
+			
+			
+		} else {
+			
+			
+			
+		}
+		
+	}
+	
 	ctrl.run = function(command, data, cb) {
 		
 		if(command && command != '') {
+			
+			ctrl.log(command);
 			
 			if(data) {
 				data = JSON.stringify(data);
 			} else {
 				data = JSON.stringify({});
 			}
+			
+			data = new Buffer(data).toString('base64');
 			
 			var _process = fork(__dirname + '/../' + azbn.mdl('cfg').path.fork + '/' + command, [
 				data
@@ -26,25 +44,13 @@ function AzbNodeForkClient(azbn) {
 			
 			_process.on('message', function(msg){
 				
-				if(msg.tg && msg.tg.log) {
-					
-					azbn.mdl('tg').sendMessage(azbn.mdl('cfg').tg.log.chat_id, command + ': ' + msg.tg.log, {
-						//reply_to_message_id : msg.message_id,
-						caption : 'Выполнение подпроцесса',
-					});
-					
-				}
-				
-				if(msg.status == 0) {
-					
-					_process.kill();
-					cb(msg);
-					
-				}
+				cb(_process, msg);
 				
 			});
 			
 		} else {
+			
+			ctrl.log(command);
 			
 			cb({});
 			

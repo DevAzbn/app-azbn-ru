@@ -11,9 +11,17 @@ function _(azbn) {
 		
 		azbn.mdl('taskq').add(function(afterTask){
 			
-			azbn.mdl('fork').run(_p.uid, {}, function(resp){
-				res.send(resp);
-				afterTask('default');
+			azbn.mdl('fork').run(_p.uid, {}, function(_process, _result){
+				
+				if(_result.status == 0) {
+					
+					res.send(_result);
+					_process.kill();
+					
+					afterTask('default');
+					
+				}
+				
 			});
 			
 		}, azbn.mdl('cfg').taskq_pause, function(res){

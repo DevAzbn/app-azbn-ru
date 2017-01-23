@@ -17,21 +17,30 @@ azbn.event('parsed_argv', azbn);
 
 azbn.load('fs', require('fs'));
 
-azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
-
 // модуль логирования
 azbn.load('winston', require('./lib/getWinston')(module));
 
 //argv.fork
-azbn.mdl('tg').getMe().then(function(me) {
+azbn.mdl('fork').run(argv.fork, {x : 0, y : 1}, function(_process, _result){
 	
-	//require(cfg.path.app + '/require/telegram/tg_getMe')(azbn, me);
-	
-	azbn.mdl('tg').sendMessage(azbn.mdl('cfg').tg.log.chat_id, 'Бот ' + me.username + ' в сети', {
-		//reply_to_message_id : msg.message_id,
-		caption : 'Подключение к Телеграму',
-	});
-	
-	azbn.mdl('fork').run(argv.fork, {}, function(fork_result){});
+	if(_result.status == 0) {
+		
+		_process.kill();
+		
+		console.log('');
+		console.log('');
+		console.log('---------------------');
+		azbn.mdl('winston').warn('Test: ok!');
+		
+	} else if(_result.status < 0) {
+		
+		_process.kill();
+		
+		console.log('');
+		console.log('');
+		console.log('---------------------');
+		azbn.mdl('winston').error('Test: error! ' + JSON.stringify(_result));
+		
+	}
 	
 });

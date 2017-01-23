@@ -45,8 +45,9 @@ var createIntervals = function(azbn) {
 					(function(item){
 						
 						var _path = item.path;
-						var _interval = parseInt(item.interval);
+						var _period = parseInt(item.period);
 						var _status = parseInt(item.status);
+						var _on_start = parseInt(item.on_start);
 						
 						var uid = getUid(item);
 						
@@ -60,7 +61,13 @@ var createIntervals = function(azbn) {
 								
 								task_fnc[uid] = function(){
 									
-									azbn.mdl('fork').run(_path, {}, function(fork_result){});
+									azbn.mdl('fork').run(_path, {}, function(_process, _result){
+										
+										if(_result.status == 0) {
+											_process.kill();
+										}
+										
+									});
 									
 									/*
 									azbn.mdl('taskq').add(function(afterTask){
@@ -80,7 +87,11 @@ var createIntervals = function(azbn) {
 									
 								};
 								
-								add(uid, _interval, task_fnc[uid]);
+								if(_on_start) {
+									task_fnc[uid]();
+								}
+								
+								add(uid, _period, task_fnc[uid]);
 								
 							}
 							

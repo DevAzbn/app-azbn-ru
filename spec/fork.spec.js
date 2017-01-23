@@ -26,15 +26,15 @@ azbn.event('parsed_argv', azbn);
 
 azbn.load('fs', require('fs'));
 
-azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
+//azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
 
 // модуль логирования
 azbn.load('winston', require('./../lib/getWinston')(module));
 
 //argv.fork
-azbn.mdl('tg').getMe().then(function(me) {
-	
-});
+//azbn.mdl('tg').getMe().then(function(me) {
+//	
+//});
 
 
 
@@ -57,9 +57,15 @@ describe('forks', function(){
 	
 	it('Тестовый файл', function(done) {
 		
-		azbn.mdl('fork').run('test', {}, function(fork_result){
+		azbn.mdl('fork').run('test', {}, function(_process, _result){
 			
-			expect(fork_result.status).toBe(0);
+			if(_result.status == 0) {
+				
+				_process.kill();
+				
+				expect(_result.status).toBe(0);
+				
+			}
 			
 			done();
 			
@@ -69,10 +75,16 @@ describe('forks', function(){
 	
 	it('Список задач в базе данных', function(done) {
 		
-		azbn.mdl('fork').run('mysql.fork.list', {}, function(fork_result){
+		azbn.mdl('fork').run('mysql.fork.list', {}, function(_process, _result){
 			
-			expect(fork_result.status).toBe(0);
-			expect(fork_result.count > 0).toBe(true);
+			if(_result.status == 0) {
+				
+				_process.kill();
+				
+				expect(_result.status).toBe(0);
+				expect(_result.count > 0).toBe(true);
+				
+			}
 			
 			done();
 			

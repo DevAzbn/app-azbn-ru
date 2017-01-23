@@ -3,7 +3,7 @@
 var data = {};
 
 if(process.argv && process.argv[2]) {
-	data = JSON.parse(process.argv[2]);
+	data = JSON.parse(new Buffer(process.argv[2], 'base64').toString('utf8'));
 } else {
 	data = {};
 }

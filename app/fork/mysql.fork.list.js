@@ -2,6 +2,14 @@
 
 //process.chdir(process.cwd());
 
+var data = {};
+
+if(process.argv && process.argv[2]) {
+	data = JSON.parse(new Buffer(process.argv[2], 'base64').toString('utf8'));
+} else {
+	data = {};
+}
+
 var path = require('path');
 
 var cfg = require('./../../baseconfig.json');
@@ -43,9 +51,9 @@ azbn.mdl('mysql').connect(function(err){
 	
 	if(err) {
 		
-		azbn.mdl('winston').warn('Could not connect to mysql');
+		azbn.mdl('winston').error('Could not connect to mysql');
 		
-		process.send({status : 0, html : 'ok'});
+		process.send({status : -1, html : 'ok'});
 		
 		throw err;
 		
@@ -57,7 +65,7 @@ azbn.mdl('mysql').connect(function(err){
 			
 			if (_err) {
 				
-				azbn.mdl('winston').warn('Error on load VK-apps: ' + _err);
+				azbn.mdl('winston').warn('Error on load tasks: ' + _err);
 				
 				process.send({status : 1, count : 0, html : ''});
 				
@@ -65,22 +73,16 @@ azbn.mdl('mysql').connect(function(err){
 				
 			} else if(rows.length == 0) {
 				
-				azbn.mdl('winston').warn('No VK-apps in DB!');
+				azbn.mdl('winston').warn('No tasks in DB!');
 				
 				process.send({status : 0, count : 0, html : 'ok'});
 				
 			} else {
 				
-				/*
-				azbn.mdl('fork').run('test', {}, function(resp){
-					
-				});
-				*/
-				
 				for(var i = 0; i < rows.length; i++){
 					
 					var item = rows[i];
-					azbn.mdl('winston').info(item.path + ': ' + item.title);
+					azbn.mdl('winston').log('info', item.path + ': ' + item.title);
 					
 				}
 				
