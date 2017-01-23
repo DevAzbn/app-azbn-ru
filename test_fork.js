@@ -17,7 +17,6 @@ azbn.event('parsed_argv', azbn);
 
 azbn.load('fs', require('fs'));
 
-azbn.load('mysql', require(cfg.path.app + '/mysql')(azbn));
 azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
 
 // модуль логирования
