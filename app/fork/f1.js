@@ -8,6 +8,6 @@ if(process.argv && process.argv[2]) {
 	data = {};
 }
 
-console.log('fork test');
+console.log('fork f1 test');
 
-process.send({status : 0, html : 'ok'});
+process.send({uid : 'f1', status : 0, html : 'ok'});

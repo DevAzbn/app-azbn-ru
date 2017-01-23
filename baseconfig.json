@@ -1,0 +1,40 @@
+{
+	"process" : {
+		"file" : "app_azbn_ru.js"
+	},
+	"path" : {
+		"azbnode" : "./azbnode",
+		"app" : "./app",
+		"static" : "./app/static",
+		"fork" : "./app/fork"
+	},
+	"cert" : {
+		"key" : "./cert/private.key",
+		"cert" : "./cert/cert.pem"
+	},
+	"express" : {
+		"port" : 19503,
+		"sport" : 19504
+	},
+	"site" : {
+		"domain" : "localhost"
+	},
+	"taskq_pause" : 50,
+	"mysql" : {
+		"host" : "localhost",
+		"user" : "app_azbn_ru",
+		"password" : "app_azbn_ru",
+		"database" : "app_azbn_ru",
+		"t" : {
+			"fork" : "app_fork"
+		}
+	},
+	"tg" : {
+		"log" : {
+			"chat_id" : "-107139655"
+		},
+		"bot" : {
+			"token" : "323663115:AAER4f3bwGhD8Cg8vG9bB85IZRvZv6YBaM4"
+		}
+	}
+}

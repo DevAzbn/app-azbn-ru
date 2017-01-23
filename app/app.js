@@ -34,6 +34,7 @@ function _(azbn) {
 	}));
 	
 	azbn.mdl('express').get('/process/status/',				(new require('./route/process/status')(azbn)));
+	azbn.mdl('express').get('/process/fork/:uid/',				(new require('./route/process/fork')(azbn)));
 	
 	/*
 	var NeDB = require('nedb');

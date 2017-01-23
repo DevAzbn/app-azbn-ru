@@ -2,30 +2,7 @@
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
-var cfg = {
-	process : {
-		file : 'app_azbn_ru.js',
-	},
-	path : {
-		azbnode : './azbnode',
-		app : './app/app_azbn_ru',
-		static : './app/app_azbn_ru/static',
-		fork : './fork/',
-	},
-	cert : {
-		key : './cert/private.key',
-		cert : './cert/cert.pem',
-	},
-	express : {
-		port : 19503,
-		sport : 19504,
-	},
-	site : {
-		domain : 'localhost',
-	},
-	taskq_pause : 50,
-};
-
+var cfg = require('./baseconfig.json');
 
 var azbn = require(cfg.path.azbnode + '/azbnode');
 
@@ -36,28 +13,63 @@ azbn.load('web', new require(cfg.path.azbnode + '/azbnodewebclient')(azbn));
 azbn.load('fork', new require(cfg.path.azbnode + '/azbnodeforkclient')(azbn));
 azbn.event('loaded_azbnode', azbn);
 
-
 azbn.parseArgv();
 azbn.event('parsed_argv', azbn);
-
-
-cfg.path.app = azbn.getArgv('app') || cfg.path.app;
-cfg.express.port = azbn.getArgv('port') || cfg.express.port;
-
 
 azbn.load('fs', require('fs'));
 azbn.load('taskq', require('azbn-task-queue'));
 //azbn.load('querystring', require('querystring'));
 //azbn.load('path', require('path'));
 
+/*
 azbn.load('https', require('https'));
+*/
+
+//azbn.load('cfg', require(cfg.path.app + '/config'));
+azbn.load('mysql', require(cfg.path.app + '/mysql')(azbn));
+azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
+//azbn.load('vk', require(cfg.path.app + '/vk'));
+
+// модуль логирования
+azbn.load('winston', require('./lib/getWinston')(module));
+
+azbn.mdl('mysql').connect(function(err){
+	
+	if(err) {
+		
+		azbn.mdl('winston').warn('Could not connect to mysql');
+		
+	} else {
+		
+		
+		azbn.mdl('winston').info('DB is connected');
+		
+		azbn.load('intervals', require(cfg.path.app + '/intervals')(azbn));
+		
+		azbn.mdl('tg').getMe().then(function(me) {
+			
+			//require(cfg.path.app + '/require/telegram/tg_getMe')(azbn, me);
+			
+			azbn.mdl('tg').sendMessage(azbn.mdl('cfg').tg.log.chat_id, 'Бот ' + me.username + ' в сети', {
+				//reply_to_message_id : msg.message_id,
+				caption : 'Подключение к Телеграму',
+			});
+			
+		});
+		
+		azbn.mdl('tg').on('message', function (msg) {
+			//require(cfg.path.app + '/require/telegram/tg_on_message')(azbn, msg);
+		});
+		
+	}
+});
 
 
 var express = require('express');
 azbn.load('express', express());
 
 
-
+/*
 azbn.mdl('https')
 	.createServer({
 		key : azbn.mdl('fs').readFileSync(cfg.cert.key),
@@ -66,11 +78,7 @@ azbn.mdl('https')
 	}, azbn.mdl('express'))
 	.listen(cfg.express.sport)
 	;
-
-
-
-// модуль логирования
-azbn.load('winston', require('./lib/getWinston')(module));
+*/
 
 
 // компрессия

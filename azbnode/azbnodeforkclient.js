@@ -18,13 +18,22 @@ function AzbNodeForkClient(azbn) {
 				data = JSON.stringify({});
 			}
 			
-			var _process = fork(__dirname + '/../' + azbn.mdl('cfg').path.fork + command, [
+			var _process = fork(__dirname + '/../' + azbn.mdl('cfg').path.fork + '/' + command, [
 				data
 			], {
-				cwd : __dirname,
+				cwd : __dirname + '/../',
 			});
 			
 			_process.on('message', function(msg){
+				
+				if(msg.tg && msg.tg.log) {
+					
+					azbn.mdl('tg').sendMessage(azbn.mdl('cfg').tg.log.chat_id, command + ': ' + msg.tg.log, {
+						//reply_to_message_id : msg.message_id,
+						caption : 'Выполнение подпроцесса',
+					});
+					
+				}
 				
 				if(msg.status == 0) {
 					
