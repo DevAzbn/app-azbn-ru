@@ -6,7 +6,8 @@
 		"azbnode" : "./azbnode",
 		"app" : "./app",
 		"static" : "./app/static",
-		"fork" : "./app/fork"
+		"fork" : "./app/fork",
+		"bound" : "./app/bound"
 	},
 	"cert" : {
 		"key" : "./cert/private.key",
@@ -26,7 +27,8 @@
 		"password" : "app_azbn_ru",
 		"database" : "app_azbn_ru",
 		"t" : {
-			"fork" : "app_fork"
+			"fork"		:		"app_fork",
+			"yt_token"	:		"app_yt_token"
 		}
 	},
 	"tg" : {

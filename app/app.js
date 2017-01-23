@@ -36,6 +36,9 @@ function _(azbn) {
 	azbn.mdl('express').get('/process/status/',				(new require('./route/process/status')(azbn)));
 	azbn.mdl('express').get('/process/fork/:uid/',				(new require('./route/process/fork')(azbn)));
 	
+	azbn.mdl('express').get('/oauth2/:uid/',				(new require('./route/oauth2')(azbn)));
+	azbn.mdl('express').get('/oauth2callback/:uid/',				(new require('./route/oauth2callback')(azbn)));
+	
 	/*
 	var NeDB = require('nedb');
 	

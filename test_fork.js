@@ -18,7 +18,7 @@ azbn.event('parsed_argv', azbn);
 azbn.load('fs', require('fs'));
 
 // модуль логирования
-azbn.load('winston', require('./lib/getWinston')(module));
+azbn.load('winston', require(cfg.path.bound + '/getWinston')(module));
 
 //argv.fork
 azbn.mdl('fork').run(argv.fork, {x : 0, y : 1}, function(_process, _result){

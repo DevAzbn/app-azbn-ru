@@ -1,6 +1,4 @@
-/*
-обработчик запроса
-*/
+'use strict';
 
 function _(azbn) {
 	

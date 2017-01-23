@@ -45,7 +45,7 @@ azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
 //azbn.load('vk', require(cfg.path.app + '/vk'));
 
 // модуль логирования
-azbn.load('winston', require('./../../lib/getWinston')(module));
+azbn.load('winston', require(cfg.path.bound + '/getWinston')(module));
 
 azbn.mdl('mysql').connect(function(err){
 	

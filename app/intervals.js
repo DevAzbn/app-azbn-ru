@@ -22,7 +22,7 @@ var createIntervals = function(azbn) {
 		clearInterval(intr[id]);
 	}
 	
-	add(getUid({id:0}), 1000, function(){
+	add(getUid({id:0}), 21000, function(){
 		
 		azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.fork + "` WHERE 1 ORDER BY id", function(_err, rows, fields) {
 			

@@ -12,6 +12,7 @@ for(var i in cfg.path) {
 
 cfg.path.azbnode = '../' + cfg.path.azbnode;
 cfg.path.app = '../' + cfg.path.app;
+cfg.path.bound = '../' + cfg.path.bound;
 
 var azbn = require(cfg.path.azbnode + '/azbnode');
 
@@ -29,7 +30,7 @@ azbn.load('fs', require('fs'));
 //azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
 
 // модуль логирования
-azbn.load('winston', require('./../lib/getWinston')(module));
+azbn.load('winston', require(cfg.path.bound +'/getWinston')(module));
 
 //argv.fork
 //azbn.mdl('tg').getMe().then(function(me) {
@@ -83,6 +84,25 @@ describe('forks', function(){
 				
 				expect(_result.status).toBe(0);
 				expect(_result.count > 0).toBe(true);
+				
+			}
+			
+			done();
+			
+		});
+		
+	});
+	
+	it('Сохранение токена Youtube', function(done) {
+		
+		azbn.mdl('fork').run('youtube/save.token', {code : ((Math.random().toString(36).split('.'))[1])}, function(_process, _result){
+			
+			if(_result.status == 0) {
+				
+				_process.kill();
+				
+				expect(_result.status).toBe(0);
+				expect(_result.id > 0).toBe(true);
 				
 			}
 			

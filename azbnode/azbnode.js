@@ -82,6 +82,10 @@ module.exports = {
 		return new Date().getTime();
 	},
 	
+	now_sec : function() {
+		return Math.floor(this.now() / 1000);
+	},
+	
 	formattime : function(m) {
 		m = m || this.now();
 		var x = new Date(m);
