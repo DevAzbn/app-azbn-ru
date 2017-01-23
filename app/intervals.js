@@ -77,6 +77,7 @@ var createIntervals = function(azbn) {
 										
 									});
 									*/
+									
 								};
 								
 								add(uid, _interval, task_fnc[uid]);

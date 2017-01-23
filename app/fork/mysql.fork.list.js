@@ -59,11 +59,15 @@ azbn.mdl('mysql').connect(function(err){
 				
 				azbn.mdl('winston').warn('Error on load VK-apps: ' + _err);
 				
+				process.send({status : 1, count : 0, html : ''});
+				
 				throw _err;
 				
 			} else if(rows.length == 0) {
 				
 				azbn.mdl('winston').warn('No VK-apps in DB!');
+				
+				process.send({status : 0, count : 0, html : 'ok'});
 				
 			} else {
 				
@@ -80,9 +84,9 @@ azbn.mdl('mysql').connect(function(err){
 					
 				}
 				
+				process.send({status : 0, count : rows.length, html : 'ok'});
+				
 			}
-			
-			process.send({status : 0, html : 'ok'});
 			
 		});
 		
