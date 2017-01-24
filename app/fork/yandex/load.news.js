@@ -49,7 +49,7 @@ azbn.load('winston', require(cfg.path.bound + '/getWinston')(module));
 
 //azbn.mdl('winston').info(data.code);
 
-/*
+
 var Morphy = require('phpmorphy').default;
 azbn.load('morphy', new Morphy('ru', {
 	//nojo : false,
@@ -60,7 +60,7 @@ azbn.load('morphy', new Morphy('ru', {
 	use_ancodes_cache : false,
 	resolve_ancodes : Morphy.RESOLVE_ANCODES_AS_TEXT,
 }));
-*/
+
 
 azbn.mdl('webclient').r('GET', 'https://yandex.ru/', {}, function(err, response, html){
 	
@@ -83,14 +83,16 @@ azbn.mdl('webclient').r('GET', 'https://yandex.ru/', {}, function(err, response,
 			
 			var block = $(this);
 			
-			var theme_obr = block.text().toLowerCase().replace(/[^\sA-Za-zА-Яа-яЁё0-9]/g, "").split(' ');
+			var theme_obr = block.text().toUpperCase().replace(/[^\sA-Za-zА-Яа-яЁё0-9]/g, "").split(' ');
 			
 			for(var i in theme_obr) {
 				if(theme_obr[i].length > 3) {
 					
-					words_s.push(theme_obr[i]);
+					var _w = azbn.mdl('morphy').getBaseForm(theme_obr[i], Morphy.NORMAL);
 					
-					phr[index].push(theme_obr[i]);
+					words_s.push(_w);
+					
+					phr[index].push(_w);
 					
 				}
 			}
