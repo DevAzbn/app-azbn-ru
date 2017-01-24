@@ -83,23 +83,57 @@ azbn.mdl('webclient').r('GET', 'https://yandex.ru/', {}, function(err, response,
 			
 			var block = $(this);
 			
-			var theme_obr = block.text().toUpperCase().replace(/[^\sA-Za-zА-Яа-яЁё0-9]/g, "").split(' ');
+			var theme_obr = block
+				.text()
+				.toUpperCase()
+				.replace(/[^\sA-Za-zА-Яа-яЁё0-9]/g, "")
+				.split(' ')
+			;
 			
 			for(var i in theme_obr) {
 				if(theme_obr[i].length > 3) {
 					
 					var _w = azbn.mdl('morphy').getBaseForm(theme_obr[i], Morphy.NORMAL);
 					
-					words_s.push(_w);
-					
-					phr[index].push(_w);
+					for(var j in _w) {
+						var __w = _w[j].toLowerCase();
+						words_s.push(__w);
+						phr[index].push(__w);
+					}
 					
 				}
 			}
 			
 		});
 		
-		console.log(JSON.stringify(phr));
+		var __word_stat = {};
+		
+		for(var i in words_s) {
+			if(__word_stat[words_s[i]]) {
+				
+				(__word_stat[words_s[i]]).count++;
+				
+			} else {
+				
+				__word_stat[words_s[i]] = {
+					title : words_s[i],
+					count : 1,
+				};
+				
+			}
+		}
+		
+		var word_stat = [];
+		
+		for(var i in __word_stat) {
+			word_stat.push(__word_stat[i]);
+		}
+		
+		word_stat.sort(function(a, b){
+			return -(a.count - b.count);
+		});
+		
+		console.log(JSON.stringify(word_stat));
 		
 	}
 	
