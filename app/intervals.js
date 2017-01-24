@@ -11,7 +11,7 @@ var task_fnc = {
 var createIntervals = function(azbn) {
 	
 	var getUid = function(_item) {
-		return parseInt(_item.id);
+		return '_' + parseInt(_item.id);
 	}
 	
 	var add = function(id, time, fnc) {
@@ -51,13 +51,15 @@ var createIntervals = function(azbn) {
 						
 						var uid = getUid(item);
 						
-						if(_status == 1) {
+						if(_status > 0) {
 							
 							if(intr[uid]) {
 								
 								
 								
 							} else {
+								
+								clear(uid);
 								
 								task_fnc[uid] = function(){
 									
@@ -72,9 +74,15 @@ var createIntervals = function(azbn) {
 									/*
 									azbn.mdl('taskq').add(function(afterTask){
 										
-										azbn.mdl('fork').run(_path, {}, function(fork_result){
+										//azbn.mdl('winston').info('add task ' + _path);
+										
+										azbn.mdl('fork').run(_path, {}, function(_process, _result){
 											
-											afterTask(fork_result);
+											if(_result.status < 1) {
+												_process.kill();
+											}
+											
+											afterTask(null);
 											
 										});
 										

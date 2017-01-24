@@ -23,7 +23,7 @@ var azbn = require(cfg.path.azbnode + '/azbnode');
 azbn.load('cfg', cfg);
 
 azbn.load('azbnodeevents', new require(cfg.path.azbnode + '/azbnodeevents')(azbn));
-azbn.load('web', new require(cfg.path.azbnode + '/azbnodewebclient')(azbn));
+azbn.load('webclient', new require(cfg.path.azbnode + '/azbnodewebclient')(azbn));
 azbn.load('fork', new require(cfg.path.azbnode + '/azbnodeforkclient')(azbn));
 //azbn.event('loaded_azbnode', azbn);
 

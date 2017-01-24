@@ -66,7 +66,7 @@ function AzbNodeWebClient(azbn) {
 		});
 	};
 	ctrl.selfAPI = function(url, data, cb){
-		url = 'https://localhost:' + azbn.mdl('cfg').express.sport + url;
+		url = 'https://localhost:' + azbn.mdl('cfg').express.port + url;
 		//request.post(data, cb);
 		ctrl.r('GET', url, data, cb);
 	};

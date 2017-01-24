@@ -28,7 +28,8 @@
 		"database" : "app_azbn_ru",
 		"t" : {
 			"fork"		:		"app_fork",
-			"yt_token"	:		"app_yt_token"
+			"yt_token"	:		"app_yt_token",
+			"yt_video"	:		"app_yt_video"
 		}
 	},
 	"tg" : {

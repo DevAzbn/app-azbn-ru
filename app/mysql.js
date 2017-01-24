@@ -11,6 +11,33 @@ var createMySQL = function(azbn) {
 		database	: azbn.mdl('cfg').mysql.database,
 	});
 	
+	/*
+	var connection = {};
+	
+	var connectFnc = function() {
+		
+		connection = null;
+		
+		connection = mysql.createConnection({
+			host		: azbn.mdl('cfg').mysql.host,
+			user		: azbn.mdl('cfg').mysql.user,
+			password	: azbn.mdl('cfg').mysql.password,
+			database	: azbn.mdl('cfg').mysql.database,
+		});
+		
+		connection.on('error', function onError(err) {
+			if (err.code == 'PROTOCOL_CONNECTION_LOST') {
+				connectFnc();
+			} else {
+				throw err;
+			}
+		});
+		
+	};
+	
+	connectFnc();
+	*/
+	
 	return connection;
 	
 }

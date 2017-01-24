@@ -7,7 +7,7 @@ function _(azbn) {
 	
 	var handler = function(req, res) {
 		
-		var _p = req.params;
+		var _p = req.query;
 		
 		azbn.mdl('taskq').add(function(afterTask){
 			
