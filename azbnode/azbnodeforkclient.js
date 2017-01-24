@@ -28,16 +28,8 @@ function AzbNodeForkClient(azbn) {
 			
 			ctrl.log(command);
 			
-			if(data) {
-				data = JSON.stringify(data);
-			} else {
-				data = JSON.stringify({});
-			}
-			
-			data = new Buffer(data).toString('base64');
-			
 			var _process = fork(__dirname + '/../' + azbn.mdl('cfg').path.fork + '/' + command, [
-				data
+				ctrl.getCliData(data)
 			], {
 				cwd : __dirname + '/../',
 			});
@@ -56,6 +48,28 @@ function AzbNodeForkClient(azbn) {
 			
 		}
 		
+	};
+	
+	ctrl.getCliData = function(o) {
+		
+		var _o = null;
+		
+		if(o) {
+			_o = JSON.stringify(o);
+		} else {
+			_o = JSON.stringify({});
+		}
+		
+		return new Buffer(_o).toString('base64');
+		
+	};
+	
+	ctrl.parseCliData = function(a) {
+		if(a && a[2]) {
+			return JSON.parse(new Buffer(a[2], 'base64').toString('utf8'));
+		} else {
+			return {};
+		}
 	};
 	
 	return ctrl;

@@ -2,59 +2,26 @@
 
 //process.chdir(process.cwd());
 
-var data = {};
+var azbn = require('./../../../azbnode/LoadAzbnode')({
+		root_module : module,
+		mdls :{
+			exclude : {
+				//mysql : true,
+				tg : true,
+				webclient : true,
+				https : true,
+			},
+		},
+	});
 
-if(process.argv && process.argv[2]) {
-	data = JSON.parse(new Buffer(process.argv[2], 'base64').toString('utf8'));
-} else {
-	data = {};
-}
-
-var path = require('path');
-
-var cfg = require('./../../../baseconfig.json');
-
-for(var i in cfg.path) {
-	cfg.path[i] = process.cwd() + '/' + cfg.path[i];
-}
-
-var azbn = require(cfg.path.azbnode + '/azbnode');
-
-azbn.load('cfg', cfg);
-
-azbn.load('azbnodeevents', new require(cfg.path.azbnode + '/azbnodeevents')(azbn));
-azbn.load('webclient', new require(cfg.path.azbnode + '/azbnodewebclient')(azbn));
-azbn.load('fork', new require(cfg.path.azbnode + '/azbnodeforkclient')(azbn));
-//azbn.event('loaded_azbnode', azbn);
-
-azbn.parseArgv();
-//azbn.event('parsed_argv', azbn);
-
-azbn.load('fs', require('fs'));
-azbn.load('taskq', require('azbn-task-queue'));
-//azbn.load('querystring', require('querystring'));
-//azbn.load('path', require('path'));
-
-/*
-azbn.load('https', require('https'));
-*/
-
-//azbn.load('cfg', require(cfg.path.app + '/config'));
-azbn.load('mysql', require(cfg.path.app + '/mysql')(azbn));
-//azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
-//azbn.load('vk', require(cfg.path.app + '/vk'));
-
-// модуль логирования
-azbn.load('winston', require(cfg.path.bound + '/getWinston')(module));
-
-//azbn.mdl('winston').info(data.code);
-
+var data = azbn.mdl('fork').parseCliData(process.argv);
 
 var _GOOGLE_OBJECTS_
 	//, google = require('googleapis')
-	, googleClient = require(cfg.path.bound + '/./google/createClient')
+	, googleClient = require(process.cwd() + '/' + azbn.mdl('cfg').path.bound + '/google/createClient')
 ;
 
+//console.log(process.cwd());
 
 if(data.code && data.code != '') {
 	

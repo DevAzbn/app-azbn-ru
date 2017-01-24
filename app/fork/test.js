@@ -1,12 +1,18 @@
 'use strict';
 
-var data = {};
+var azbn = require('../../azbnode/LoadAzbnode')({
+		root_module : module,
+		mdls :{
+			exclude : {
+				mysql : true,
+				tg : true,
+				webclient : true,
+				https : true,
+			},
+		},
+	});
 
-if(process.argv && process.argv[2]) {
-	data = JSON.parse(new Buffer(process.argv[2], 'base64').toString('utf8'));
-} else {
-	data = {};
-}
+var data = azbn.mdl('fork').parseCliData(process.argv);
 
 console.log(process.cwd());
 

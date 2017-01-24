@@ -1,43 +1,16 @@
 'use strict';
 
-var cfg = require('./../baseconfig.json');
-
-var path = require('path');
-
-/*
-for(var i in cfg.path) {
-	cfg.path[i] = process.cwd() + '/' + cfg.path[i];
-}
-*/
-
-cfg.path.azbnode = '../' + cfg.path.azbnode;
-cfg.path.app = '../' + cfg.path.app;
-cfg.path.bound = '../' + cfg.path.bound;
-
-var azbn = require(cfg.path.azbnode + '/azbnode');
-
-azbn.load('cfg', cfg);
-
-azbn.load('azbnodeevents', new require(cfg.path.azbnode + '/azbnodeevents')(azbn));
-azbn.load('fork', new require(cfg.path.azbnode + '/azbnodeforkclient')(azbn));
-azbn.event('loaded_azbnode', azbn);
-
-azbn.parseArgv();
-azbn.event('parsed_argv', azbn);
-
-azbn.load('fs', require('fs'));
-
-//azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
-
-// модуль логирования
-azbn.load('winston', require(cfg.path.bound +'/getWinston')(module));
-
-//argv.fork
-//azbn.mdl('tg').getMe().then(function(me) {
-//	
-//});
-
-
+var azbn = require('./../azbnode/LoadAzbnode')({
+		root_module : module,
+		mdls :{
+			exclude : {
+				mysql : true,
+				tg : true,
+				webclient : true,
+				https : true,
+			},
+		},
+	});
 
 describe('forks', function(){
 	

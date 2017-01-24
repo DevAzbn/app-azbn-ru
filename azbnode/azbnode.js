@@ -73,6 +73,13 @@ module.exports = {
 		var getType = {};
 		return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 	},
+	
+	inArray : function(needle, haystack) {
+		for(var i = 0; i < haystack.length; i++) {
+			if(haystack[i] == needle) return true;
+		}
+		return false;
+	},
 	/* --------- /Проверка на существование переменных и значений --------- */
 	
 	

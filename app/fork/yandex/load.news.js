@@ -2,14 +2,21 @@
 
 //process.chdir(process.cwd());
 
-var data = {};
+var azbn = require('./../../../azbnode/LoadAzbnode')({
+		root_module : module,
+		mdls :{
+			exclude : {
+				mysql : true,
+				tg : true,
+				//webclient : true,
+				https : true,
+			},
+		},
+	});
 
-if(process.argv && process.argv[2]) {
-	data = JSON.parse(new Buffer(process.argv[2], 'base64').toString('utf8'));
-} else {
-	data = {};
-}
+var data = azbn.mdl('fork').parseCliData(process.argv);
 
+/*
 var path = require('path');
 
 var cfg = require('./../../../baseconfig.json');
@@ -17,38 +24,7 @@ var cfg = require('./../../../baseconfig.json');
 for(var i in cfg.path) {
 	cfg.path[i] = process.cwd() + '/' + cfg.path[i];
 }
-
-var azbn = require(cfg.path.azbnode + '/azbnode');
-
-azbn.load('cfg', cfg);
-
-azbn.load('azbnodeevents', new require(cfg.path.azbnode + '/azbnodeevents')(azbn));
-azbn.load('webclient', new require(cfg.path.azbnode + '/azbnodewebclient')(azbn));
-azbn.load('fork', new require(cfg.path.azbnode + '/azbnodeforkclient')(azbn));
-//azbn.event('loaded_azbnode', azbn);
-
-azbn.parseArgv();
-//azbn.event('parsed_argv', azbn);
-
-azbn.load('fs', require('fs'));
-azbn.load('taskq', require('azbn-task-queue'));
-//azbn.load('querystring', require('querystring'));
-//azbn.load('path', require('path'));
-
-/*
-azbn.load('https', require('https'));
 */
-
-//azbn.load('cfg', require(cfg.path.app + '/config'));
-azbn.load('mysql', require(cfg.path.app + '/mysql')(azbn));
-//azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
-//azbn.load('vk', require(cfg.path.app + '/vk'));
-
-// модуль логирования
-azbn.load('winston', require(cfg.path.bound + '/getWinston')(module));
-
-//azbn.mdl('winston').info(data.code);
-
 
 var Morphy = require('phpmorphy').default;
 azbn.load('morphy', new Morphy('ru', {
@@ -61,8 +37,7 @@ azbn.load('morphy', new Morphy('ru', {
 	resolve_ancodes : Morphy.RESOLVE_ANCODES_AS_TEXT,
 }));
 
-
-azbn.mdl('webclient').r('GET', 'https://yandex.ru/', {}, function(err, response, html){
+azbn.mdl('webclient').r('GET', /*'https://news.yandex.ru'*/'https://yandex.ru/', {}, function(err, response, html){
 	
 	if(err){
 		
@@ -74,49 +49,59 @@ azbn.mdl('webclient').r('GET', 'https://yandex.ru/', {}, function(err, response,
 		
 		var $ = azbn.mdl('webclient').parse(html);
 		
-		var phr = [];
+		//var phr = [];
 		var words_s = [];
 		
-		$('#tabnews_newsc .list.b-news-list li').each(function(index){
-			
-			phr[index] = [];
-			
-			var block = $(this);
-			
-			var theme_obr = block
-				.text()
-				.toUpperCase()
-				.replace(/[^\sA-Za-zА-Яа-яЁё0-9]/g, "")
-				.split(' ')
-			;
-			
-			for(var i in theme_obr) {
-				if(theme_obr[i].length > 3) {
-					
-					var _w = azbn.mdl('morphy').getBaseForm(theme_obr[i], Morphy.NORMAL);
-					
-					for(var j in _w) {
-						var __w = _w[j].toLowerCase();
-						words_s.push(__w);
-						phr[index].push(__w);
+		$('#tabnews_newsc .list.b-news-list li')
+		//$('body')
+			.each(function(index){
+				
+				//phr[index] = [];
+				
+				var block = $(this);
+				
+				var theme_obr = block
+					.text()
+					.toUpperCase()
+					.replace(/[^\s\tA-Za-zА-Яа-яЁё0-9]/g, "")
+					.split(' ')
+				;
+				
+				for(var i in theme_obr) {
+					if(theme_obr[i].length > 3) {
+						
+						var _w = azbn.mdl('morphy').getBaseForm(theme_obr[i], Morphy.NORMAL);
+						
+						for(var j in _w) {
+							var __w = {
+								title : _w[j].toLowerCase(),
+								part : azbn.mdl('morphy').getPartOfSpeech(_w[j], Morphy.NORMAL),
+							};
+							
+							if(azbn.inArray('С', __w.part)) {
+								words_s.push(__w);
+							}
+							
+							//phr[index].push(__w);
+						}
+						
 					}
-					
 				}
-			}
-			
-		});
+				
+			});
 		
 		var __word_stat = {};
 		
 		for(var i in words_s) {
-			if(__word_stat[words_s[i]]) {
+			if(__word_stat[words_s[i].title]) {
 				
-				(__word_stat[words_s[i]]).count++;
+				(__word_stat[words_s[i].title]).count++;
 				
 			} else {
 				
-				__word_stat[words_s[i]] = {
-					title : words_s[i],
+				__word_stat[words_s[i].title] = {
+					title : words_s[i].title,
+					part : words_s[i].part,
 					count : 1,
 				};
 				
@@ -133,7 +118,26 @@ azbn.mdl('webclient').r('GET', 'https://yandex.ru/', {}, function(err, response,
 			return -(a.count - b.count);
 		});
 		
-		console.log(JSON.stringify(word_stat));
+		var q_arr = [];
+		
+		for(var i in word_stat) {
+			console.log(word_stat[i].title);
+			if(i < 3) {
+				q_arr.push(word_stat[i].title);
+			}
+		}
+		
+		//console.log(q_arr.join(' '));
+		
+		azbn.mdl('fork').run('youtube/load.search', { q : q_arr.join(' ')}, function(_process, _result){
+			
+			if(_result.status == 0) {
+				
+				_process.kill();
+				
+			}
+			
+		});
 		
 	}
 	
@@ -142,3 +146,9 @@ azbn.mdl('webclient').r('GET', 'https://yandex.ru/', {}, function(err, response,
 process.on('exit', function() {
 	//azbn.mdl('winston').warn(__filename + ' is stoped');
 });
+
+/*
+process.on('message', function(msg) {
+	console.log(msg);
+});
+*/

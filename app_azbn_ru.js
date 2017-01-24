@@ -2,36 +2,14 @@
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
-var cfg = require('./baseconfig.json');
-
-var azbn = require(cfg.path.azbnode + '/azbnode');
-
-azbn.load('cfg', cfg);
-
-azbn.load('azbnodeevents', new require(cfg.path.azbnode + '/azbnodeevents')(azbn));
-azbn.load('webclient', new require(cfg.path.azbnode + '/azbnodewebclient')(azbn));
-azbn.load('fork', new require(cfg.path.azbnode + '/azbnodeforkclient')(azbn));
-azbn.event('loaded_azbnode', azbn);
-
-azbn.parseArgv();
-azbn.event('parsed_argv', azbn);
-
-azbn.load('fs', require('fs'));
-azbn.load('taskq', require('azbn-task-queue'));
-//azbn.load('querystring', require('querystring'));
-//azbn.load('path', require('path'));
-
-/*
-azbn.load('https', require('https'));
-*/
-
-//azbn.load('cfg', require(cfg.path.app + '/config'));
-azbn.load('mysql', require(cfg.path.app + '/mysql')(azbn));
-azbn.load('tg', require(cfg.path.app + '/tg')(azbn));
-//azbn.load('vk', require(cfg.path.app + '/vk'));
-
-// модуль логирования
-azbn.load('winston', require(cfg.path.bound + '/getWinston')(module));
+var azbn = require('./azbnode/LoadAzbnode')({
+		root_module : module,
+		mdls :{
+			exclude : {
+				https : true,
+			},
+		},
+	});
 
 azbn.mdl('mysql').connect(function(err){
 	
@@ -44,11 +22,11 @@ azbn.mdl('mysql').connect(function(err){
 		
 		azbn.mdl('winston').info('DB is connected');
 		
-		azbn.load('intervals', require(cfg.path.app + '/intervals')(azbn));
+		azbn.load('intervals', require(azbn.mdl('cfg').path.app + '/intervals')(azbn));
 		
 		azbn.mdl('tg').getMe().then(function(me) {
 			
-			//require(cfg.path.app + '/require/telegram/tg_getMe')(azbn, me);
+			//require(azbn.mdl('cfg').path.app + '/require/telegram/tg_getMe')(azbn, me);
 			
 			azbn.mdl('tg').sendMessage(azbn.mdl('cfg').tg.log.chat_id, 'Бот ' + me.username + ' в сети', {
 				//reply_to_message_id : msg.message_id,
@@ -58,7 +36,7 @@ azbn.mdl('mysql').connect(function(err){
 		});
 		
 		azbn.mdl('tg').on('message', function (msg) {
-			//require(cfg.path.app + '/require/telegram/tg_on_message')(azbn, msg);
+			//require(azbn.mdl('cfg').path.app + '/require/telegram/tg_on_message')(azbn, msg);
 		});
 		
 	}
@@ -72,11 +50,11 @@ azbn.load('express', express());
 /*
 azbn.mdl('https')
 	.createServer({
-		key : azbn.mdl('fs').readFileSync(cfg.cert.key),
-		cert : azbn.mdl('fs').readFileSync(cfg.cert.cert),
+		key : azbn.mdl('fs').readFileSync(azbn.mdl('cfg').cert.key),
+		cert : azbn.mdl('fs').readFileSync(azbn.mdl('cfg').cert.cert),
 		passphrase : '1985',
 	}, azbn.mdl('express'))
-	.listen(cfg.express.sport)
+	.listen(azbn.mdl('cfg').express.sport)
 	;
 */
 
@@ -86,7 +64,7 @@ azbn.mdl('express').use(require('compression')());
 
 
 // логгер
-azbn.mdl('express').use((new require(cfg.path.app + '/logger/default')(azbn)));
+azbn.mdl('express').use((new require(azbn.mdl('cfg').path.app + '/logger/default')(azbn)));
 
 
 // боди-парсер
@@ -104,7 +82,7 @@ azbn.mdl('express').use(require('method-override')('_method'));
 
 
 // сервер статики
-azbn.mdl('express').use(express.static(cfg.path.static, {
+azbn.mdl('express').use(express.static(azbn.mdl('cfg').path.static, {
 	index : 'index.html',
 	redirect : true,
 	
@@ -116,7 +94,7 @@ azbn.mdl('express').use(express.static(cfg.path.static, {
 
 
 
-require(cfg.path.app + '/app.js')(azbn);
+require(azbn.mdl('cfg').path.app + '/express_app.js')(azbn);
 
 
 
@@ -143,8 +121,8 @@ azbn.mdl('express').get('/error', function(req, res, next){
 
 
 
-azbn.load('http', azbn.mdl('express').listen(cfg.express.port, function() {
-	azbn.mdl('winston').info('Example app listening on port ' + cfg.express.port + '!');
+azbn.load('http', azbn.mdl('express').listen(azbn.mdl('cfg').express.port, function() {
+	azbn.mdl('winston').info('Example app listening on port ' + azbn.mdl('cfg').express.port + '!');
 }));
 
 process.on('exit', function() {
