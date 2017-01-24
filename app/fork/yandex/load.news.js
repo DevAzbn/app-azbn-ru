@@ -16,16 +16,6 @@ var azbn = require('./../../../azbnode/LoadAzbnode')({
 
 var data = azbn.mdl('fork').parseCliData(process.argv);
 
-/*
-var path = require('path');
-
-var cfg = require('./../../../baseconfig.json');
-
-for(var i in cfg.path) {
-	cfg.path[i] = process.cwd() + '/' + cfg.path[i];
-}
-*/
-
 var Morphy = require('phpmorphy').default;
 azbn.load('morphy', new Morphy('ru', {
 	//nojo : false,
@@ -42,6 +32,8 @@ azbn.mdl('webclient').r('GET', /*'https://news.yandex.ru'*/'https://yandex.ru/',
 	if(err){
 		
 		azbn.mdl('winston').error(err);
+		
+		process.send({status : 0, html : 'no connect'});
 		
 		return;
 		
@@ -134,6 +126,8 @@ azbn.mdl('webclient').r('GET', /*'https://news.yandex.ru'*/'https://yandex.ru/',
 			if(_result.status == 0) {
 				
 				_process.kill();
+				
+				process.send({status : 0, html : 'ok'});
 				
 			}
 			
