@@ -25,7 +25,7 @@ function _(azbn) {
 	//azbn.mdl('express').get('/api/call/',				(new require(cfg.path.app + '/route/api/get')(azbn)));
 	//azbn.mdl('express').post('/api/call/',				(new require(cfg.path.app + '/route/api/post')(azbn)));
 	
-	azbn.mdl('express').get('/process/status/',				(new require('./route/process/status')(azbn)));
+	azbn.mdl('express').get('/process/forever.restart/',				(new require('./route/process/forever.restart')(azbn)));
 	azbn.mdl('express').get('/process/fork/',				(new require('./route/process/fork')(azbn)));
 	
 	azbn.mdl('express').get('/oauth2/:uid/',				(new require('./route/oauth2')(azbn)));
