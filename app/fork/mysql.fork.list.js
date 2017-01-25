@@ -22,9 +22,7 @@ azbn.mdl('mysql').connect(function(err){
 		
 		azbn.mdl('winston').error('Could not connect to mysql');
 		
-		process.send({status : -1, html : 'ok'});
-		
-		throw err;
+		process.send({status : 0, error : err});
 		
 	} else {
 		
@@ -36,9 +34,7 @@ azbn.mdl('mysql').connect(function(err){
 				
 				azbn.mdl('winston').warn('Error on load tasks: ' + _err);
 				
-				process.send({status : 1, count : 0, html : ''});
-				
-				throw _err;
+				process.send({status : 0, error : _err});
 				
 			} else if(rows.length == 0) {
 				
