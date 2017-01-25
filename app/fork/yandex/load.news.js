@@ -5,11 +5,11 @@
 var azbn = require('./../../../azbnode/LoadAzbnode')({
 		root_module : module,
 		mdls :{
-			exclude : {
-				mysql : true,
-				tg : true,
-				//webclient : true,
-				https : true,
+			include : {
+				//mysql : true,
+				//tg : true,
+				webclient : true,
+				//https : true,
 			},
 		},
 	});

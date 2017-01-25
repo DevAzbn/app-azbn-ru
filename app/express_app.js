@@ -4,25 +4,13 @@
 
 function _(azbn) {
 	
-	var log_tag = 'app_js';
+	var log_tag = 'express_app';
 	//azbn.echo('Handler loaded', log_tag);
-	azbn.mdl('winston').info('app.js loaded');
-	
-	//azbn.mdl('express').get('/api/call/',				(new require(cfg.path.app + '/route/api/get')(azbn)));
-	//azbn.mdl('express').post('/api/call/',				(new require(cfg.path.app + '/route/api/post')(azbn)));
+	azbn.mdl('winston').info('express router loaded');
 	
 	
 	azbn.mdl('express').set('views', azbn.mdl('cfg').path.app + '/jade');
 	azbn.mdl('express').set('view engine', 'jade');
-	
-	/*
-	azbn.mdl('express').engine('azbn-tple', function (filePath, options, callback) {
-		console.log(filePath);
-		return callback(null, 'testing...');
-	});
-	azbn.mdl('express').set('views', azbn.mdl('cfg').path.app + '/azbn-tple');
-	azbn.mdl('express').set('view engine', 'azbn-tple');
-	*/
 	
 	azbn.load('azbn-tple',  new require('azbn-tple')({
 		part_path : azbn.mdl('cfg').path.app + '/azbn-tple',
@@ -32,6 +20,10 @@ function _(azbn) {
 			],
 		},
 	}));
+	
+	
+	//azbn.mdl('express').get('/api/call/',				(new require(cfg.path.app + '/route/api/get')(azbn)));
+	//azbn.mdl('express').post('/api/call/',				(new require(cfg.path.app + '/route/api/post')(azbn)));
 	
 	azbn.mdl('express').get('/process/status/',				(new require('./route/process/status')(azbn)));
 	azbn.mdl('express').get('/process/fork/',				(new require('./route/process/fork')(azbn)));
@@ -72,10 +64,6 @@ function _(azbn) {
 	
 	azbn.mdl('express').get('/azbn-tple/index/',						(new require('./route/azbn-tple/index')(azbn)));
 	azbn.mdl('express').get('/azbn-tple/version/',						(new require('./route/azbn-tple/version')(azbn)));
-	*/
-	
-	/*
-	подключение других модулей?
 	*/
 	
 	/*
