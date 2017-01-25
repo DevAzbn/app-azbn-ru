@@ -97,7 +97,7 @@ azbn.mdl('express').use(express.static(azbn.mdl('cfg').path.static, {
 
 
 
-require(azbn.mdl('cfg').path.app + '/express_app.js')(azbn);
+require(azbn.mdl('cfg').path.app + '/express_router.js')(azbn);
 
 
 
