@@ -7,26 +7,15 @@ function _(azbn) {
 	
 	var handler = function(req, res) {
 		
-		azbn.mdl('taskq').add(function(afterTask){
-			
-			azbn.mdl('fork').run('test', {}, function(_process, _result){
-				
-				if(_result.status == 0) {
-					
-					res.send(_result);
-					_process.kill();
-					
-					afterTask('default');
-					
-				}
-				
-			});
-			
-		}, azbn.mdl('cfg').taskq_pause, function(res){
-			
-			// res[0]
-			
-		});
+		var m = {};
+		
+		var _m = process.memoryUsage();
+		
+		for(var i in _m) {
+			m[i] = Math.ceil((_m[i]) / (1024 * 1024));
+		}
+		
+		res.send(m);
 		
 	}
 	

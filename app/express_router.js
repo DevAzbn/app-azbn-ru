@@ -4,9 +4,9 @@
 
 function _(azbn) {
 	
-	var log_tag = 'express_app';
-	//azbn.echo('Handler loaded', log_tag);
-	azbn.mdl('winston').info('express router loaded');
+	var log_tag = 'express_router';
+	
+	azbn.mdl('winston').info(log_tag + ' loaded');
 	
 	
 	azbn.mdl('express').set('views', azbn.mdl('cfg').path.app + '/jade');
