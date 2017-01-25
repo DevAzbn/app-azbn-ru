@@ -58,12 +58,14 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt_token + "
 				
 				//azbn.mdl('winston').warn('mark');
 				
+				var q_str = data.q || item.q;
+				
 				youtube.search.list({
 					part : 'id,snippet',
 					maxResults : 50,
 					type : 'video',
 					order : 'date',
-					q : data.q || item.q,
+					q : q_str,
 					
 					//order : 'date',//для видео
 					//type : 'video',//при поиске
@@ -96,7 +98,7 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt_token + "
 									(function(item, count){
 										
 										var __v = {
-											q : data.q,
+											q : q_str,
 											uid : item.id.videoId,
 											img : item.snippet.thumbnails.high.url,
 											title : item.snippet.title,
