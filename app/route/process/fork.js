@@ -15,8 +15,8 @@ function _(azbn) {
 				
 				if(_result.status == 0) {
 					
-					res.send(_result);
 					_process.kill();
+					res.send(_result);
 					
 					afterTask('default');
 					

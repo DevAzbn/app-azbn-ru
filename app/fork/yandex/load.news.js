@@ -27,7 +27,9 @@ azbn.load('morphy', new Morphy('ru', {
 	resolve_ancodes : Morphy.RESOLVE_ANCODES_AS_TEXT,
 }));
 
-azbn.mdl('webclient').r('GET', /*'https://news.yandex.ru'*/'https://yandex.ru/', {}, function(err, response, html){
+var _url = 'https://yandex.ru/';// https://news.yandex.ru https://yandex.ru/ 'https://news.yandex.ru/Orel'
+
+azbn.mdl('webclient').r('GET', _url, {}, function(err, response, html){
 	
 	if(err){
 		
@@ -130,6 +132,14 @@ azbn.mdl('webclient').r('GET', /*'https://news.yandex.ru'*/'https://yandex.ru/',
 				process.send({status : 0, html : 'ok'});
 				
 			}
+			
+			setTimeout(function(){
+				
+				_process.kill();
+				
+				process.send({status : 0, html : 'ok'});
+				
+			}, 10000);
 			
 		});
 		

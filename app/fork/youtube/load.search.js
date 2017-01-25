@@ -27,7 +27,7 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt_token + "
 		
 		azbn.mdl('winston').warn('Error on load token: ' + _err);
 		
-		process.send({status : -1, count : 0, html : ''});
+		process.send({status : 0, count : 0, html : ''});
 		
 		throw _err;
 		
@@ -78,6 +78,8 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt_token + "
 						
 						azbn.mdl('winston').warn('Error on search: ' + __err);
 						
+						process.send({status : 0,});
+						
 					} else {
 						
 						if (__data) {
@@ -94,6 +96,7 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt_token + "
 									(function(item, count){
 										
 										var __v = {
+											q : data.q,
 											uid : item.id.videoId,
 											img : item.snippet.thumbnails.high.url,
 											title : item.snippet.title,
@@ -125,6 +128,12 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt_token + "
 									//var item = __data.items[i];
 									
 								}
+								
+							} else {
+								
+								azbn.mdl('winston').warn('No items');
+								
+								process.send({status : 0,});
 								
 							}
 							

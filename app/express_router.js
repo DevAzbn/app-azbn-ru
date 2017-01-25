@@ -27,6 +27,7 @@ function _(azbn) {
 	
 	azbn.mdl('express').get('/process/forever.restart/',				(new require('./route/process/forever.restart')(azbn)));
 	azbn.mdl('express').get('/process/fork/',				(new require('./route/process/fork')(azbn)));
+	azbn.mdl('express').get('/process/memory/',				(new require('./route/process/memory')(azbn)));
 	
 	azbn.mdl('express').get('/oauth2/:uid/',				(new require('./route/oauth2')(azbn)));
 	azbn.mdl('express').get('/oauth2callback/:uid/',				(new require('./route/oauth2callback')(azbn)));
@@ -37,19 +38,6 @@ function _(azbn) {
 	azbn.load('nedb.entity', new NeDB({filename : azbn.mdl('cfg').path.app + '/nedb/entity.nedb'}));
 	azbn.mdl('nedb.entity').loadDatabase();
 	azbn.mdl('nedb.entity').ensureIndex({fieldName : 'uid'});
-	
-	
-	azbn.mdl('express').post('/process/spawn/',				(new require('./route/process/spawn')(azbn)));
-	
-	azbn.mdl('express').get('/process/exit/',				(new require('./route/process/exit')(azbn)));
-	
-	azbn.mdl('express').get('/git/stash/',				(new require('./route/git/stash')(azbn)));
-	azbn.mdl('express').get('/git/pull/',				(new require('./route/git/pull')(azbn)));
-	
-	azbn.mdl('express').get('/npm/i/',				(new require('./route/npm/i')(azbn)));
-	
-	azbn.mdl('express').get('/api/call/',				(new require('./route/api/get')(azbn)));
-	azbn.mdl('express').post('/api/call/',				(new require('./route/api/post')(azbn)));
 	
 	azbn.mdl('express').get('/entity/item/:uid/',					(new require('./route/entity/item/get')(azbn)));
 	azbn.mdl('express').post('/entity/item/create/',				(new require('./route/entity/item/post')(azbn)));
