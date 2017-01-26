@@ -1,0 +1,12 @@
+mixin view-item(item)
+	div
+		h2= item.title
+		p= item.path
+
+html
+	head
+		title Список задач приложения
+	body
+		div
+			for item in items
+				+view-item(item)
