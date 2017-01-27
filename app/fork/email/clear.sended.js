@@ -24,8 +24,14 @@ azbn.mdl('mysql').query("" +
 	"FROM " +
 		"`" + azbn.mdl('cfg').mysql.t.email.queue + "` " +
 	"WHERE " +
+		"created_at < '" + _moment__border__month + "' " +
+		"AND " +
 		"sended_at < '" + _moment__border__month + "' " +
-	"");
+	"", function(_err, rows, fields) {
+
+		process.send({status : 0});
+
+	});
 
 
 process.on('exit', function() {

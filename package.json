@@ -4,6 +4,7 @@
   "description": "",
   "main": "app_azbn_ru.js",
   "dependencies": {
+    "async": "^2.1.4",
     "azbn-task-queue": "^0.5.1",
     "azbn-tple": "^2.2.0",
     "body-parser": "^1.15.2",

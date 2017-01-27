@@ -25,7 +25,7 @@
 		  	"transport" : "smtps://__login__%40yandex.ru:__pass__@smtp.yandex.ru"
 		}
 	},
-	"taskq_pause" : 50,
+	"taskq_pause" : 350,
   	"base_interval" : 7777,
 	"mysql" : {
 		"host" : "localhost",

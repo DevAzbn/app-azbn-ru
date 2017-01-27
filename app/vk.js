@@ -1,5 +1,6 @@
 'use strict';
 
+var async = require('async');
 var VKSDK = require('vksdk');
 
 function createVK(azbn) {
@@ -9,7 +10,19 @@ function createVK(azbn) {
 	var __tokens = {};
 	var __apps = [];
 
-	ctrl.loadApps = function() {
+	ctrl.saveError = function(error, source, cb) {
+
+		error.source = source;
+
+		error.created_at = azbn.now_sec();
+
+		azbn.mdl('mysql').query("INSERT INTO `" + azbn.mdl('cfg').mysql.t.vk.error + "` SET ? ", error, function(__err, __result) {
+			cb();
+		});
+
+	}
+
+	ctrl.loadApps = function(cb) {
 
 		azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.vk.app + "` WHERE 1 ORDER BY id", function(_err, rows, fields) {
 
@@ -17,23 +30,38 @@ function createVK(azbn) {
 
 				azbn.mdl('winston').warn('Error on load VK apps: ' + _err);
 
+				cb();
+
 			} else if(rows.length == 0) {
 
 				//azbn.mdl('winston').info('No forks in DB!');
+				cb();
 
 			} else {
+
+				var async_arr = [];
 
 				for(var i = 0; i < rows.length; i++) {
 
 					(function(item){
 
-						__apps[item.id] = item;
+						async_arr.push(function(callback){
 
-						//azbn.echo(item.title);
+							__apps[item.id] = item;
+
+							callback(null, null);
+
+						});
 
 					})(rows[i]);
 
 				}
+
+				async.series(async_arr, function (__err, __results) {
+					if(cb && typeof cb == 'function') {
+						cb();
+					}
+				});
 
 			}
 
@@ -47,13 +75,13 @@ function createVK(azbn) {
 
 		if(app) {
 
-			if(__tokens[item.id]) {
+			if(__tokens[item.token_id]) {
 
 
 
 			} else {
 
-				__tokens[item.id] = new VKSDK({
+				__tokens[item.token_id] = new VKSDK({
 					'appId'     :	app.appId,
 					'appSecret' :	app.appSecret,
 					'https'		:	true,
@@ -62,13 +90,15 @@ function createVK(azbn) {
 					'language'	:	azbn.mdl('cfg').vk.language,
 				});
 
-				__tokens[item.id].on('serverTokenReady', function(_o) {
-					__tokens[item.id].setToken(_o.access_token);
+				__tokens[item.token_id].on('serverTokenReady', function(_o) {
+					__tokens[item.token_id].setToken(_o.access_token);
 				});
+
+				__tokens[item.token_id].setToken(item.access_token);
 
 			}
 
-			return __tokens[item.id];
+			return __tokens[item.token_id];
 
 		} else {
 
@@ -85,30 +115,3 @@ function createVK(azbn) {
 }
 
 module.exports = createVK;
-
-/*
-function genVK(azbn, appId) {
-
-	this.name = 'vkapp_init';
-
-	var log_name = this.name;
-	
-	var app = azbn.mdl('cfg').vk_app[appId];
-	
-	var vk = new VK({
-		'appId'     :	app.appId,
-		'appSecret' :	app.appSecret,
-		'https'		:	true,
-		'secure'	:	true,
-		'version'	: 	'5.60',
-		'language'	:	app.language,
-	});
-
-	vk.on('serverTokenReady', function(_o) {
-		vk.setToken(_o.access_token);
-	});
-	
-	return vk;
-}
-*/
-

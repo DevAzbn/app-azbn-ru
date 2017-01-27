@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10.6
+-- version 4.4.15.7
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 27 2017 г., 16:54
--- Версия сервера: 5.5.41-log
--- Версия PHP: 5.6.3
+-- Время создания: Янв 28 2017 г., 01:14
+-- Версия сервера: 5.5.50-log
+-- Версия PHP: 7.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- База данных: `app_azbn_ru`
@@ -27,15 +27,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `app_cli` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `lastact` int(11) NOT NULL DEFAULT '0',
   `period` int(11) NOT NULL DEFAULT '10000',
   `title` varchar(256) NOT NULL,
   `path` varchar(256) NOT NULL,
-  `data` text,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `data` text
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `app_cli`
@@ -51,7 +50,7 @@ INSERT INTO `app_cli` (`id`, `status`, `lastact`, `period`, `title`, `path`, `da
 --
 
 CREATE TABLE IF NOT EXISTS `app_email_queue` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `created_at` int(11) NOT NULL DEFAULT '0',
   `sended_at` int(11) NOT NULL DEFAULT '0',
   `status` int(11) NOT NULL DEFAULT '0',
@@ -59,16 +58,15 @@ CREATE TABLE IF NOT EXISTS `app_email_queue` (
   `email` varchar(256) NOT NULL DEFAULT '',
   `subject` varchar(256) NOT NULL DEFAULT '',
   `tpl` varchar(256) NOT NULL DEFAULT '',
-  `p` mediumtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `p` mediumtext NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `app_email_queue`
 --
 
 INSERT INTO `app_email_queue` (`id`, `created_at`, `sended_at`, `status`, `uid`, `email`, `subject`, `tpl`, `p`) VALUES
-(1, 1485524614, 0, 0, 'service.vk.token.4.58.stopped', 'seo@dorohovdesign.com', 'Окончен оплаченный период работы аккаунта', 'D:\\project\\app-azbn-ru\\app\\fork\\service\\vk', '{"email":"seo@dorohovdesign.com","subject":"Окончен оплаченный период работы аккаунта","tpl":"D:\\\\project\\\\app-azbn-ru\\\\app\\\\fork\\\\service\\\\vk"}');
+(7, 1485543588, 0, 0, 'service.vk.token.1.102.stopped', 'alexander.zybin@gmail.com', 'Окончен оплаченный период работы аккаунта', 'X:\\NodeJS\\projects\\app-azbn-ru\\app\\fork\\service\\vk/token.stopped.html', '{"email":"alexander.zybin@gmail.com","subject":"Окончен оплаченный период работы аккаунта","tpl":"X:\\\\NodeJS\\\\projects\\\\app-azbn-ru\\\\app\\\\fork\\\\service\\\\vk/token.stopped.html"}');
 
 -- --------------------------------------------------------
 
@@ -77,15 +75,14 @@ INSERT INTO `app_email_queue` (`id`, `created_at`, `sended_at`, `status`, `uid`,
 --
 
 CREATE TABLE IF NOT EXISTS `app_fork` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `lastact` int(11) NOT NULL DEFAULT '0',
   `period` int(11) NOT NULL DEFAULT '10',
   `title` varchar(256) NOT NULL,
   `path` varchar(256) NOT NULL,
-  `data` text,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `data` text
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `app_fork`
@@ -95,7 +92,9 @@ INSERT INTO `app_fork` (`id`, `status`, `lastact`, `period`, `title`, `path`, `d
 (1, 0, 0, 8, 'Вывод списка подпроцессов', 'mysql.fork.list', '{}'),
 (2, 0, 0, 3, 'Test', 'test', '{}'),
 (3, 0, 0, 1800, 'Загрузка видео по яндексовским новостям', 'yandex/load.news', '{}'),
-(4, 0, 0, 300, 'Удаление старых сообщений из очереди', 'email/clear.sended', '{}');
+(4, 1, 1485549046, 10, 'Удаление старых сообщений из очереди', 'email/clear.sended', '{}'),
+(5, 1, 1485549046, 15, 'Определение окончания работы', 'service/vk/token.stop_at.is.min', '{}'),
+(6, 1, 1485549038, 19, 'Обновление информации об аккаунтах', 'service/vk/userinfo/update', '{}');
 
 -- --------------------------------------------------------
 
@@ -104,13 +103,12 @@ INSERT INTO `app_fork` (`id`, `status`, `lastact`, `period`, `title`, `path`, `d
 --
 
 CREATE TABLE IF NOT EXISTS `app_yt_token` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `created_at` int(11) NOT NULL DEFAULT '0',
   `q` varchar(256) NOT NULL DEFAULT '',
   `code` text NOT NULL,
-  `tokens` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `tokens` text NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `app_yt_token`
@@ -126,15 +124,13 @@ INSERT INTO `app_yt_token` (`id`, `created_at`, `q`, `code`, `tokens`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `app_yt_video` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `q` varchar(256) NOT NULL DEFAULT '',
   `uid` varchar(256) NOT NULL DEFAULT '',
   `img` varchar(256) NOT NULL DEFAULT '',
   `title` varchar(256) NOT NULL DEFAULT '',
-  `description` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uid` (`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `description` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -143,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `app_yt_video` (
 --
 
 CREATE TABLE IF NOT EXISTS `azbn_profile` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `status` int(11) DEFAULT '1',
   `seo` int(11) DEFAULT '0',
   `cash` double DEFAULT '0',
@@ -155,31 +151,15 @@ CREATE TABLE IF NOT EXISTS `azbn_profile` (
   `img` varchar(256) DEFAULT '',
   `right` blob,
   `filter` blob,
-  `param` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`login`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+  `param` text
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `azbn_profile`
 --
 
 INSERT INTO `azbn_profile` (`id`, `status`, `seo`, `cash`, `rating`, `login`, `pass`, `email`, `view_as`, `img`, `right`, `filter`, `param`) VALUES
-(1, 1, 0, 1, 999999999, 'mightymind', '3641a3e6ed35cad6d581d3ffdddd004b', 'alexander.zybin@gmail.com', 'mightymind', '', NULL, '', 'a:8:{s:3:"url";s:15:"http://azbn.ru/";s:2:"vk";a:1:{s:3:"url";s:21:"http://vk.com/azbn_ru";}s:7:"twitter";a:1:{s:3:"url";s:30:"https://twitter.com/mightymind";}s:5:"email";s:25:"alexander.zybin@gmail.com";s:3:"adr";s:52:"Орел, ул. Грановского д.2, кв.20";s:5:"phone";s:11:"79092266632";s:8:"timezone";s:13:"Europe/Moscow";s:7:"service";a:1:{s:2:"vk";a:3:{s:7:"addvkfr";i:1;s:9:"invite2gr";i:1;s:9:"unaddvkfr";i:1;}}}'),
-(2, 1, 0, 1, 999999999, 'android', 'e650802ab33fd810548ab156b04e11b9', '', 'android', '', NULL, NULL, 'a:7:{s:3:"url";s:0:"";s:2:"vk";a:1:{s:3:"url";s:0:"";}s:7:"twitter";a:1:{s:3:"url";s:0:"";}s:5:"email";s:17:"devazbn@yandex.ru";s:3:"adr";N;s:5:"phone";N;s:8:"timezone";s:13:"Europe/Moscow";}'),
-(3, 1, 0, 1, 999999999, 'arybka1990', '1aa08ab7c4042a0d24bd307105723aa5', '', 'arybka1990', '', NULL, NULL, 'a:7:{s:3:"url";s:0:"";s:2:"vk";a:1:{s:3:"url";s:24:"http://vk.com/anna.rybka";}s:7:"twitter";a:1:{s:3:"url";s:0:"";}s:5:"email";s:20:"arybka1990@gmail.com";s:3:"adr";N;s:5:"phone";N;s:8:"timezone";s:13:"Europe/Moscow";}'),
-(4, 1, 0, 1, 999999999, 'seo@dorohovdesign.com', '978d839b75fa2a96b28638fce0d2e6f9', 'seo@dorohovdesign.com', 'seo-dorohovdesign', '', NULL, NULL, 'a:7:{s:3:"url";s:0:"";s:2:"vk";a:1:{s:3:"url";s:0:"";}s:7:"twitter";a:1:{s:3:"url";s:0:"";}s:5:"email";s:21:"seo@dorohovdesign.com";s:3:"adr";N;s:5:"phone";N;s:8:"timezone";s:13:"Europe/Moscow";}'),
-(5, 1, 0, 1, 999999999, 'kira_owl', '84b750896e48fab94ad5effe36981755', '', 'kira_owl', '', NULL, '', 'a:8:{s:3:"url";s:23:"https://vk.com/kira_owl";s:2:"vk";a:1:{s:3:"url";s:23:"https://vk.com/kira_owl";}s:7:"twitter";a:1:{s:3:"url";s:0:"";}s:5:"email";N;s:3:"adr";N;s:5:"phone";N;s:8:"timezone";s:13:"Europe/Moscow";s:7:"service";a:1:{s:2:"vk";a:3:{s:7:"addvkfr";i:1;s:9:"invite2gr";i:1;s:9:"unaddvkfr";i:1;}}}'),
-(6, 0, 0, 1, 999999999, 'Test', '2335cfbdba536342fc7f437983d00ec6', 'yourmail@gmail.com', '', '', NULL, '', 'a:7:{s:3:"url";s:0:"";s:2:"vk";a:1:{s:3:"url";s:0:"";}s:7:"twitter";a:1:{s:3:"url";s:0:"";}s:5:"email";s:18:"yourmail@gmail.com";s:3:"adr";N;s:5:"phone";s:6:"123456";s:8:"timezone";s:13:"Europe/Moscow";}'),
-(7, 0, 0, 1, 999999999, '', '6a29ec1da8697b1685220b7db5eeafab', '', '', '', NULL, '', 'a:7:{s:3:"url";s:0:"";s:2:"vk";a:1:{s:3:"url";s:0:"";}s:7:"twitter";a:1:{s:3:"url";s:0:"";}s:5:"email";N;s:3:"adr";N;s:5:"phone";N;s:8:"timezone";N;}'),
-(8, 0, 0, 1, 999999999, 'Mark', '8dc8444aab3f0ae6b69afdd4dc8352f8', 'mark3qf527@hotmail.com', 'JSvcoGQCMqKgegh', '', NULL, '', 'a:7:{s:3:"url";s:47:"http://www.y7YwKx7Pm6OnyJvolbcwrWdoEnRF29pb.com";s:2:"vk";a:1:{s:3:"url";s:47:"http://www.y7YwKx7Pm6OnyJvolbcwrWdoEnRF29pb.com";}s:7:"twitter";a:1:{s:3:"url";s:47:"http://www.y7YwKx7Pm6OnyJvolbcwrWdoEnRF29pb.com";}s:5:"email";s:22:"mark3qf527@hotmail.com";s:3:"adr";s:18:"REPtTxkhlHYCnQPMPL";s:5:"phone";s:11:"50814337253";s:8:"timezone";s:13:"Europe/Moscow";}'),
-(9, 1, 0, 1, 999999999, 'info-city', '25caa29a9511774fb7aa4f357e594e1f', 'reklama@infoorel.ru', 'info-city', '', NULL, '', 'a:8:{s:3:"url";s:0:"";s:2:"vk";a:1:{s:3:"url";s:0:"";}s:7:"twitter";a:1:{s:3:"url";s:0:"";}s:5:"email";s:19:"reklama@infoorel.ru";s:3:"adr";N;s:5:"phone";N;s:8:"timezone";s:13:"Europe/Moscow";s:7:"service";a:1:{s:2:"vk";a:3:{s:7:"addvkfr";i:1;s:9:"invite2gr";i:1;s:9:"unaddvkfr";i:1;}}}'),
-(10, 0, 0, 1, 999999999, 'JimmiXS', '6c2d2364fa7976c4a5a2023dc0d2c12b', 'jimos4581rt@hotmail.com', 'wIjRtezEJxbYLs', '', NULL, '', 'a:7:{s:3:"url";s:47:"http://www.FyLitCl7Pf7kjQdDUOLQOuaxTXbj5iNG.com";s:2:"vk";a:1:{s:3:"url";s:47:"http://www.FyLitCl7Pf7kjQdDUOLQOuaxTXbj5iNG.com";}s:7:"twitter";a:1:{s:3:"url";s:47:"http://www.FyLitCl7Pf7kjQdDUOLQOuaxTXbj5iNG.com";}s:5:"email";s:23:"jimos4581rt@hotmail.com";s:3:"adr";s:15:"cemRyyrHugfFRaZ";s:5:"phone";s:11:"83224009874";s:8:"timezone";s:13:"Europe/Moscow";}'),
-(11, 1, 0, 1, 999999999, 'tester', '28d2ec48b0efd705f782d65ff7a04e0f', 'tester@azbn.ru', 'tester', '', NULL, NULL, 'a:8:{s:3:"url";s:0:"";s:2:"vk";a:1:{s:3:"url";s:0:"";}s:7:"twitter";a:1:{s:3:"url";s:0:"";}s:5:"email";s:14:"tester@azbn.ru";s:3:"adr";N;s:5:"phone";N;s:8:"timezone";s:13:"Europe/Moscow";s:7:"service";a:1:{s:2:"vk";a:3:{s:7:"addvkfr";i:0;s:9:"invite2gr";i:0;s:9:"unaddvkfr";i:0;}}}'),
-(12, 1, 0, 1, 999999999, 'DavidExono', '2adbb291913e6b334924d42496602fbd', 'zakazat-lending@mail.ru', 'DavidExonoUW', '', NULL, NULL, 'a:8:{s:3:"url";s:34:"http://zakazat-lending-nedorogo.ru";s:2:"vk";a:1:{s:3:"url";s:34:"http://zakazat-lending-nedorogo.ru";}s:7:"twitter";a:1:{s:3:"url";s:34:"http://zakazat-lending-nedorogo.ru";}s:5:"email";s:23:"zakazat-lending@mail.ru";s:3:"adr";N;s:5:"phone";s:6:"123456";s:8:"timezone";s:13:"Europe/Moscow";s:7:"service";a:1:{s:2:"vk";a:3:{s:7:"addvkfr";i:0;s:9:"invite2gr";i:0;s:9:"unaddvkfr";i:0;}}}'),
-(13, 1, 0, 1, 999999999, 'Victorflumn', 'b628afe0a68963858dbd375249eca8af', 'rimtexp@mail.ru', 'VictorflumnHV', '', NULL, NULL, 'a:8:{s:3:"url";s:23:"http://rimtex-print.ru/";s:2:"vk";a:1:{s:3:"url";s:23:"http://rimtex-print.ru/";}s:7:"twitter";a:1:{s:3:"url";s:23:"http://rimtex-print.ru/";}s:5:"email";s:15:"rimtexp@mail.ru";s:3:"adr";N;s:5:"phone";s:6:"123456";s:8:"timezone";s:13:"Europe/Moscow";s:7:"service";a:1:{s:2:"vk";a:3:{s:7:"addvkfr";i:0;s:9:"invite2gr";i:0;s:9:"unaddvkfr";i:0;}}}'),
-(14, 1, 0, 1, 999999999, 'AltonMix', 'f306a83ad6aa5121bfea5c31e844e574', 'ledframe@mail.ru', 'AltonMixRZ', '', NULL, NULL, 'a:8:{s:3:"url";s:18:"http://ledframe.ru";s:2:"vk";a:1:{s:3:"url";s:18:"http://ledframe.ru";}s:7:"twitter";a:1:{s:3:"url";s:18:"http://ledframe.ru";}s:5:"email";s:16:"ledframe@mail.ru";s:3:"adr";N;s:5:"phone";s:6:"123456";s:8:"timezone";s:13:"Europe/Moscow";s:7:"service";a:1:{s:2:"vk";a:3:{s:7:"addvkfr";i:0;s:9:"invite2gr";i:0;s:9:"unaddvkfr";i:0;}}}'),
-(15, 1, 1, 0, 999999999, 'yumboo', 'fa61a12e71a14769e1d451a0d2c9b40d', 'i@yumboo.com', 'Yumboo', '/img/cms.azbn.ru/default.png', NULL, '', 'a:7:{s:3:"url";s:0:"";s:2:"vk";a:1:{s:3:"url";s:0:"";}s:7:"twitter";a:1:{s:3:"url";s:0:"";}s:5:"email";s:12:"i@yumboo.com";s:3:"adr";N;s:5:"phone";N;s:8:"timezone";s:13:"Europe/Moscow";}');
+(1, 1, 0, 1, 999999999, 'mightymind', '1', 'alexander.zybin@gmail.com', 'mightymind', '', NULL, NULL, 'a:8:{s:3:"url";s:15:"http://azbn.ru/";s:2:"vk";a:1:{s:3:"url";s:21:"http://vk.com/azbn_ru";}s:7:"twitter";a:1:{s:3:"url";s:30:"https://twitter.com/mightymind";}s:5:"email";s:25:"alexander.zybin@gmail.com";s:3:"adr";s:52:"Орел, ул. Грановского д.2, кв.20";s:5:"phone";s:11:"79092266632";s:8:"timezone";s:13:"Europe/Moscow";s:7:"service";a:1:{s:2:"vk";a:3:{s:7:"addvkfr";i:1;s:9:"invite2gr";i:1;s:9:"unaddvkfr";i:1;}}}');
 
 -- --------------------------------------------------------
 
@@ -188,13 +168,12 @@ INSERT INTO `azbn_profile` (`id`, `status`, `seo`, `cash`, `rating`, `login`, `p
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_addvkfr` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `lastact` bigint(20) NOT NULL DEFAULT '0',
-  `p` mediumtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=83 ;
+  `p` mediumtext NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -203,13 +182,12 @@ CREATE TABLE IF NOT EXISTS `nodejs_vk_addvkfr` (
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_addvkfr_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `to_user_id` int(11) NOT NULL DEFAULT '0',
   `created_at` int(11) NOT NULL DEFAULT '0',
-  `success_at` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=90260 ;
+  `success_at` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=90260 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -218,13 +196,12 @@ CREATE TABLE IF NOT EXISTS `nodejs_vk_addvkfr_log` (
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_app` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `appId` int(11) NOT NULL DEFAULT '0',
   `appSecret` varchar(256) NOT NULL DEFAULT '',
   `language` varchar(256) NOT NULL,
-  `title` varchar(256) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `title` varchar(256) NOT NULL DEFAULT ''
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `nodejs_vk_app`
@@ -242,14 +219,14 @@ INSERT INTO `nodejs_vk_app` (`id`, `appId`, `appSecret`, `language`, `title`) VA
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_error` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `created_at` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `error_code` int(11) NOT NULL DEFAULT '0',
+  `source` varchar(256) NOT NULL DEFAULT '',
   `method` varchar(256) NOT NULL DEFAULT '',
-  `error` mediumtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13233 ;
+  `error` text NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=13233 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -258,13 +235,12 @@ CREATE TABLE IF NOT EXISTS `nodejs_vk_error` (
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_invite2gr` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `lastact` bigint(20) NOT NULL DEFAULT '0',
-  `p` mediumtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+  `p` mediumtext NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -273,13 +249,12 @@ CREATE TABLE IF NOT EXISTS `nodejs_vk_invite2gr` (
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_invite2gr_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `to_user_id` int(11) NOT NULL DEFAULT '0',
   `created_at` int(11) NOT NULL DEFAULT '0',
-  `success_at` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8258 ;
+  `success_at` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=8258 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -288,44 +263,22 @@ CREATE TABLE IF NOT EXISTS `nodejs_vk_invite2gr_log` (
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_token` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `created_at` int(11) NOT NULL DEFAULT '0',
   `stop_at` int(11) NOT NULL DEFAULT '0',
   `profile` int(11) NOT NULL DEFAULT '0',
   `app_id` int(11) NOT NULL DEFAULT '1',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `email` varchar(256) NOT NULL DEFAULT '',
-  `access_token` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=113 ;
+  `access_token` text NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `nodejs_vk_token`
 --
 
 INSERT INTO `nodejs_vk_token` (`id`, `created_at`, `stop_at`, `profile`, `app_id`, `user_id`, `email`, `access_token`) VALUES
-(95, 1472652280, 2147483647, 1, 3, 110091436, '', ''),
-(105, 1480428438, 1486217238, 9, 1, 396893143, '', ''),
-(100, 1472885566, 2147483647, 1, 1, 336650466, '', ''),
-(101, 1473016306, 2147483647, 1, 1, 14558328, '', ''),
-(92, 1472639353, 2147483647, 1, 1, 110091436, '', ''),
-(104, 1473061195, 2147483647, 1, 2, 110091436, '', ''),
-(68, 1467709839, 2147483647, 5, 2, 245644842, '', ''),
-(62, 1457375282, 2147483647, 5, 1, 245644842, '', ''),
-(58, 1455630527, 1473461906, 4, 2, 319992011, '', ''),
-(70, 1468498307, 1487026706, 9, 1, 337325345, '', ''),
-(80, 1468586788, 2147483647, 5, 2, 255713513, '', ''),
-(74, 1468584610, 1487026706, 9, 1, 374394179, '', ''),
-(76, 1468585526, 2147483647, 5, 1, 255713513, '', ''),
-(82, 1469001537, 1487026706, 9, 1, 372227643, '', ''),
-(102, 1473058810, 2147483647, 1, 3, 336650466, '', ''),
-(106, 1483814518, 2147483647, 5, 1, 405813554, '', ''),
-(107, 1484307521, 1487504321, 9, 1, 338221074, '', ''),
-(108, 1484312669, 1487509469, 9, 1, 212616634, '', ''),
-(109, 1484315008, 1487511808, 9, 2, 212616634, '', ''),
-(110, 1484827229, 1488024029, 9, 1, 219897276, '', ''),
-(111, 1484827393, 1488024193, 9, 2, 219897276, '', ''),
-(112, 1485499253, 1488696053, 9, 1, 409639543, '', '');
+(102, 1473058810, 1147483647, 1, 1, 336650466, 'devazbn@yandex.ru', 'ddb64b5e0a225e2ea6d1831f881160eeea0a3322106bb293cb2214051ed8efb8c6157b980fb39991e20ee');
 
 -- --------------------------------------------------------
 
@@ -334,13 +287,12 @@ INSERT INTO `nodejs_vk_token` (`id`, `created_at`, `stop_at`, `profile`, `app_id
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_unaddvkfr` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `lastact` bigint(20) NOT NULL DEFAULT '0',
-  `p` mediumtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `p` mediumtext NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -349,13 +301,12 @@ CREATE TABLE IF NOT EXISTS `nodejs_vk_unaddvkfr` (
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_unaddvkfr_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `to_user_id` int(11) NOT NULL DEFAULT '0',
   `created_at` int(11) NOT NULL DEFAULT '0',
-  `success_at` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `success_at` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -364,15 +315,14 @@ CREATE TABLE IF NOT EXISTS `nodejs_vk_unaddvkfr_log` (
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_userhistory` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `created_at` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `counters_friends` int(11) NOT NULL DEFAULT '0',
   `counters_followers` int(11) NOT NULL DEFAULT '0',
   `counters_subscriptions` int(11) NOT NULL DEFAULT '0',
-  `p` mediumblob NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=60604 ;
+  `p` mediumblob NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=60604 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -381,13 +331,216 @@ CREATE TABLE IF NOT EXISTS `nodejs_vk_userhistory` (
 --
 
 CREATE TABLE IF NOT EXISTS `nodejs_vk_userinfo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `lastact` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
-  `p` mediumtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+  `p` mediumtext NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `nodejs_vk_userinfo`
+--
+
+INSERT INTO `nodejs_vk_userinfo` (`id`, `lastact`, `user_id`, `p`) VALUES
+(24, 1485554397, 336650466, '{"id":336650466,"first_name":"Властелин","last_name":"Вселенной","sex":2,"nickname":"","domain":"zaphod_b","screen_name":"zaphod_b","bdate":"1.1.1901","city":{"id":1,"title":"Москва"},"country":{"id":1,"title":"Россия"},"photo_50":"https://pp.vk.me/c633722/v633722466/8f6a/ItEqg765qgE.jpg","photo_100":"https://pp.vk.me/c633722/v633722466/8f69/oEsoMOb673k.jpg","photo_200":"https://pp.vk.me/c633722/v633722466/8f68/mkOFGX9p4jo.jpg","photo_max":"https://pp.vk.me/c633722/v633722466/8f68/mkOFGX9p4jo.jpg","photo_200_orig":"https://pp.vk.me/c633722/v633722466/8f66/VTsXkCeP1a8.jpg","photo_400_orig":"https://pp.vk.me/c633722/v633722466/8f67/7wmaUwr2fJA.jpg","photo_max_orig":"https://pp.vk.me/c633722/v633722466/8f67/7wmaUwr2fJA.jpg","photo_id":"336650466_395081825","has_photo":1,"has_mobile":1,"is_friend":0,"friend_status":0,"online":0,"wall_comments":0,"can_post":0,"can_see_all_posts":0,"can_see_audio":1,"can_write_private_message":1,"can_send_friend_request":1,"site":"","status":"","last_seen":{"time":1484142032,"platform":7},"crop_photo":{"photo":{"id":395081825,"album_id":-6,"owner_id":336650466,"photo_75":"https://pp.vk.me/c633722/v633722466/8f5b/xxu27uUq6F0.jpg","photo_130":"https://pp.vk.me/c633722/v633722466/8f5c/jTLtAv3Wf44.jpg","photo_604":"https://pp.vk.me/c633722/v633722466/8f5d/qp7RT8LpnKI.jpg","photo_807":"https://pp.vk.me/c633722/v633722466/8f5e/Px4xuCETDpc.jpg","photo_1280":"https://pp.vk.me/c633722/v633722466/8f5f/p8JAypOBpbA.jpg","photo_2560":"https://pp.vk.me/c633722/v633722466/8f60/2LQ9Mqdyj2U.jpg","width":1400,"height":915,"text":"","date":1452112615,"post_id":10},"crop":{"x":13.07,"y":0,"x2":78.43,"y2":100},"rect":{"x":13.01,"y":0,"x2":90.6,"y2":77.6}},"verified":0,"followers_count":62,"is_favorite":0,"is_hidden_from_feed":0,"counters":{"albums":0,"videos":0,"audios":0,"notes":0,"photos":2,"groups":19,"gifts":0,"user_videos":0,"followers":62},"hidden":1}');
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `app_cli`
+--
+ALTER TABLE `app_cli`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `app_email_queue`
+--
+ALTER TABLE `app_email_queue`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `app_fork`
+--
+ALTER TABLE `app_fork`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `app_yt_token`
+--
+ALTER TABLE `app_yt_token`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `app_yt_video`
+--
+ALTER TABLE `app_yt_video`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uid` (`uid`);
+
+--
+-- Индексы таблицы `azbn_profile`
+--
+ALTER TABLE `azbn_profile`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login` (`login`);
+
+--
+-- Индексы таблицы `nodejs_vk_addvkfr`
+--
+ALTER TABLE `nodejs_vk_addvkfr`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_addvkfr_log`
+--
+ALTER TABLE `nodejs_vk_addvkfr_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_app`
+--
+ALTER TABLE `nodejs_vk_app`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_error`
+--
+ALTER TABLE `nodejs_vk_error`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_invite2gr`
+--
+ALTER TABLE `nodejs_vk_invite2gr`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_invite2gr_log`
+--
+ALTER TABLE `nodejs_vk_invite2gr_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_token`
+--
+ALTER TABLE `nodejs_vk_token`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_unaddvkfr`
+--
+ALTER TABLE `nodejs_vk_unaddvkfr`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_unaddvkfr_log`
+--
+ALTER TABLE `nodejs_vk_unaddvkfr_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_userhistory`
+--
+ALTER TABLE `nodejs_vk_userhistory`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `nodejs_vk_userinfo`
+--
+ALTER TABLE `nodejs_vk_userinfo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `app_cli`
+--
+ALTER TABLE `app_cli`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `app_email_queue`
+--
+ALTER TABLE `app_email_queue`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT для таблицы `app_fork`
+--
+ALTER TABLE `app_fork`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT для таблицы `app_yt_token`
+--
+ALTER TABLE `app_yt_token`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT для таблицы `app_yt_video`
+--
+ALTER TABLE `app_yt_video`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `azbn_profile`
+--
+ALTER TABLE `azbn_profile`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_addvkfr`
+--
+ALTER TABLE `nodejs_vk_addvkfr`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=83;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_addvkfr_log`
+--
+ALTER TABLE `nodejs_vk_addvkfr_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=90260;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_app`
+--
+ALTER TABLE `nodejs_vk_app`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_error`
+--
+ALTER TABLE `nodejs_vk_error`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13233;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_invite2gr`
+--
+ALTER TABLE `nodejs_vk_invite2gr`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_invite2gr_log`
+--
+ALTER TABLE `nodejs_vk_invite2gr_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8258;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_token`
+--
+ALTER TABLE `nodejs_vk_token`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=113;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_unaddvkfr`
+--
+ALTER TABLE `nodejs_vk_unaddvkfr`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_unaddvkfr_log`
+--
+ALTER TABLE `nodejs_vk_unaddvkfr_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_userhistory`
+--
+ALTER TABLE `nodejs_vk_userhistory`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=60604;
+--
+-- AUTO_INCREMENT для таблицы `nodejs_vk_userinfo`
+--
+ALTER TABLE `nodejs_vk_userinfo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
