@@ -1,3 +1,4 @@
 node_modules/*
 reports/*
 app/static/youtube/_.js
+.idea/*
