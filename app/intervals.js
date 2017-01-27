@@ -2,7 +2,7 @@
 
 var createIntervals = function(azbn) {
 	
-	var taskLoader_period = 7777;
+	var taskLoader_period = azbn.mdl('cfg').base_interval;
 	//var taskPause = 128;
 	
 	var setTask = function(item){

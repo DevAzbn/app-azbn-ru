@@ -43,8 +43,10 @@ module.exports = function(p) {
 	
 	(!p.mdls.include.mysql) ||						azbn.load('mysql', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/mysql')(azbn));
 	(!p.mdls.include.tg) ||							azbn.load('tg', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/tg')(azbn));
+	(!p.mdls.include.vk) ||							azbn.load('vk', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/vk')(azbn));
 	(!p.mdls.include.webclient) ||					azbn.load('webclient', new require(__dirname + '/azbnodewebclient')(azbn));
 	(!p.mdls.include.https) ||						azbn.load('https', require('https'));
+	(!p.mdls.include.email) ||						azbn.load('email', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/email')(azbn));
 	
 	
 	//azbn.load('vk', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/vk'));

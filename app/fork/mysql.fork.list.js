@@ -20,7 +20,7 @@ azbn.mdl('mysql').connect(function(err){
 	
 	if(err) {
 		
-		azbn.mdl('winston').error('Could not connect to mysql');
+		azbn.mdl('winston').error('Could not connect to mysql: ' + err);
 		
 		process.send({status : 0, error : err});
 		

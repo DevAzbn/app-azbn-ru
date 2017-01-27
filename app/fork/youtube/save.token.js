@@ -41,7 +41,7 @@ if(data.code && data.code != '') {
 				tokens : JSON.stringify(tokens),
 			};
 			
-			azbn.mdl('mysql').query("INSERT INTO `" + azbn.mdl('cfg').mysql.t.yt_token + "` SET ? ", item, function(_err, result) {
+			azbn.mdl('mysql').query("INSERT INTO `" + azbn.mdl('cfg').mysql.t.yt.token + "` SET ? ", item, function(_err, result) {
 				
 				if(_err) {
 					

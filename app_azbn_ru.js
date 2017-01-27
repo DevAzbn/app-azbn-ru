@@ -18,15 +18,13 @@ azbn.mdl('mysql').connect(function(err){
 	
 	if(err) {
 		
-		azbn.mdl('winston').warn('Could not connect to mysql');
+		azbn.mdl('winston').warn('Could not connect to mysql: ' + err);
 		
 	} else {
 
 
 		azbn.echo_dev('DB is connected');
-		
-		azbn.load('intervals', require(azbn.mdl('cfg').path.app + '/intervals')(azbn));
-		
+
 		azbn.mdl('tg').getMe().then(function(me) {
 			
 			//require(azbn.mdl('cfg').path.app + '/require/telegram/tg_getMe')(azbn, me);
@@ -37,10 +35,20 @@ azbn.mdl('mysql').connect(function(err){
 			});
 			
 		});
-		
+
+		/*
 		azbn.mdl('tg').on('message', function (msg) {
-			//require(azbn.mdl('cfg').path.app + '/require/telegram/tg_on_message')(azbn, msg);
+			require(azbn.mdl('cfg').path.app + '/require/telegram/tg_on_message')(azbn, msg);
 		});
+		*/
+
+		/*
+		if(azbn.mdl('vk')) {
+			azbn.mdl('vk').loadApps();
+		}
+		*/
+
+		azbn.load('intervals', require(azbn.mdl('cfg').path.app + '/intervals')(azbn));
 		
 	}
 });

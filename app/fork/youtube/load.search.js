@@ -21,7 +21,7 @@ var _GOOGLE_OBJECTS_
 	, googleClient = require(process.cwd() + '/' + azbn.mdl('cfg').path.bound + '/google/createClient')
 ;
 
-azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt_token + "` WHERE 1 ORDER BY RAND() LIMIT 1", function(_err, rows, fields) {
+azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt.token + "` WHERE 1 ORDER BY RAND() LIMIT 1", function(_err, rows, fields) {
 	
 	if (_err) {
 		
@@ -105,7 +105,7 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt_token + "
 											description : item.snippet.description,
 										};
 										
-										azbn.mdl('mysql').query("INSERT IGNORE INTO `" + azbn.mdl('cfg').mysql.t.yt_video + "` SET ? ", __v, function(___err, ___result) {
+										azbn.mdl('mysql').query("INSERT IGNORE INTO `" + azbn.mdl('cfg').mysql.t.yt.video + "` SET ? ", __v, function(___err, ___result) {
 
 											k++;
 											

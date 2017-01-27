@@ -19,19 +19,46 @@
 		"sport" : 19504
 	},
 	"site" : {
-		"domain" : "localhost"
+		"domain" : "localhost",
+	  	"email" : {
+		  	"login" : "__login__",
+		  	"transport" : "smtps://__login__%40yandex.ru:__pass__@smtp.yandex.ru"
+		}
 	},
 	"taskq_pause" : 50,
+  	"base_interval" : 7777,
 	"mysql" : {
 		"host" : "localhost",
 		"user" : "app_azbn_ru",
 		"password" : "app_azbn_ru",
 		"database" : "app_azbn_ru",
 		"t" : {
-			"fork"		:		"app_fork",
-		  	"cli"		:		"app_cli",
-			"yt_token"	:		"app_yt_token",
-			"yt_video"	:		"app_yt_video"
+			"profile" : 				"azbn_profile",
+		  	"fork" :					"app_fork",
+		  	"cli" :						"app_cli",
+		  	"email" : {
+			  	"queue" :				"app_email_queue"
+			},
+		  	"yt" : {
+			  	"token" :				"app_yt_token",
+			  	"video" :				"app_yt_video"
+			},
+		  	"vk" : {
+			  	"app" :					"nodejs_vk_app",
+			  	"token" :				"nodejs_vk_token",
+			  	"error" :				"nodejs_vk_error",
+			  	"userinfo" :			"nodejs_vk_userinfo",
+			  	"userhistory" :			"nodejs_vk_userhistory",
+			  	"addvkfr" : 			"nodejs_vk_addvkfr",
+			  	"invite2gr" :			"nodejs_vk_invite2gr",
+			  	"unaddvkfr" :			"nodejs_vk_unaddvkfr"
+			},
+		  	"log" : {
+			  	"email_queue" :			"app_email_queue_log",
+			  	"addvkfr" :				"nodejs_vk_addvkfr_log",
+			  	"invite2gr" :			"nodejs_vk_invite2gr_log",
+				"unaddvkfr" :			"nodejs_vk_unaddvkfr_log"
+			}
 		}
 	},
 	"tg" : {
@@ -46,6 +73,11 @@
 	  	"appId"			:		"",
 	 	"appSecret"		:		"",
 	  	"version"		:		"5.60",
-	  	"language"		:		"ru"
+	  	"language"		:		"ru",
+	  	"period"		:		{
+		  		"addvkfr" :		2160,
+		  		"invite2gr" :	2160,
+		  		"unaddvkfr" :	2160
+		}
 	}
 }
