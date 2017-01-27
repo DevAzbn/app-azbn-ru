@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
+-- version 4.0.10.6
 -- http://www.phpmyadmin.net
 --
--- Хост: localhost
--- Время создания: Янв 27 2017 г., 08:12
--- Версия сервера: 5.7.16-0ubuntu0.16.04.1
--- Версия PHP: 5.6.29-1+deb.sury.org~xenial+1
+-- Хост: 127.0.0.1:3306
+-- Время создания: Янв 27 2017 г., 10:44
+-- Версия сервера: 5.5.41-log
+-- Версия PHP: 5.6.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- База данных: `app_azbn_ru`
@@ -23,18 +23,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `app_fork`
+-- Структура таблицы `app_cli`
 --
 
-CREATE TABLE `app_fork` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `app_cli` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` int(11) NOT NULL DEFAULT '0',
   `lastact` int(11) NOT NULL DEFAULT '0',
   `period` int(11) NOT NULL DEFAULT '10000',
   `title` varchar(256) NOT NULL,
   `path` varchar(256) NOT NULL,
-  `data` text
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `data` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `app_cli`
+--
+
+INSERT INTO `app_cli` (`id`, `status`, `lastact`, `period`, `title`, `path`, `data`) VALUES
+(1, 0, 0, 10, 'Вывод в консоль версии ноды', 'node -v', '{}');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `app_fork`
+--
+
+CREATE TABLE IF NOT EXISTS `app_fork` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `lastact` int(11) NOT NULL DEFAULT '0',
+  `period` int(11) NOT NULL DEFAULT '10000',
+  `title` varchar(256) NOT NULL,
+  `path` varchar(256) NOT NULL,
+  `data` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Дамп данных таблицы `app_fork`
@@ -43,7 +68,7 @@ CREATE TABLE `app_fork` (
 INSERT INTO `app_fork` (`id`, `status`, `lastact`, `period`, `title`, `path`, `data`) VALUES
 (1, 0, 0, 8, 'Вывод списка подпроцессов', 'mysql.fork.list', '{}'),
 (2, 0, 0, 3, 'Test', 'test', '{}'),
-(3, 1, 1485493554, 1800, 'Загрузка видео по яндексовским новостям', 'yandex/load.news', '{}');
+(3, 0, 0, 1800, 'Загрузка видео по яндексовским новостям', 'yandex/load.news', '{}');
 
 -- --------------------------------------------------------
 
@@ -51,13 +76,14 @@ INSERT INTO `app_fork` (`id`, `status`, `lastact`, `period`, `title`, `path`, `d
 -- Структура таблицы `app_yt_token`
 --
 
-CREATE TABLE `app_yt_token` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `app_yt_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` int(11) NOT NULL DEFAULT '0',
   `q` varchar(256) NOT NULL DEFAULT '',
   `code` text NOT NULL,
-  `tokens` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `tokens` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Дамп данных таблицы `app_yt_token`
@@ -72,57 +98,17 @@ INSERT INTO `app_yt_token` (`id`, `created_at`, `q`, `code`, `tokens`) VALUES
 -- Структура таблицы `app_yt_video`
 --
 
-CREATE TABLE `app_yt_video` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `app_yt_video` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `q` varchar(256) NOT NULL DEFAULT '',
   `uid` varchar(256) NOT NULL DEFAULT '',
   `img` varchar(256) NOT NULL DEFAULT '',
   `title` varchar(256) NOT NULL DEFAULT '',
-  `description` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uid` (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Индексы сохранённых таблиц
---
-
---
--- Индексы таблицы `app_fork`
---
-ALTER TABLE `app_fork`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `app_yt_token`
---
-ALTER TABLE `app_yt_token`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `app_yt_video`
---
-ALTER TABLE `app_yt_video`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uid` (`uid`);
-
---
--- AUTO_INCREMENT для сохранённых таблиц
---
-
---
--- AUTO_INCREMENT для таблицы `app_fork`
---
-ALTER TABLE `app_fork`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT для таблицы `app_yt_token`
---
-ALTER TABLE `app_yt_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT для таблицы `app_yt_video`
---
-ALTER TABLE `app_yt_video`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

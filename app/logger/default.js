@@ -5,7 +5,7 @@
 function _(azbn) {
 	
 	var log_tag = 'logger/default';
-	azbn.echo('Logger loaded', log_tag);
+	azbn.echo_dev('Logger loaded', log_tag);
 	
 	var counter = 0;
 	

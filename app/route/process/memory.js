@@ -3,7 +3,7 @@
 function _(azbn) {
 	
 	var log_tag = 'process/memory';
-	azbn.mdl('winston').info('Handler loaded', log_tag);
+	azbn.echo_dev('Handler loaded', log_tag);
 	
 	var handler = function(req, res) {
 		

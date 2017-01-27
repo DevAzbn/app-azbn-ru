@@ -106,15 +106,7 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt_token + "
 										};
 										
 										azbn.mdl('mysql').query("INSERT IGNORE INTO `" + azbn.mdl('cfg').mysql.t.yt_video + "` SET ? ", __v, function(___err, ___result) {
-											/*
-											if(___err) {
-												
-												azbn.mdl('winston').error(___err);
-												
-											} else if(___result.insertId) {
-												
-											}
-											*/
+
 											k++;
 											
 											if(k == __data.items.length) {

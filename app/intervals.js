@@ -18,6 +18,18 @@ var createIntervals = function(azbn) {
 		});
 		
 	};
+
+	var runCommand = function(item){
+
+		item.data = JSON.parse(item.data);
+
+		azbn.mdl('cli').run(item.path, item.data, function(result){
+
+			console.log(JSON.stringify(result));
+
+		});
+
+	}
 	
 	var taskLoader = setInterval(function(){
 		
@@ -62,6 +74,47 @@ var createIntervals = function(azbn) {
 				
 			}
 			
+		});
+
+		azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.cli + "` WHERE (status > 0 AND ((lastact + period) < " + _now + ")) ORDER BY id", function(_err, rows, fields) {
+
+			if (_err) {
+
+				azbn.mdl('winston').warn('Error on load clies: ' + _err);
+
+			} else if(rows.length == 0) {
+
+				//azbn.mdl('winston').info('No clies in DB!');
+
+			} else {
+
+				for(var i = 0; i < rows.length; i++) {
+
+					(function(item){
+
+						var __now = Math.floor(azbn.now() / 1000);
+
+						azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.cli + "` SET lastact = " + __now + " WHERE id = '" + item.id + "'", function (__err, __uresult) {
+
+							if(__err) {
+
+								azbn.mdl('winston').error('Error on update cli #' + item.id + ': ' + __err);
+
+							} else {
+
+								//azbn.mdl('winston').info('Set task #' + item.id);
+								runCommand(item);
+
+							}
+
+						});
+
+					})(rows[i]);
+
+				}
+
+			}
+
 		});
 		
 	}, taskLoader_period);

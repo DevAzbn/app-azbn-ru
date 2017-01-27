@@ -5,7 +5,7 @@
 function _(azbn) {
 	
 	var log_tag = 'web/get';
-	azbn.echo('Handler loaded', log_tag);
+	azbn.echo_dev('Handler loaded', log_tag);
 	
 	this.handler = function(req, res) {
 		

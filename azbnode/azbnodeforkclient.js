@@ -7,27 +7,29 @@ function AzbNodeForkClient(azbn) {
 	var ctrl = {};
 	
 	var fork = require('child_process').fork;
-	
+
 	ctrl.log = function(command) {
 		
-		if(command && command != '') {
-			
-			
-			
-		} else {
-			
-			
-			
-		}
+		//if(command && command != '') {
+		//
+		//
+		//
+		//} else {
+		//
+		//
+		//
+		//}
 		
 	}
 	
 	ctrl.run = function(command, data, cb) {
-		
+
+		ctrl.log(command);
+
 		if(command && command != '') {
-			
-			ctrl.log(command);
-			
+
+			var timing = new (azbn.mdl('timing')).createTiming(command);
+
 			var _process = fork(__dirname + '/../' + azbn.mdl('cfg').path.fork + '/' + command, [
 				ctrl.getCliData(data)
 			], {
@@ -35,14 +37,16 @@ function AzbNodeForkClient(azbn) {
 			});
 			
 			_process.on('message', function(msg){
-				
+
+				if(msg.status == 0) {
+					msg.timing = timing.end();
+				}
+
 				cb(_process, msg);
 				
 			});
 			
 		} else {
-			
-			ctrl.log(command);
 			
 			cb({});
 			

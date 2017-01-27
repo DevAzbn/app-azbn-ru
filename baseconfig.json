@@ -1,5 +1,6 @@
 {
-	"process" : {
+	"is_dev" : true,
+  	"process" : {
 		"file" : "app_azbn_ru.js"
 	},
 	"path" : {
@@ -28,6 +29,7 @@
 		"database" : "app_azbn_ru",
 		"t" : {
 			"fork"		:		"app_fork",
+		  	"cli"		:		"app_cli",
 			"yt_token"	:		"app_yt_token",
 			"yt_video"	:		"app_yt_video"
 		}
@@ -39,5 +41,11 @@
 		"bot" : {
 			"token" : "323663115:AAER4f3bwGhD8Cg8vG9bB85IZRvZv6YBaM4"
 		}
+	},
+  	"vk" : {
+	  	"appId"			:		"",
+	 	"appSecret"		:		"",
+	  	"version"		:		"5.60",
+	  	"language"		:		"ru"
 	}
 }

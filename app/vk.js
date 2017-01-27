@@ -1,11 +1,11 @@
-/*
-приложение вконтакте
-*/
+'use strict';
 
 var VK = require('vksdk');
 
 function genVK(azbn, appId) {
+
 	this.name = 'vkapp_init';
+
 	var log_name = this.name;
 	
 	var app = azbn.mdl('cfg').vk_app[appId];

@@ -10,6 +10,7 @@ module.exports = function(p) {
 				https : false,
 			},
 		},
+		is_dev : true,
 	};
 	
 	if(p.root_module) {
@@ -23,17 +24,21 @@ module.exports = function(p) {
 	
 	
 	azbn.load('cfg', require(__dirname + '/../baseconfig.json'));
-	
+
+	if(p.is_dev || azbn.mdl('cfg').is_dev) {
+		azbn.isDev();
+	}
 	
 	azbn.load('azbnodeevents', new require(__dirname + '/azbnodeevents')(azbn));
+	azbn.load('timing', new require(__dirname + '/azbnodetiming')(azbn));
 	azbn.load('fork', new require(__dirname + '/azbnodeforkclient')(azbn));
+	azbn.load('cli', new require(__dirname + '/azbnodecliclient')(azbn));
 	
 	
 	azbn.load('fs', require('fs'));
 	azbn.load('querystring', require('querystring'));
 	azbn.load('path', require('path'));
 	azbn.load('taskq', require('azbn-task-queue'));
-	//optimist
 	
 	
 	(!p.mdls.include.mysql) ||						azbn.load('mysql', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/mysql')(azbn));
@@ -48,11 +53,11 @@ module.exports = function(p) {
 	azbn.load('winston', require(__dirname + '/../' + azbn.mdl('cfg').path.bound + '/getWinston')(p.root_module));
 	
 	
-	azbn.event('loaded_azbnode', azbn);
+	//azbn.event('loaded_azbnode', azbn);
 	
 	
-	azbn.parseArgv();
-	azbn.event('parsed_argv', azbn);
+	//azbn.parseArgv();
+	//azbn.event('parsed_argv', azbn);
 	
 	
 	return azbn;

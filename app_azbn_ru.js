@@ -21,9 +21,9 @@ azbn.mdl('mysql').connect(function(err){
 		azbn.mdl('winston').warn('Could not connect to mysql');
 		
 	} else {
-		
-		
-		azbn.mdl('winston').info('DB is connected');
+
+
+		azbn.echo_dev('DB is connected');
 		
 		azbn.load('intervals', require(azbn.mdl('cfg').path.app + '/intervals')(azbn));
 		
@@ -125,7 +125,7 @@ azbn.mdl('express').get('/error', function(req, res, next){
 
 
 azbn.load('http', azbn.mdl('express').listen(azbn.mdl('cfg').express.port, function() {
-	azbn.mdl('winston').info('Example app listening on port ' + azbn.mdl('cfg').express.port + '!');
+	azbn.mdl('winston').info('App listening on port ' + azbn.mdl('cfg').express.port);
 }));
 
 process.on('exit', function() {

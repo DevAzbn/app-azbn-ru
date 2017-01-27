@@ -10,6 +10,7 @@ var azbn = require('./azbnode/LoadAzbnode')({
 				//https : true,
 			},
 		},
+		is_dev : true,
 	});
 
 var argv = require('optimist').argv;
