@@ -56,7 +56,9 @@ azbn.mdl('mysql').connect(function(err){
 
 						(function(item){
 
-							fs.readFile(item.tpl, function(__err, __data){
+							var item_id = item.id;
+
+							azbn.mdl('fs').readFile(item.tpl, function(__err, __data){
 								if (__err) {
 							  		
 							  		azbn.mdl('winston').warn('Error on read tpl: ' + __err);
@@ -65,17 +67,21 @@ azbn.mdl('mysql').connect(function(err){
 
 							  		var _now = azbn.now_sec();
 
-							  		var html = __data;
+							  		var html = 'test';//__data;
 
 							  		azbn.mdl('email').send(azbn.mdl('cfg').site.email, {
-										to : item.email,
+										email : item.email,
 										subject : item.subject,
-										html : html,
+										body : html,
+									}, function(){
+
+										azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.email.queue + "` SET sended_at = '" + _now + "', status = '1' WHERE id = '" + item.id + "'", function (___err, ___result) {
+											azbn.echo_dev('Updated sended_at for mail #' + item_id);
+										});
+
 									});
 
-							  		azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.email.queue + "` SET sended_at = '" + _now + "', status = '1' WHERE id = '" + item.id + "'", function (___err, ___result) {
-										azbn.echo_dev('Updated sended_at for mail #' + item.id);
-									});
+							  		
 
 							  	}
 							});

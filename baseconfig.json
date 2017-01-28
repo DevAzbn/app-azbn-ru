@@ -21,8 +21,8 @@
 	"site" : {
 		"domain" : "localhost",
 	  	"email" : {
-		  	"login" : "__login__",
-		  	"transport" : "smtps://__login__%40yandex.ru:__pass__@smtp.yandex.ru"
+		  	"login" : "Тестовая разработка <_________@yandex.ru>",
+		  	"transport" : "smtps://_________%40yandex.ru:_________@smtp.yandex.ru"
 		}
 	},
 	"taskq_pause" : 350,

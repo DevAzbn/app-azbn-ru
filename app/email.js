@@ -6,7 +6,7 @@ function createEmail(azbn) {
 	
 	var ctrl = {};
 	
-	ctrl.send = function(acc, msg) {
+	ctrl.send = function(acc, msg, cb) {
 
 		var transporter = nodemailer.createTransport(acc.transport);
 
@@ -16,6 +16,8 @@ function createEmail(azbn) {
 			subject : msg.subject,
 			html : msg.body,
 		};
+
+		console.log(JSON.stringify(mailOptions));
 
 		// send mail with defined transport object
 		transporter.sendMail(mailOptions, function(_err, info){
@@ -29,6 +31,10 @@ function createEmail(azbn) {
 				azbn.echo_dev('Message sent to ' + item.email + ': ' + info.response);
 
 			}
+
+			transporter.close();
+
+			cb();
 
 		});
 
