@@ -31,7 +31,9 @@ if(data.code && data.code != '') {
 			
 			azbn.mdl('winston').error(err);
 			
-			process.send({status : -1, error : err});
+			azbn.mdl('fork').killMe(process, 0, {
+				error : err,
+			});
 			
 		} else if(tokens) {
 			
@@ -47,17 +49,23 @@ if(data.code && data.code != '') {
 					
 					azbn.mdl('winston').error(_err);
 					
-					process.send({status : -1, error : _err});
+					azbn.mdl('fork').killMe(process, 0, {
+						error : _err,
+					});
 					
 				} else if(result.insertId) {
 					
-					process.send({status : 0, id : result.insertId});
+					azbn.mdl('fork').killMe(process, 0, {
+						id : result.insertId,
+					});
 					
 				} else {
 					
 					azbn.mdl('winston').error(_err);
 					
-					process.send({status : -1, error : {text : 'not inserted'}});
+					azbn.mdl('fork').killMe(process, 0, {
+						error : {text : 'not inserted'},
+					});
 					
 				}
 				
@@ -67,7 +75,9 @@ if(data.code && data.code != '') {
 			
 			azbn.mdl('winston').error(_err);
 			
-			process.send({status : -1, error : {text : 'no tokens'}});
+			azbn.mdl('fork').killMe(process, 0, {
+				error : {text : 'no tokens'},
+			});
 			
 		}
 		
@@ -75,7 +85,9 @@ if(data.code && data.code != '') {
 	
 } else {
 	
-	process.send({status : 0, error : {text : 'no code'}});
+	azbn.mdl('fork').killMe(process, 0, {
+		error : {text : 'no code'},
+	});
 	
 }
 

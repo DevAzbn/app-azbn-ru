@@ -2,7 +2,7 @@
 
 //process.chdir(process.cwd());
 
-var async = require('async');
+//var async = require('async');
 
 var azbn = require('./../../../../../azbnode/LoadAzbnode')({
 		root_module : module,
@@ -10,6 +10,7 @@ var azbn = require('./../../../../../azbnode/LoadAzbnode')({
 			include : {
 				mysql : true,
 				vk : true,
+				async : true,
 				//tg : true,
 				//webclient : true,
 				//https : true,
@@ -66,7 +67,9 @@ azbn.mdl('mysql').connect(function(err){
 
 		azbn.mdl('winston').warn('Could not connect to mysql: ' + err);
 
-		process.send({status : 0});
+		azbn.mdl('fork').killMe(process, 0, {
+			error : err,
+		});
 
 	} else {
 
@@ -97,13 +100,15 @@ azbn.mdl('mysql').connect(function(err){
 
 					azbn.mdl('winston').error(_err);
 
-					process.send({status : 0});
+					azbn.mdl('fork').killMe(process, 0, {
+						error : _err,
+					});
 
 				} else if(rows.length == 0) {
 
 					//azbn.mdl('winston').info('No forks in DB!');
 
-					process.send({status : 0});
+					azbn.mdl('fork').killMe(process);
 
 				} else {
 
@@ -126,8 +131,11 @@ azbn.mdl('mysql').connect(function(err){
 
 					}
 
-					async.series(async_arr, function (__err, __results) {
-						process.send({status : 0});
+					azbn.mdl('async').series(async_arr, function (__err, __results) {
+						azbn.mdl('fork').killMe(process, 0, {
+							error : __err,
+							results : __results,
+						});
 					});
 
 				}

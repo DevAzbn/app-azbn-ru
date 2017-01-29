@@ -16,4 +16,8 @@ var data = azbn.mdl('fork').parseCliData(process.argv);
 
 console.log('fork f2 test: ' + JSON.stringify(data));
 
-process.send({uid : 'f2', status : 0, html : 'ok', data : data});
+azbn.mdl('fork').killMe(process, 0, {
+	html : 'ok',
+	uid : 'f2',
+	data : data,
+});

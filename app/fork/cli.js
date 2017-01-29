@@ -18,8 +18,7 @@ azbn.mdl('cli').run('node -v', {}, function(result){
 
 	console.log(JSON.stringify(result));
 
-	process.send({
-		status : 0,
+	azbn.mdl('fork').killMe(process, 0, {
 		html : 'ok',
 		tg : {
 			log : process.cwd(),

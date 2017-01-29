@@ -7,6 +7,7 @@ var azbn = require('./../../../azbnode/LoadAzbnode')({
 		mdls :{
 			include : {
 				mysql : true,
+				async : true,
 				//tg : true,
 				//webclient : true,
 				//https : true,
@@ -27,7 +28,10 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt.token + "
 		
 		azbn.mdl('winston').warn('Error on load token: ' + _err);
 		
-		process.send({status : 0, count : 0, html : ''});
+		azbn.mdl('fork').killMe(process, 0, {
+			count : 0,
+			html : '',
+		});
 		
 		throw _err;
 		
@@ -35,7 +39,10 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt.token + "
 		
 		azbn.mdl('winston').warn('No tokens in DB!');
 		
-		process.send({status : 0, count : 0, html : 'ok'});
+		azbn.mdl('fork').killMe(process, 0, {
+			count : 0,
+			html : '',
+		});
 		
 	} else {
 		
@@ -80,7 +87,7 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt.token + "
 						
 						azbn.mdl('winston').warn('Error on search: ' + __err);
 						
-						process.send({status : 0,});
+						azbn.mdl('fork').killMe(process);
 						
 					} else {
 						
@@ -93,27 +100,27 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt.token + "
 							
 							if(__data.items && __data.items.length) {
 								
+								var async_arr = [];
+								
 								for(var i = 0; i < __data.items.length; i++) {
 									
 									(function(item, count){
 										
-										var __v = {
-											q : q_str,
-											uid : item.id.videoId,
-											img : item.snippet.thumbnails.high.url,
-											title : item.snippet.title,
-											description : item.snippet.description,
-										};
-										
-										azbn.mdl('mysql').query("INSERT IGNORE INTO `" + azbn.mdl('cfg').mysql.t.yt.video + "` SET ? ", __v, function(___err, ___result) {
-
-											k++;
+										async_arr.push(function(callback){
 											
-											if(k == __data.items.length) {
+											var __v = {
+												q : q_str,
+												uid : item.id.videoId,
+												img : item.snippet.thumbnails.high.url,
+												title : item.snippet.title,
+												description : item.snippet.description,
+											};
+											
+											azbn.mdl('mysql').query("INSERT IGNORE INTO `" + azbn.mdl('cfg').mysql.t.yt.video + "` SET ? ", __v, function(___err, ___result) {
 												
-												process.send({status : 0,});
+												callback(null, null);
 												
-											}
+											});
 											
 										});
 										
@@ -123,11 +130,18 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt.token + "
 									
 								}
 								
+								azbn.mdl('async').series(async_arr, function (__err, __results) {
+									azbn.mdl('fork').killMe(process, 0, {
+										error : __err,
+										results : __results,
+									});
+								});
+								
 							} else {
 								
 								azbn.mdl('winston').warn('No items');
 								
-								process.send({status : 0,});
+								azbn.mdl('fork').killMe(process);
 								
 							}
 							
@@ -135,7 +149,7 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt.token + "
 							
 							azbn.mdl('winston').warn('No data');
 							
-							process.send({status : 0,});
+							azbn.mdl('fork').killMe(process);
 							
 						}
 						

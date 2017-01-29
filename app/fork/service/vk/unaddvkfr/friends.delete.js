@@ -21,7 +21,7 @@ var data = azbn.mdl('fork').parseCliData(process.argv);
 
 
 
-process.send({status : 0});
+azbn.mdl('fork').killMe(process);
 
 process.on('exit', function() {
 	//azbn.mdl('winston').warn(__filename + ' is stoped');

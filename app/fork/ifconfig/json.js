@@ -22,7 +22,9 @@ azbn.mdl('webclient').r('GET', 'https://ifconfig.co/json', {}, function(err, res
 		
 		azbn.mdl('winston').error(err);
 		
-		process.send({status : 0, html : 'no connect'});
+		azbn.mdl('fork').killMe(process, 0, {
+			html : 'no connect',
+		});
 		
 		return;
 		
@@ -30,7 +32,9 @@ azbn.mdl('webclient').r('GET', 'https://ifconfig.co/json', {}, function(err, res
 		
 		console.log(html);
 		
-		process.send({status : 0, response : JSON.parse(html)});
+		azbn.mdl('fork').killMe(process, 0, {
+			response : JSON.parse(html),
+		});
 		
 	}
 	

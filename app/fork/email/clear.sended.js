@@ -29,7 +29,7 @@ azbn.mdl('mysql').query("" +
 		"sended_at < '" + _moment__border__month + "' " +
 	"", function(_err, rows, fields) {
 
-		process.send({status : 0});
+		azbn.mdl('fork').killMe(process);
 
 	});
 

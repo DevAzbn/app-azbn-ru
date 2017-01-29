@@ -35,7 +35,9 @@ azbn.mdl('webclient').r('GET', _url, {}, function(err, response, html){
 		
 		azbn.mdl('winston').error(err);
 		
-		process.send({status : 0, html : 'no connect'});
+		azbn.mdl('fork').killMe(process, 0, {
+			html : 'no connect',
+		});
 		
 		return;
 		
@@ -129,7 +131,9 @@ azbn.mdl('webclient').r('GET', _url, {}, function(err, response, html){
 				
 				_process.kill();
 				
-				process.send({status : 0, html : 'ok'});
+				azbn.mdl('fork').killMe(process, 0, {
+					html : 'ok',
+				});
 				
 			}
 			
@@ -137,7 +141,9 @@ azbn.mdl('webclient').r('GET', _url, {}, function(err, response, html){
 				
 				_process.kill();
 				
-				process.send({status : 0, html : 'ok'});
+				azbn.mdl('fork').killMe(process, 0, {
+					html : 'ok',
+				});
 				
 			}, 10000);
 			

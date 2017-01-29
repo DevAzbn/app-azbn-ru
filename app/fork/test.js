@@ -14,12 +14,13 @@ var azbn = require('../../azbnode/LoadAzbnode')({
 
 var data = azbn.mdl('fork').parseCliData(process.argv);
 
-console.log(process.cwd());
+var res = process.cwd();
 
-process.send({
-	status : 0,
+console.log(res);
+
+azbn.mdl('fork').killMe(process, 0, {
 	html : 'ok',
 	tg : {
-		log : process.cwd(),
+		log : res,
 	},
 });

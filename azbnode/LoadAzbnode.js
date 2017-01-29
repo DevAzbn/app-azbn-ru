@@ -46,6 +46,7 @@ module.exports = function(p) {
 	(!p.mdls.include.vk) ||							azbn.load('vk', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/vk')(azbn));
 	(!p.mdls.include.webclient) ||					azbn.load('webclient', new require(__dirname + '/azbnodewebclient')(azbn));
 	(!p.mdls.include.https) ||						azbn.load('https', require('https'));
+	(!p.mdls.include.async) ||						azbn.load('https', require('async'));
 	(!p.mdls.include.email) ||						azbn.load('email', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/email')(azbn));
 	
 	

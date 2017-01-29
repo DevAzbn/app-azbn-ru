@@ -20,7 +20,15 @@ function AzbNodeForkClient(azbn) {
 		//
 		//}
 		
-	}
+	};
+	
+	ctrl.killMe = function(p, status, o) {
+		
+		o = o || {};
+		o.status = status || 0;
+		p.send(o);
+		
+	};
 	
 	ctrl.run = function(command, data, cb) {
 

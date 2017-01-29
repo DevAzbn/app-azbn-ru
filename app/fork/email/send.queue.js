@@ -26,7 +26,9 @@ azbn.mdl('mysql').connect(function(err){
 
 		azbn.mdl('winston').warn('Could not connect to mysql: ' + err);
 
-		process.send({status : 0});
+		azbn.mdl('fork').killMe(process, 0, {
+			error : err,
+		});
 
 	} else {
 

@@ -22,7 +22,9 @@ azbn.mdl('mysql').connect(function(err){
 		
 		azbn.mdl('winston').error('Could not connect to mysql: ' + err);
 		
-		process.send({status : 0, error : err});
+		azbn.mdl('fork').killMe(process, 0, {
+			error : err,
+		});
 		
 	} else {
 		
@@ -34,13 +36,18 @@ azbn.mdl('mysql').connect(function(err){
 				
 				azbn.mdl('winston').warn('Error on load tasks: ' + _err);
 				
-				process.send({status : 0, error : _err});
+				azbn.mdl('fork').killMe(process, 0, {
+					error : _err,
+				});
 				
 			} else if(rows.length == 0) {
 				
 				azbn.mdl('winston').warn('No tasks in DB!');
 				
-				process.send({status : 0, count : 0, html : 'ok'});
+				azbn.mdl('fork').killMe(process, 0, {
+					count : 0,
+					html : 'ok',
+				});
 				
 			} else {
 				
@@ -51,7 +58,10 @@ azbn.mdl('mysql').connect(function(err){
 					
 				}
 				
-				process.send({status : 0, count : rows.length, html : 'ok'});
+				azbn.mdl('fork').killMe(process, 0, {
+					count : rows.length,
+					html : 'ok',
+				});
 				
 			}
 			

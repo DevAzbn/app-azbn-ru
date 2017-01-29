@@ -1,6 +1,6 @@
 'use strict';
 
-var async = require('async');
+//var async = require('async');
 var VKSDK = require('vksdk');
 
 function createVK(azbn) {
@@ -57,7 +57,7 @@ function createVK(azbn) {
 
 				}
 
-				async.series(async_arr, function (__err, __results) {
+				azbn.mdl('async').series(async_arr, function (__err, __results) {
 					if(cb && typeof cb == 'function') {
 						cb();
 					}
