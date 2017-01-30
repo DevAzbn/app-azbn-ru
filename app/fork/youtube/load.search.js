@@ -104,7 +104,7 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt.token + "
 								
 								for(var i = 0; i < __data.items.length; i++) {
 									
-									(function(item, count){
+									(function(item){
 										
 										async_arr.push(function(callback){
 											
@@ -124,7 +124,7 @@ azbn.mdl('mysql').query("SELECT * FROM `" + azbn.mdl('cfg').mysql.t.yt.token + "
 											
 										});
 										
-									})(__data.items[i], i);
+									})(__data.items[i]);
 									
 									//var item = __data.items[i];
 									

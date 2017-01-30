@@ -67,7 +67,7 @@ azbn.mdl('mysql').connect(function(err){
 							async_arr.push(function(callback){
 
 								var item_id = item.id;
-								console.log(JSON.stringify(item));
+								//console.log(JSON.stringify(item));
 
 								azbn.mdl('fs').readFile(item.tpl, function(__err, __data){
 
@@ -81,7 +81,7 @@ azbn.mdl('mysql').connect(function(err){
 
 										var _now = azbn.now_sec();
 
-										var html = 'test';//__data;
+										var html = __data;
 
 										azbn.mdl('email').send(azbn.mdl('cfg').site.email, {
 											email : item.email,
