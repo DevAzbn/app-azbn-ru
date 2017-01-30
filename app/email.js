@@ -17,7 +17,7 @@ function createEmail(azbn) {
 			html : msg.body,
 		};
 
-		console.log(JSON.stringify(mailOptions));
+		//console.log(JSON.stringify(mailOptions));
 
 		// send mail with defined transport object
 		transporter.sendMail(mailOptions, function(_err, info){
@@ -28,7 +28,7 @@ function createEmail(azbn) {
 
 			} else {
 
-				azbn.echo_dev('Message sent to ' + item.email + ': ' + info.response);
+				azbn.echo_dev('Message sent to ' + mailOptions.to + ': ' + info.response);
 
 			}
 

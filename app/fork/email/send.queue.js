@@ -8,6 +8,7 @@ var azbn = require('./../../../azbnode/LoadAzbnode')({
 			include : {
 				mysql : true,
 				email : true,
+				async : true,
 				//tg : true,
 				//webclient : true,
 				//https : true,
@@ -31,7 +32,6 @@ azbn.mdl('mysql').connect(function(err){
 		});
 
 	} else {
-
 		
 		azbn.mdl('mysql').query("" +
 			"SELECT " +
@@ -48,49 +48,70 @@ azbn.mdl('mysql').connect(function(err){
 
 					azbn.mdl('winston').warn('Error on search emails in queue: ' + _err);
 
+					azbn.mdl('fork').killMe(process, 0, {
+						error : _err,
+					});
+
 				} else if(rows.length == 0) {
 
-					
+					azbn.mdl('fork').killMe(process);
 
 				} else {
+
+					var async_arr = [];
 
 					for(var i = 0; i < rows.length; i++) {
 
 						(function(item){
 
-							var item_id = item.id;
+							async_arr.push(function(callback){
 
-							azbn.mdl('fs').readFile(item.tpl, function(__err, __data){
-								if (__err) {
-							  		
-							  		azbn.mdl('winston').warn('Error on read tpl: ' + __err);
+								var item_id = item.id;
+								console.log(JSON.stringify(item));
 
-							  	} else {
+								azbn.mdl('fs').readFile(item.tpl, function(__err, __data){
 
-							  		var _now = azbn.now_sec();
+									if (__err) {
 
-							  		var html = 'test';//__data;
+										azbn.mdl('winston').warn('Error on read tpl: ' + __err);
 
-							  		azbn.mdl('email').send(azbn.mdl('cfg').site.email, {
-										email : item.email,
-										subject : item.subject,
-										body : html,
-									}, function(){
+										callback(null, null);
 
-										azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.email.queue + "` SET sended_at = '" + _now + "', status = '1' WHERE id = '" + item.id + "'", function (___err, ___result) {
-											azbn.echo_dev('Updated sended_at for mail #' + item_id);
+									} else {
+
+										var _now = azbn.now_sec();
+
+										var html = 'test';//__data;
+
+										azbn.mdl('email').send(azbn.mdl('cfg').site.email, {
+											email : item.email,
+											subject : item.subject,
+											body : html,
+										}, function(){
+
+											azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.email.queue + "` SET sended_at = '" + _now + "', status = '1' WHERE id = '" + item_id + "'", function (___err, ___result) {
+												callback(null, null);
+											});
+
 										});
 
-									});
 
-							  		
 
-							  	}
+									}
+								});
+
 							});
 
 						})(rows[i]);
 
 					}
+
+					azbn.mdl('async').series(async_arr, function (__err, __results) {
+						azbn.mdl('fork').killMe(process, 0, {
+							error : __err,
+							results : __results,
+						});
+					});
 
 				}
 
