@@ -81,7 +81,15 @@ azbn.mdl('mysql').connect(function(err){
 
 										var _now = azbn.now_sec();
 
-										var html = __data;
+
+										var html = '' + __data;
+
+										item.p = JSON.parse(item.p);
+
+										for(var key in item.p) {
+											html = html.replace(new RegExp('({{' + key + '}})', 'ig'), item.p[key]);
+										}
+
 
 										azbn.mdl('email').send(azbn.mdl('cfg').site.email, {
 											email : item.email,
