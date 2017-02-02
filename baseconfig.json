@@ -1,6 +1,6 @@
 {
 	"is_dev" : true,
-  	"process" : {
+	"process" : {
 		"file" : "app_azbn_ru.js"
 	},
 	"path" : {
@@ -34,29 +34,30 @@
 		"database" : "azbn_ru",
 		"t" : {
 			"profile" : 				"azbn_profile",
-		  	"fork" :					"app_fork",
-		  	"cli" :						"app_cli",
-		  	"email" : {
-			  	"queue" :				"app_email_queue"
+			"fork" :					"app_fork",
+			"cli" :						"app_cli",
+			"error" :					"app_error",
+			"email" : {
+				"queue" :				"app_email_queue"
 			},
-		  	"yt" : {
-			  	"token" :				"app_yt_token",
-			  	"video" :				"app_yt_video"
+			"yt" : {
+				"token" :				"app_yt_token",
+				"video" :				"app_yt_video"
 			},
-		  	"vk" : {
-			  	"app" :					"nodejs_vk_app",
-			  	"token" :				"nodejs_vk_token",
-			  	"error" :				"nodejs_vk_error",
-			  	"userinfo" :			"nodejs_vk_userinfo",
-			  	"userhistory" :			"nodejs_vk_userhistory",
-			  	"addvkfr" : 			"nodejs_vk_addvkfr",
-			  	"invite2gr" :			"nodejs_vk_invite2gr",
-			  	"unaddvkfr" :			"nodejs_vk_unaddvkfr"
+			"vk" : {
+				"app" :					"nodejs_vk_app",
+				"token" :				"nodejs_vk_token",
+				"error" :				"nodejs_vk_error",
+				"userinfo" :			"nodejs_vk_userinfo",
+				"userhistory" :			"nodejs_vk_userhistory",
+				"addvkfr" : 			"nodejs_vk_addvkfr",
+				"invite2gr" :			"nodejs_vk_invite2gr",
+				"unaddvkfr" :			"nodejs_vk_unaddvkfr"
 			},
-		  	"log" : {
-			  	"email_queue" :			"app_email_queue_log",
-			  	"addvkfr" :				"nodejs_vk_addvkfr_log",
-			  	"invite2gr" :			"nodejs_vk_invite2gr_log",
+			"log" : {
+				"email_queue" :			"app_email_queue_log",
+				"addvkfr" :				"nodejs_vk_addvkfr_log",
+				"invite2gr" :			"nodejs_vk_invite2gr_log",
 				"unaddvkfr" :			"nodejs_vk_unaddvkfr_log"
 			}
 		}
@@ -70,14 +71,14 @@
 		}
 	},
   	"vk" : {
-	  	"appId"			:		"",
-	 	"appSecret"		:		"",
-	  	"version"		:		"5.60",
-	  	"language"		:		"ru",
-	  	"period"		:		{
-		  		"addvkfr" :		2160,
-		  		"invite2gr" :	2160,
-		  		"unaddvkfr" :	2160
+		"appId"			:		"",
+		"appSecret"		:		"",
+		"version"		:		"5.60",
+		"language"		:		"ru",
+		"period"		:		{
+				"addvkfr" :		2160,
+				"invite2gr" :	2160,
+				"unaddvkfr" :	2160
 		}
 	}
 }
