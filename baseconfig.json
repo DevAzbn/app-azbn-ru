@@ -21,8 +21,8 @@
 	"site" : {
 		"domain" : "localhost",
 	  	"email" : {
-		  	"login" : "Web-разработка Azbn.ru <_________@yandex.ru>",
-		  	"transport" : "smtps://_________%40yandex.ru:_________@smtp.yandex.ru"
+		  	"login" : "Web-разработка Azbn.ru <devazbn@yandex.ru>",
+		  	"transport" : "smtps://devazbn%40yandex.ru:DevAzbn85@smtp.yandex.ru"
 		}
 	},
 	"taskq_pause" : 350,
