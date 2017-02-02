@@ -31,7 +31,7 @@
 		"host" : "localhost",
 		"user" : "app_azbn_ru",
 		"password" : "app_azbn_ru",
-		"database" : "app_azbn_ru",
+		"database" : "azbn_ru",
 		"t" : {
 			"profile" : 				"azbn_profile",
 		  	"fork" :					"app_fork",
