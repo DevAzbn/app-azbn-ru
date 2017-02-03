@@ -73,9 +73,9 @@ var findBadFriends = function(item, cb) {
 		});
 
 		azbn.mdl('mysql').query("" +
-			"SELECT `" +
+			"SELECT " +
 				"* " +
-			"FROM `" +
+			"FROM " +
 				"`" + azbn.mdl('cfg').mysql.t.log.addvkfr + "`" +
 			"WHERE " +
 				"user_id = '" + item.user_id + "' " +
@@ -153,16 +153,9 @@ azbn.mdl('mysql').connect(function(err){
 			var _moment__border__10min = _now - (10 * 60);
 
 			azbn.mdl('mysql').query("" +
-				"SELECT `" +
-					/*
-					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`" + ".lastact " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".id, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".app_id, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".user_id, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".access_token, " +
-					*/
+				"SELECT " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".* " +
-				"FROM `" +
+				"FROM " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`, " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.unaddvkfr + "` " +
 				"WHERE " +

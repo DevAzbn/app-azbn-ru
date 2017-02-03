@@ -78,16 +78,9 @@ azbn.mdl('mysql').connect(function(err){
 			var _moment__border__20min = _now - (20 * 60);
 
 			azbn.mdl('mysql').query("" +
-				"SELECT `" +
-					/*
-					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`" + ".lastact " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".id, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".app_id, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".user_id, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".access_token, " +
-					*/
+				"SELECT " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".* " +
-				"FROM `" +
+				"FROM " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`, " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "` " +
 				"WHERE " +
