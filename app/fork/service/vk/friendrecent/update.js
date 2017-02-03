@@ -4,7 +4,7 @@
 
 //var async = require('async');
 
-var app_id = 3;
+var app_id = 1;
 
 var azbn = require('./../../../../../azbnode/LoadAzbnode')({
 		root_module : module,
@@ -22,17 +22,17 @@ var azbn = require('./../../../../../azbnode/LoadAzbnode')({
 
 var data = azbn.mdl('fork').parseCliData(process.argv);
 
-var updateUserInfo = function(item, _item, cb) {
+var updateUserInfo = function(item, cb) {
 
 	var acc = azbn.mdl('vk').account(item);
 
 	if(acc) {
 
 		var __req = {
-			user_id : _item.to_user_id,
+			count : 333,
 		};
 
-		acc.request('friends.delete', __req, function(resp) {
+		acc.request('friends.getRecent', __req, function(resp) {
 
 			if(azbn.is_def(resp.error) && !azbn.is_null(resp.error)) {
 
@@ -42,7 +42,9 @@ var updateUserInfo = function(item, _item, cb) {
 
 				var _now = azbn.now_sec();
 
-				azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.log.addvkfr + "` SET success_at = '" + (- _now) + "' WHERE id = '" + _item.id + "'", function (_err, uresult) {
+				var ids_str = resp.response.join(',');
+
+				azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.log.addvkfr + "` SET success_at = '" + _now + "' WHERE user_id = '" + item.user_id + "' AND success_at = 0 AND to_user_id IN (" + ids_str + ")", function (_err, uresult) {
 					cb();
 				});
 
@@ -57,83 +59,6 @@ var updateUserInfo = function(item, _item, cb) {
 	}
 
 }
-
-var findBadFriends = function(item, cb) {
-
-	var acc = azbn.mdl('vk').account(item);
-
-	if(acc) {
-
-		var _now = azbn.now_sec();
-		var _moment__border__9d = _now - (9 * 24 * 60 * 60);
-		var _next = 30 + Math.floor(Math.random() * (180 + 1 - 30)) + _now;
-
-		azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.unaddvkfr + "` SET lastact = '" + _next + "' WHERE user_id = '" + item.user_id + "'", function (_err, uresult) {
-			//cb();
-		});
-
-		azbn.mdl('mysql').query("" +
-			"SELECT `" +
-				"* " +
-			"FROM `" +
-				"`" + azbn.mdl('cfg').mysql.t.log.addvkfr + "`" +
-			"WHERE " +
-				"user_id = '" + item.user_id + "' " +
-				"AND " +
-				"created_at < '" + _moment__border__9d + "' " +
-				"AND " +
-				"success_at = '0' " +
-			"ORDER BY " +
-				"RAND() " +
-			"LIMIT 1 " +
-			"", function(_err, rows, fields) {
-
-			if (_err) {
-
-				azbn.mdl('winston').error(_err);
-
-				cb();
-
-			} else if(rows.length == 0) {
-
-				cb();
-
-			} else {
-
-				var async_arr = [];
-
-				for(var i = 0; i < rows.length; i++) {
-
-					(function(_item){
-
-						async_arr.push(function(callback){
-
-							updateUserInfo(item, _item, function(){
-								azbn.sleep(azbn.mdl('cfg').taskq_pause);
-								callback(null, null);
-							});
-
-						});
-
-					})(rows[i]);
-
-				}
-
-				azbn.mdl('async').series(async_arr, function (__err, __results) {
-					cb();
-				});
-
-			}
-
-		});
-
-	} else {
-
-		cb();
-
-	}
-
-};
 
 azbn.mdl('mysql').connect(function(err){
 
@@ -150,7 +75,7 @@ azbn.mdl('mysql').connect(function(err){
 		azbn.mdl('vk').loadApps(function(){
 
 			var _now = azbn.now_sec();
-			var _moment__border__10min = _now - (10 * 60);
+			var _moment__border__20min = _now - (20 * 60);
 
 			azbn.mdl('mysql').query("" +
 				"SELECT `" +
@@ -164,19 +89,19 @@ azbn.mdl('mysql').connect(function(err){
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".* " +
 				"FROM `" +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.unaddvkfr + "` " +
+					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "` " +
 				"WHERE " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.unaddvkfr + "`" + ".lastact < '" + _moment__border__10min + "' " +
+					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`" + ".lastact < '" + _moment__border__20min + "' " +
 					"AND " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".stop_at > '" + _now + "' " +
 					"AND " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".user_id =  " + "`" + azbn.mdl('cfg').mysql.t.vk.unaddvkfr + "`" + ".user_id " +
+					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".user_id =  " + "`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`" + ".user_id " +
 					"AND " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`" + ".app_id = '" + app_id + "' " +
 					"AND " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.unaddvkfr + "`" + ".status = '1' " +
+					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`" + ".status = '1' " +
 				"ORDER BY " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.unaddvkfr + "`" + ".lastact " +
+					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`" + ".lastact " +
 				"", function(_err, rows, fields) {
 
 				if (_err) {
@@ -203,7 +128,7 @@ azbn.mdl('mysql').connect(function(err){
 
 							async_arr.push(function(callback){
 
-								findBadFriends(item, function(){
+								updateUserInfo(item, function(){
 									azbn.sleep(azbn.mdl('cfg').taskq_pause);
 									callback(null, null);
 								});
