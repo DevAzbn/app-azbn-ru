@@ -36,12 +36,12 @@ var updateUserInfo = function(item, cb) {
 				azbn.mdl('vk').saveError(resp.error, __filename, cb);
 				
 			} else {
-				
+
+				var _now = azbn.now_sec();
+
 				resp.response.forEach(function(user){
 					
 					var p = JSON.stringify(user);
-
-					var _now = azbn.now_sec();
 					
 					azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.userinfo + "` SET lastact = '" + _now + "', p = '" + p + "' WHERE id = '" + item.id + "'", function (_err, _result) {
 						cb();
