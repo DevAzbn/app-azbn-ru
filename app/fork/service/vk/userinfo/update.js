@@ -90,8 +90,8 @@ azbn.mdl('mysql').connect(function(err){
 					"`" + azbn.mdl('cfg').mysql.t.vk.userinfo + "`.lastact < '" + _moment__border__1day + "' " +
 					"AND " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`.user_id = `" + azbn.mdl('cfg').mysql.t.vk.userinfo + "`.user_id " +
-				"GROUP BY " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.userinfo + "`.user_id " +
+				//"GROUP BY " +
+				//	"`" + azbn.mdl('cfg').mysql.t.vk.userinfo + "`.user_id " +
 				"ORDER BY " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.userinfo + "`.lastact " +
 				"", function(_err, rows, fields) {

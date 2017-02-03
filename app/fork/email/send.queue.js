@@ -47,9 +47,11 @@ azbn.mdl('mysql').connect(function(err){
 				if (_err) {
 
 					azbn.mdl('winston').warn('Error on search emails in queue: ' + _err);
-
-					azbn.mdl('fork').killMe(process, 0, {
-						error : _err,
+					
+					azbn.mdl('error').save(module.filename.split('/').slice(-2).join('/'), _err, function(){
+						azbn.mdl('fork').killMe(process, 0, {
+							error : _err,
+						});
 					});
 
 				} else if(rows.length == 0) {
@@ -74,8 +76,10 @@ azbn.mdl('mysql').connect(function(err){
 									if (__err) {
 
 										azbn.mdl('winston').warn('Error on read tpl: ' + __err);
-
-										callback(null, null);
+										
+										azbn.mdl('error').save(module.filename.split('/').slice(-2).join('/'), __err, function(){
+											callback(null, null);
+										});
 
 									} else {
 
@@ -115,10 +119,24 @@ azbn.mdl('mysql').connect(function(err){
 					}
 
 					azbn.mdl('async').series(async_arr, function (__err, __results) {
-						azbn.mdl('fork').killMe(process, 0, {
-							error : __err,
-							results : __results,
-						});
+						
+						if(__err) {
+							
+							azbn.mdl('error').save(module.filename.split('/').slice(-2).join('/'), __err, function(){
+								azbn.mdl('fork').killMe(process, 0, {
+									error : __err,
+									results : __results,
+								});
+							});
+							
+						} else {
+							
+							azbn.mdl('fork').killMe(process, 0, {
+								results : __results,
+							});
+							
+						}
+						
 					});
 
 				}

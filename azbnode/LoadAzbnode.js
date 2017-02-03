@@ -30,6 +30,7 @@ module.exports = function(p) {
 	}
 	
 	azbn.load('azbnodeevents', new require(__dirname + '/azbnodeevents')(azbn));
+	azbn.load('error', new require(__dirname + '/azbnodeerror')(azbn));
 	azbn.load('timing', new require(__dirname + '/azbnodetiming')(azbn));
 	azbn.load('fork', new require(__dirname + '/azbnodeforkclient')(azbn));
 	azbn.load('cli', new require(__dirname + '/azbnodecliclient')(azbn));
