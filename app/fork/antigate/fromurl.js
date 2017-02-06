@@ -17,7 +17,7 @@ var azbn = require('./../../../azbnode/LoadAzbnode')({
 
 var data = azbn.mdl('fork').parseCliData(process.argv);
 
-var captcha_url = 'http://app.azbn.ru/antigate/default.captcha.png';//data.url;
+var captcha_url = data.captcha_url;//'http://app.azbn.ru/antigate/default.captcha.png';//
 
 azbn.mdl('antigate').processFromURL(captcha_url, function(error, result, id) {
 	
@@ -25,9 +25,19 @@ azbn.mdl('antigate').processFromURL(captcha_url, function(error, result, id) {
 		
 		azbn.mdl('winston').error(error);
 		
+		azbn.mdl('fork').killMe(process, 0, {
+			error : error,
+			captcha : null,
+		});
+		
 	} else {
 		
-		azbn.mdl('winston').info(id + ': ' + result);
+		azbn.mdl('fork').killMe(process, 0, {
+			captcha : {
+				id : id,
+				result : result,
+			},
+		});
 		
 	}
 	
