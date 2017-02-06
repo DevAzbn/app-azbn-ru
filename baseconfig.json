@@ -80,5 +80,8 @@
 				"invite2gr" :	2160,
 				"unaddvkfr" :	2160
 		}
+	},
+	"antigate" : {
+		"key" : "ffa1a487e90f7cae08eefbf5e3df99b8"
 	}
 }
