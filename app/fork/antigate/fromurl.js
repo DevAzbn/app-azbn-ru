@@ -17,7 +17,7 @@ var azbn = require('./../../../azbnode/LoadAzbnode')({
 
 var data = azbn.mdl('fork').parseCliData(process.argv);
 
-var captcha_url = data.url;
+var captcha_url = 'http://app.azbn.ru/antigate/default.captcha.png';//data.url;
 
 azbn.mdl('antigate').processFromURL(captcha_url, function(error, result, id) {
 	
