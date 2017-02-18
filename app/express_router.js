@@ -34,6 +34,14 @@ function _(azbn) {
 	azbn.mdl('express').get('/admin/app/fork/list/',				(new require('./route/admin/app/fork/list')(azbn)));
 	
 	/*
+	azbn.mdl('express').get('/event/:year/:month/:day/',				(new require('./route/event/item/get')(azbn)));
+	azbn.mdl('express').post('/event/:year/:month/:day/',				(new require('./route/event/item/post')(azbn)));
+	azbn.mdl('express').put('/event/:year/:month/:day/',				(new require('./route/event/item/put')(azbn)));
+	azbn.mdl('express').delete('/event/:year/:month/:day/',				(new require('./route/event/item/delete')(azbn)));
+	
+	
+	
+	
 	var NeDB = require('nedb');
 	
 	azbn.load('nedb.entity', new NeDB({filename : azbn.mdl('cfg').path.app + '/nedb/entity.nedb'}));
