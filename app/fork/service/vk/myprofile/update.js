@@ -35,7 +35,7 @@ var updateUserInfo = function(item, cb) {
 
 			if(azbn.is_def(resp.error) && !azbn.is_null(resp.error)) {
 
-				azbn.mdl('vk').saveError(resp.error, __filename, cb);
+				azbn.mdl('vk').saveError(app_id, item.user_id, resp.error, cb);
 
 			} else {
 

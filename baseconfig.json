@@ -47,7 +47,7 @@
 			"vk" : {
 				"app" :					"nodejs_vk_app",
 				"token" :				"nodejs_vk_token",
-				"error" :				"nodejs_vk_error",
+				"error" :				"nodejs_vk_error2",
 				"userinfo" :			"nodejs_vk_userinfo",
 				"userhistory" :			"nodejs_vk_userhistory",
 				"addvkfr" : 			"nodejs_vk_addvkfr",
@@ -76,9 +76,10 @@
 		"version"		:		"5.60",
 		"language"		:		"ru",
 		"period"		:		{
-				"addvkfr" :		2160,
-				"invite2gr" :	2160,
-				"unaddvkfr" :	2160
+				"addvkfr"		:	2160,
+				"invite2gr"		:	2160,
+				"unaddvkfr"		:	2160,
+				"on_auth_error"	:	216000
 		}
 	},
 	"antigate" : {
