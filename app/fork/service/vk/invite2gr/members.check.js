@@ -19,6 +19,82 @@ var azbn = require('./../../../../../azbnode/LoadAzbnode')({
 var data = azbn.mdl('fork').parseCliData(process.argv);
 
 
+var mainRequest = function(item, cb){
+	
+	var _now = azbn.now_sec();
+	var _lastact = 30 + Math.floor(Math.random() * (180 + 1 - 30)) + _now;
+	var __moment__10days = _now - (azbn.mdl('cfg').vk.period.border10days);
+	
+	azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = '" + _lastact + "' WHERE user_id = '" + item.user_id + "'", function (__err, __result) {});
+	
+	var acc = azbn.mdl('vk').account(item);
+	
+	if(acc) {
+		
+		azbn.mdl('mysql').query("" +
+			"SELECT " +
+				"* " +
+			"FROM " +
+				"`" + azbn.mdl('cfg').mysql.t.log.invite2gr + "` " +
+			"WHERE " +
+				"1 " +
+				"AND " +
+				"(user_id = '" + item.user_id + "') " +
+				"AND " +
+				"(created_at > '" + __moment__10days + "') " +
+				"AND " +
+				"(success_at = '0') " +
+			"ORDER BY " +
+					"created_at " +
+		"", function(_err, rows, fields) {
+			
+			if (_err) {
+				
+				azbn.mdl('winston').error(_err);
+				
+				cb();
+				
+			} else if(rows.length == 0) {
+				
+				cb();
+				
+			} else {
+				
+				//cb();
+				
+				item.p = JSON.parse(item.p) || {};
+				
+				var ids_arr = [];
+				var ids_arr_str = '';
+				
+				rows.forEach(function(_inv){
+					
+					ids_arr.push(_inv.to_user_id);
+					
+				});
+				
+				ids_arr_str = ids_arr.join(',');
+				
+				var req = {
+					group_id : item.p.group_id,
+					user_ids : ids_arr_str,
+				};
+				
+				//console.log(req);
+				
+			}
+			
+		});
+		
+	} else {
+		
+		cb();
+		
+	}
+	
+}
+
+
 azbn.mdl('mysql').connect(function(err){
 	
 	if(err) {
@@ -42,25 +118,25 @@ azbn.mdl('mysql').connect(function(err){
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`.app_id, " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`.user_id, " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`.access_token, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`.lastact, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`.p " +
+					"`" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "`.lastact, " +
+					"`" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "`.p " +
 				"FROM " +
 					"`" + azbn.mdl('cfg').mysql.t.vk.token + "`, " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "` " +
+					"`" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` " +
 				"WHERE " +
 					"1 " +
-					"AND " +
-					"(`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`.lastact < '" + _moment__border__1iteration + "') " +
+					//"AND " +
+					//"(`" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "`.lastact < '" + _moment__border__1iteration + "') " +
 					"AND " +
 					"(`" + azbn.mdl('cfg').mysql.t.vk.token + "`.stop_at > '" + _now + "') " +
 					"AND " +
-					"(`" + azbn.mdl('cfg').mysql.t.vk.token + "`.user_id = `" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`.user_id) " +
+					"(`" + azbn.mdl('cfg').mysql.t.vk.token + "`.user_id = `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "`.user_id) " +
 					"AND " +
 					"(`" + azbn.mdl('cfg').mysql.t.vk.token + "`.app_id = '" + app_id + "') " +
 					"AND " +
-					"(`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`.status = '1') " +
+					"(`" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "`.status = '1') " +
 				"ORDER BY " +
-					"`" + azbn.mdl('cfg').mysql.t.vk.addvkfr + "`.lastact" +
+					"`" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "`.lastact" +
 				"", function(_err, rows, fields) {
 				
 				if (_err) {
@@ -87,13 +163,15 @@ azbn.mdl('mysql').connect(function(err){
 							
 							async_arr.push(function(callback){
 								
-								callback(null, null);
-								/*
+								//azbn.sleep(azbn.mdl('cfg').taskq_pause);
+								//console.log(item);
+								//callback(null, null);
+								
 								mainRequest(item, function(){
 									azbn.sleep(azbn.mdl('cfg').taskq_pause);
 									callback(null, null);
 								});
-								*/
+								
 								
 							});
 							

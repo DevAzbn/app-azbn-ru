@@ -65,7 +65,7 @@ var findBadFriends = function(item, cb) {
 	if(acc) {
 
 		var _now = azbn.now_sec();
-		var _moment__border__9d = _now - (9 * 24 * 60 * 60);
+		var _moment__border__10d = _now - (azbn.mdl('cfg').vk.period.border10days);
 		var _next = 30 + Math.floor(Math.random() * (180 + 1 - 30)) + _now;
 
 		azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.unaddvkfr + "` SET lastact = '" + _next + "' WHERE user_id = '" + item.user_id + "'", function (_err, uresult) {
@@ -80,7 +80,7 @@ var findBadFriends = function(item, cb) {
 			"WHERE " +
 				"user_id = '" + item.user_id + "' " +
 				"AND " +
-				"created_at < '" + _moment__border__9d + "' " +
+				"created_at < '" + _moment__border__10d + "' " +
 				"AND " +
 				"success_at = '0' " +
 			"ORDER BY " +
