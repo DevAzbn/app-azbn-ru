@@ -83,9 +83,6 @@ var needInviteship = function(item, req, cb) {
 			
 			azbn.mdl('mysql').query("INSERT INTO `" + azbn.mdl('cfg').mysql.t.log.invite2gr + "` SET ? ", to_log, function(err, result) {
 				
-				item.p.friends.splice(rand,1);
-				item.p = JSON.stringify(item.p);
-				
 				azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET p = '" + item.p + "' WHERE user_id = '" + item.user_id + "'", function (_err, _result) {
 					cb();
 				});
@@ -117,7 +114,7 @@ var mainRequest = function(item, cb){
 			var min = 0;
 			var rand = min + Math.floor(Math.random() * (max + 1 - min));
 			
-			var user_id = items.p.friends[rand];
+			var user_id = item.p.friends[rand];
 			
 			var req = {
 				group_id : item.p.group_id,
@@ -125,6 +122,8 @@ var mainRequest = function(item, cb){
 			};
 			
 			//delete items.p.friends[rand];
+			item.p.friends.splice(rand,1);
+			item.p = JSON.stringify(item.p);
 			
 			needInviteship(item, req, cb);
 			
