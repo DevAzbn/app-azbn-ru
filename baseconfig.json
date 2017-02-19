@@ -80,7 +80,7 @@
 				"invite2gr"		:	2160,
 				"unaddvkfr"		:	2160,
 				"border10days"	:	864000,
-				"on_auth_error"	:	216000
+				"on_auth_error"	:	14400
 		}
 	},
 	"antigate" : {

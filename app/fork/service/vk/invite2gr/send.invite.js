@@ -33,7 +33,7 @@ var needInviteship = function(item, req, cb) {
 				
 				case 5 : {
 					
-					azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = lastact + " + azbn.mdl('cfg').vk.period.on_auth_error + " WHERE user_id = '" + item.user_id + "'", cb);
+					azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = lastact + " + azbn.mdl('cfg').vk.period.on_auth_error + ", status = '0' WHERE user_id = '" + item.user_id + "'", cb);
 					
 				}
 				break;
@@ -100,7 +100,7 @@ var mainRequest = function(item, cb){
 	
 	var _lastact = 30 + Math.floor(Math.random() * (180 + 1 - 30)) + azbn.now_sec();
 	
-	azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = '" + _lastact + "' WHERE user_id = '" + item.user_id + "'", function (__err, __result) {});
+	azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = '" + _lastact + "', status = '0' WHERE user_id = '" + item.user_id + "'", function (__err, __result) {});
 	
 	var acc = azbn.mdl('vk').account(item);
 	

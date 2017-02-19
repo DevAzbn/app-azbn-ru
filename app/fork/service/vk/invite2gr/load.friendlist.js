@@ -38,7 +38,7 @@ var mainRequest = function(item, cb){
 			if(azbn.is_def(resp.error) && !azbn.is_null(resp.error)) {
 				
 				if(resp.error.error_code == 5) {
-					azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = lastact + " + azbn.mdl('cfg').vk.period.on_auth_error + " WHERE user_id = '" + item.user_id + "'", null);
+					azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = lastact + " + azbn.mdl('cfg').vk.period.on_auth_error + ", status = '0' WHERE user_id = '" + item.user_id + "'", null);
 				}
 				
 				azbn.mdl('vk').saveError(app_id, item.user_id, resp.error, cb);
@@ -59,7 +59,7 @@ var mainRequest = function(item, cb){
 						if(azbn.is_def(resp2.error) && !azbn.is_null(resp2.error)) {
 							
 							if(resp2.error.error_code == 5) {
-								azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = lastact + " + azbn.mdl('cfg').vk.period.on_auth_error + " WHERE user_id = '" + item.user_id + "'", null);
+								azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = lastact + " + azbn.mdl('cfg').vk.period.on_auth_error + ", status = '0' WHERE user_id = '" + item.user_id + "'", null);
 							}
 							
 							azbn.mdl('vk').saveError(app_id, item.user_id, resp2.error, cb);
