@@ -80,6 +80,42 @@ var mainRequest = function(item, cb){
 					user_ids : ids_arr_str,
 				};
 				
+				acc.request('groups.isMember', req, function(resp) {
+					
+					if(azbn.is_def(resp.error) && !azbn.is_null(resp.error)) {
+						
+						if(resp.error.error_code == 5) {
+							azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = lastact + " + azbn.mdl('cfg').vk.period.on_auth_error + " WHERE user_id = '" + item.user_id + "'", null);
+						}
+						
+						azbn.mdl('vk').saveError(app_id, item.user_id, resp.error, cb);
+						
+					} else {
+						
+						if(resp.response.length) {
+							
+							var items = [];
+							for(var i in resp.response) {
+								var pr = resp.response[i];
+								if(pr.member) {
+									items.push(pr.user_id);
+								} else {
+									
+								}
+							}
+							
+							var items_str = items.join(',');
+							
+							azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.log.invite2gr + "` SET success_at = '" + azbn.now_sec() + "' WHERE user_id = '" + item.user_id + "' AND to_user_id IN (" + items_str + ") AND success_at = 0", function (__err, __result) {
+								cb();
+							});
+							
+						}
+						
+					}
+					
+				});
+				
 				//console.log(req);
 				
 			}
