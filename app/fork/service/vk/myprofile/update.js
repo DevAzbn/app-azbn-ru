@@ -51,19 +51,19 @@ var updateUserInfo = function(item, cb) {
 						p : p,
 					};
 
-					if(user.counters.friends) {
+					if(user.counters && user.counters.friends) {
 						item.counters_friends = user.counters.friends;
 					} else {
 						item.counters_friends = 0;
 					}
 
-					if(user.counters.followers) {
+					if(user.counters && user.counters.followers) {
 						item.counters_followers = user.counters.followers;
 					} else {
 						item.counters_followers = 0;
 					}
 
-					if(user.counters.subscriptions) {
+					if(user.counters && user.counters.subscriptions) {
 						item.counters_subscriptions = user.counters.subscriptions;
 					} else {
 						item.counters_subscriptions = 0;
