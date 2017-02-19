@@ -24,23 +24,63 @@ function createVK(azbn) {
 			
 			if(error.error_code == 5) {
 				
-				var item = {
-					created_at : azbn.now_sec(),
-					sended_at : 0,
-					status : 0,
-					uid : 'service.vk.error.5.notify',
-					email : msg.email,
-					subject : 'Токен аккаунта недействителен. Работы по аккаунту заморожены',
-					tpl : azbn.mdl('path').normalize(__dirname + '/email/tpl/service/vk/token.freezed.' + app_id + '.html'),
-					p : JSON.stringify({
-						user_id : user_id,
-					}),
-				};
-				
-				azbn.mdl('mysql').query("INSERT INTO `" + azbn.mdl('cfg').mysql.t.email.queue + "` SET ? ", item, function(___err, ___result) {
-					if(cb) {
-						cb();
-					}
+				azbn.mdl('mysql').query("" +
+					"SELECT " +
+						"`" + azbn.mdl('cfg').mysql.t.profile + "`.* " +
+					"FROM " +
+						"`" + azbn.mdl('cfg').mysql.t.vk.token + "`, " +
+						"`" + azbn.mdl('cfg').mysql.t.profile + "` " +
+					"WHERE " +
+						"1 " +
+						"AND " +
+						"`" + azbn.mdl('cfg').mysql.t.vk.token + "`.profile = `" + azbn.mdl('cfg').mysql.t.profile + "`.id " +
+						"AND " +
+						"`" + azbn.mdl('cfg').mysql.t.vk.token + "`.app_id = '" + app_id + "' " +
+						"AND " +
+						"`" + azbn.mdl('cfg').mysql.t.vk.token + "`.user_id = '" + user_id + "' " +
+					"LIMIT " +
+						"1 " +
+					"", function(_err, rows, fields) {
+
+						if (_err) {
+
+							azbn.mdl('winston').warn('Error on search emails in queue: ' + _err);
+
+							cb();
+
+						} else if(rows.length > 0) {
+							
+							rows.forEach(function(_profile){
+								
+								var item = {
+									created_at : azbn.now_sec(),
+									sended_at : 0,
+									status : 0,
+									uid : 'service.vk.error.5.token.freezed',
+									email : _profile.email,
+									subject : 'Токен аккаунта недействителен. Работы по аккаунту заморожены',
+									tpl : azbn.mdl('path').normalize(__dirname + '/email/tpl/service/vk/token.freezed.' + app_id + '.html'),
+									p : JSON.stringify({
+										user_id : user_id,
+									}),
+								};
+								
+								azbn.mdl('mysql').query("INSERT INTO `" + azbn.mdl('cfg').mysql.t.email.queue + "` SET ? ", item, function(_err, _result) {
+									
+									if(cb) {
+										cb();
+									}
+									
+								});
+								
+							});
+							
+						} else {
+							
+							cb();
+							
+						}
+					
 				});
 				
 			} else if(cb) {
