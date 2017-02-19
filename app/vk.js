@@ -21,9 +21,34 @@ function createVK(azbn) {
 		};
 		
 		azbn.mdl('mysql').query("INSERT INTO `" + azbn.mdl('cfg').mysql.t.vk.error + "` SET ? ", error, function(__err, __result) {
-			if(cb) {
+			
+			if(error.error_code == 5) {
+				
+				var item = {
+					created_at : azbn.now_sec(),
+					sended_at : 0,
+					status : 0,
+					uid : 'service.vk.error.5.notify',
+					email : msg.email,
+					subject : 'Токен аккаунта недействителен. Работы по аккаунту заморожены',
+					tpl : azbn.mdl('path').normalize(__dirname + '/email/tpl/service/vk/token.freezed.' + app_id + '.html'),
+					p : JSON.stringify({
+						user_id : user_id,
+					}),
+				};
+				
+				azbn.mdl('mysql').query("INSERT INTO `" + azbn.mdl('cfg').mysql.t.email.queue + "` SET ? ", item, function(___err, ___result) {
+					if(cb) {
+						cb();
+					}
+				});
+				
+			} else if(cb) {
+				
 				cb();
+				
 			}
+			
 		});
 		
 	}
