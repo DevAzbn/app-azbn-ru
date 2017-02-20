@@ -21,8 +21,8 @@ function _(azbn) {
 	}));
 	
 	
-	//azbn.mdl('express').get('/api/call/',				(new require(cfg.path.app + '/route/api/get')(azbn)));
-	//azbn.mdl('express').post('/api/call/',				(new require(cfg.path.app + '/route/api/post')(azbn)));
+	azbn.mdl('express').get( '/api/:ns/:service/:method/',				(new require('./route/api/get' )(azbn)));
+	azbn.mdl('express').post('/api/',				(new require('./route/api/post')(azbn)));
 	
 	azbn.mdl('express').get('/process/forever.restart/',				(new require('./route/process/forever.restart')(azbn)));
 	azbn.mdl('express').get('/process/fork/',				(new require('./route/process/fork')(azbn)));
@@ -30,6 +30,8 @@ function _(azbn) {
 	
 	azbn.mdl('express').get('/oauth2/:uid/',				(new require('./route/oauth2')(azbn)));
 	azbn.mdl('express').get('/oauth2callback/:uid/',				(new require('./route/oauth2callback')(azbn)));
+	
+	azbn.mdl('express').get('/admin/app/fork/list/',				(new require('./route/admin/app/fork/list')(azbn)));
 	
 	azbn.mdl('express').get('/admin/app/fork/list/',				(new require('./route/admin/app/fork/list')(azbn)));
 	

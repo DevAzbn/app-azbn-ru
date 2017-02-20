@@ -1,0 +1,79 @@
+<html>
+<head>
+	<title>app.azbn.ru</title>
+	
+	<script src="/js/jquery.min.js" ></script>
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	
+</head>
+<body>
+	<div class="" >
+		<form class="api__form__caller" >
+			<div>
+				<input type="text" name="user_id" value="337325345" />
+			</div>
+			<div>
+				<input type="submit" />
+			</div>
+		</form>
+	</div>
+	<div id="chart_div" class="" >
+		
+	</div>
+	<script>
+	
+	google.charts.load('current', {'packages':['corechart']});
+	
+	//google.charts.setOnLoadCallback(drawChart);
+	
+	function drawChart(jsonData) {
+		
+		var data = new google.visualization.DataTable();
+		
+		data.addColumn('number', 'x');
+		data.addColumn('number', 'friends');
+		data.addColumn('number', 'followers');
+		data.addColumn('number', 'subscriptions');
+		
+		//data.addRows(jsonData);
+		for(var i = 0; i < jsonData.length; i++) {
+			jsonData[i] = (Object.keys(jsonData[i]).map(function(key){ return jsonData[i][key]; }));
+		}
+		
+		data.addRows(jsonData);
+		
+		var options = {
+			title : 'Userhistory',
+			curveType : 'function',
+			legend : { position: 'bottom' }
+		};
+		
+		var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+		
+		chart.draw(data, options);
+		
+	}
+	
+	$(function(){
+		
+		$(document.body).on({
+			submit : function(event){
+				event.preventDefault();
+				
+				var form = $(this);
+				
+				$.get('/api/service/vk/userhistory/', form.serialize(), function(data){
+					
+					//data = JSON.parse(data);
+					
+					drawChart(data);
+					
+				});
+				
+			},
+		}, 'form.api__form__caller');
+		
+	});
+	</script>
+</body>
+</html>
