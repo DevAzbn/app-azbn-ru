@@ -100,7 +100,7 @@ var mainRequest = function(item, cb){
 	
 	var _lastact = 30 + Math.floor(Math.random() * (180 + 1 - 30)) + azbn.now_sec();
 	
-	azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = '" + _lastact + "', status = '0' WHERE user_id = '" + item.user_id + "'", function (__err, __result) {});
+	azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = '" + _lastact + "' WHERE user_id = '" + item.user_id + "'", function (__err, __result) {});
 	
 	var acc = azbn.mdl('vk').account(item);
 	
