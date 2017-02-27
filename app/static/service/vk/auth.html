@@ -38,7 +38,7 @@ var App = {
 			event.preventDefault();
 			
 			VK.Auth.login(function(resp){
-				console.log(resp);
+				console.log(JSON.stringify(resp));
 			}, 4456448);
 			
 		});
