@@ -9,6 +9,18 @@ var App = {
 	UID : 5898758,
 	key : 'wFcplMNfjRPTK6rGz5GP',
 	skey : 'd146cd3cd146cd3cd168856431d11ccf3add146d146cd3c89f2a64814df297a233563d8',
+	rights : {
+		friends : 2,
+		photos : 4,
+		audio : 8,
+		video : 16,
+		status : 1024,
+		wall : 8192,
+		offline : 65536,
+		groups : 262144,
+		stats : 1048576,
+		email : 4194304,
+	}
 };
 
 </script>
@@ -37,9 +49,50 @@ var App = {
 		$(document.body).on('click', '.service-vk-auth-btn', {}, function(event){
 			event.preventDefault();
 			
+			/*
+			{
+				"session":{
+					"mid":"14558328",
+					"sid":"186c4c39e36dde78bf9e55b3635e0cd9f51d00a9d4c6f35fc1837c2a9903085d59e1a70b27e4e8a6e7847",
+					"sig":"9ab589fc00bde990df4d8cc59ee76a4b",
+					"secret":"oauth",
+					"expire":1488227040,
+					"user":{
+						"id":"14558328",
+						"domain":"azbn_ru",
+						"href":"https://vk.com/azbn_ru",
+						"first_name":"Александр",
+						"last_name":"Зыбин","nickname":""
+					}
+				},
+				"status":"connected"
+			}
+			*/
 			VK.Auth.login(function(resp){
-				console.log(JSON.stringify(resp));
-			}, 4456448);
+				
+				if (resp.session) {
+					
+					console.log(JSON.stringify(resp));
+					
+				} else {
+					
+					//cancel btn in vk
+					
+				}
+				
+			},
+				App.rights.friends +
+				App.rights.photos +
+				App.rights.audio +
+				App.rights.video +
+				App.rights.status +
+				App.rights.wall +
+				App.rights.offline +
+				App.rights.groups +
+				App.rights.stats +
+				App.rights.email +
+				0
+			);
 			
 		});
 		
