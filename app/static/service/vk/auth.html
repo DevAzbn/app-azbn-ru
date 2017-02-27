@@ -27,7 +27,11 @@ var App = {
 </head>
 <body>
 
-<a href="#start" class="service-vk-auth-btn" onClick="VK.Auth.login()" >Авторизация</a>
+<div class="" >
+	<a href="#start" class="service-vk-auth-btn" >Авторизация</a>
+	<a href="#check" class="service-vk-auth-check-btn" >Проверить</a>
+</div>
+
 <div id="vk_api_transport"></div>
 <script type="text/javascript">
 	window.vkAsyncInit = function() {
@@ -93,6 +97,25 @@ var App = {
 				App.rights.email +
 				0
 			);
+			
+		});
+		
+		$(document.body).on('click', '.service-vk-auth-check-btn', {}, function(event){
+			event.preventDefault();
+			
+			VK.Auth.getLoginStatus(function(resp){
+				
+				if (resp.status == 'connected') {//connected not_authorized unknown
+					
+					console.log(JSON.stringify(resp));
+					
+				} else {
+					
+					//cancel btn in vk
+					
+				}
+				
+			});
 			
 		});
 		
