@@ -28,7 +28,6 @@ var App = {
 <body>
 
 <div class="" >
-	<a href="#start" class="service-vk-auth-btn" >Авторизация</a>
 	<a href="#check" class="service-vk-auth-check-btn" >Проверить</a>
 </div>
 
@@ -50,7 +49,7 @@ var App = {
 	
 	$(function(){
 		
-		$(document.body).on('click', '.service-vk-auth-btn', {}, function(event){
+		$(document.body).on('click', '.service-vk-auth-check-btn', {}, function(event){
 			event.preventDefault();
 			
 			/*
@@ -72,36 +71,6 @@ var App = {
 				"status":"connected"
 			}
 			*/
-			VK.Auth.login(function(resp){
-				
-				if (resp.session) {
-					
-					console.log(JSON.stringify(resp));
-					
-				} else {
-					
-					//cancel btn in vk
-					
-				}
-				
-			},
-				App.rights.friends +
-				App.rights.photos +
-				App.rights.audio +
-				App.rights.video +
-				App.rights.status +
-				App.rights.wall +
-				App.rights.offline +
-				App.rights.groups +
-				App.rights.stats +
-				App.rights.email +
-				0
-			);
-			
-		});
-		
-		$(document.body).on('click', '.service-vk-auth-check-btn', {}, function(event){
-			event.preventDefault();
 			
 			VK.Auth.getLoginStatus(function(resp){
 				
@@ -111,7 +80,31 @@ var App = {
 					
 				} else {
 					
-					//cancel btn in vk
+					VK.Auth.login(function(_resp){
+						
+						if (_resp.session) {
+							
+							console.log(JSON.stringify(_resp));
+							
+						} else {
+							
+							//cancel btn in vk
+							
+						}
+						
+					},
+						App.rights.friends +
+						App.rights.photos +
+						App.rights.audio +
+						App.rights.video +
+						App.rights.status +
+						App.rights.wall +
+						App.rights.offline +
+						App.rights.groups +
+						App.rights.stats +
+						App.rights.email +
+						0
+					);
 					
 				}
 				
