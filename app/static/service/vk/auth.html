@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>app.azbn.ru</title>
+
+<script src="/js/jquery.min.js" ></script>
+<script>
+
+var App = {
+	UID : 5898758,
+	key : 'wFcplMNfjRPTK6rGz5GP',
+	skey : 'd146cd3cd146cd3cd168856431d11ccf3add146d146cd3c89f2a64814df297a233563d8',
+};
+
+</script>
+</head>
+<body>
+
+<a href="#start" class="service-vk-auth-btn" onClick="VK.Auth.login()" >Авторизация</a>
+<div id="vk_api_transport"></div>
+<script type="text/javascript">
+	window.vkAsyncInit = function() {
+		VK.init({
+			apiId : App.UID,
+		});
+	};
+
+	setTimeout(function() {
+		var el = document.createElement('script');
+		el.type = 'text/javascript';
+		el.src = 'https://vk.com/js/api/openapi.js?139';
+		el.async = true;
+		document.getElementById('vk_api_transport').appendChild(el);
+	}, 0);
+	
+	$(function(){
+		
+		$(document.body).on('click', '.service-vk-auth-btn', {}, function(event){
+			event.preventDefault();
+			
+			VK.Auth.login(function(resp){
+				console.log(resp);
+			}, 4456448);
+			
+		});
+		
+	});
+</script>
+
+</body>
+</html>
