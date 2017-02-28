@@ -20,6 +20,8 @@ function _(azbn) {
 		},
 	}));
 	
+	azbn.mdl('express').get('/auth/default/',				(new require('./route/auth/default')(azbn)));
+	
 	
 	azbn.mdl('express').get( '/api/:ns/:service/:method/',				(new require('./route/api/get' )(azbn)));
 	azbn.mdl('express').post('/api/',				(new require('./route/api/post')(azbn)));

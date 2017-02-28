@@ -78,6 +78,34 @@ azbn.mdl('express').use(bodyParser.urlencoded({ extended: true }));
 // куки-парсер
 azbn.mdl('express').use(require('cookie-parser')());
 
+
+var express_session = require('express-session');
+var NeDBStore = require('connect-nedb-session')(express_session);
+
+azbn.mdl('express').set('trust proxy', 1);
+
+azbn.mdl('express').use(express_session({
+	/*
+	genid : function(req) {
+		return genuuid();
+	},
+	*/
+	name : 'azbn.app.session',
+	secret : 'azbn.secret.string',
+	resave : false,
+	saveUninitialized : false,
+	cookie : {
+		path : '/',
+		//httpOnly : true,
+		//secure : true,
+		maxAge : 1000 * 120 * 1,
+	},
+	store : new NeDBStore({
+		filename : azbn.mdl('cfg').path.app + '/nedb/sessions.nedb',
+	}),
+}));
+
+
 // перепись метода
 azbn.mdl('express').use(require('method-override')('_method'));
 
