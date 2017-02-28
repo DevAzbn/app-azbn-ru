@@ -13,6 +13,17 @@ function _(azbn) {
 			
 			var sess = req.session;
 			
+			if(sess.is) {
+				sess.is.admin = 1;
+			} else {
+				sess.is = {
+					admin : 1,
+				};
+			}
+			
+			res.send(sess.id);
+			
+			/*
 			if(sess.is_auth) {
 				sess.is_auth++;
 			} else {
@@ -20,6 +31,7 @@ function _(azbn) {
 			}
 			//sess.save(function(error){});
 			res.send('' + sess.is_auth);
+			*/
 			
 		} else {
 			
