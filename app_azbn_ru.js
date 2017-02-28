@@ -21,10 +21,10 @@ azbn.mdl('mysql').connect(function(err){
 		azbn.mdl('winston').warn('Could not connect to mysql: ' + err);
 		
 	} else {
-
-
+		
+		
 		azbn.echo_dev('DB is connected');
-
+		
 		azbn.mdl('tg').getMe().then(function(me) {
 			
 			//require(azbn.mdl('cfg').path.app + '/require/telegram/tg_getMe')(azbn, me);
@@ -35,19 +35,13 @@ azbn.mdl('mysql').connect(function(err){
 			});
 			
 		});
-
+		
 		/*
 		azbn.mdl('tg').on('message', function (msg) {
 			require(azbn.mdl('cfg').path.app + '/require/telegram/tg_on_message')(azbn, msg);
 		});
 		*/
-
-		/*
-		if(azbn.mdl('vk')) {
-			azbn.mdl('vk').loadApps();
-		}
-		*/
-
+		
 		azbn.load('intervals', require(azbn.mdl('cfg').path.app + '/intervals')(azbn));
 		
 	}
@@ -73,10 +67,8 @@ azbn.mdl('https')
 // компрессия
 azbn.mdl('express').use(require('compression')());
 
-
 // логгер
 azbn.mdl('express').use((new require(azbn.mdl('cfg').path.app + '/logger/default')(azbn)));
-
 
 // боди-парсер
 var bodyParser = require('body-parser');
@@ -86,15 +78,14 @@ azbn.mdl('express').use(bodyParser.urlencoded({ extended: true }));
 // куки-парсер
 azbn.mdl('express').use(require('cookie-parser')());
 
-
 // перепись метода
 azbn.mdl('express').use(require('method-override')('_method'));
 
-
-
 // сервер статики
 azbn.mdl('express').use(express.static(azbn.mdl('cfg').path.static, {
+	
 	index : 'index.html',
+	
 	redirect : true,
 	
 	setHeaders : function(res, path, stat){
@@ -104,9 +95,7 @@ azbn.mdl('express').use(express.static(azbn.mdl('cfg').path.static, {
 }));
 
 
-
 require(azbn.mdl('cfg').path.app + '/express_router.js')(azbn);
-
 
 
 // ошибки
