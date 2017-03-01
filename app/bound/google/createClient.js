@@ -1,10 +1,19 @@
 'use strict';
 
+// https://console.developers.google.com/apis/library?project=appazbnru
+
+/*
+
+delete require.cache[path.resolve(__dirname, 'client_id.json')];
+delete require.cache[require.resolve(module)];
+
+*/
+
 var
 	_APP_CONFIG_
 	, fs = require('fs')
 	, path = require('path')
-	, APP_KEY = '4/1PL1BGfCMe9sG1qEHLU1G_jmgAY_dUhIjNe6PVFsloQ'
+	, APP_KEY = 'AIzaSyCosaTjkMS8dqrfRRCzZ996V_gG_J7hSvo'
 	, APP_OAUTH2 = require(path.resolve(__dirname, 'client_id.json'))
 	//, APP_TOKEN_FILE = path.resolve(__dirname, 'token.json')
 ;

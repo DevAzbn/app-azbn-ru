@@ -14,7 +14,7 @@ function _(azbn) {
 			case 'youtube' : {
 				
 				var _GOOGLE_OBJECTS_
-					, googleClient = require('../../' + azbn.mdl('cfg').path.bound + '/google/createClient')
+					, googleClient = require('../../../' + azbn.mdl('cfg').path.bound + '/google/createClient')
 				;
 				
 				var scopes = [
@@ -29,7 +29,7 @@ function _(azbn) {
 					'https://www.googleapis.com/auth/calendar',
 				];
 				
-				res.redirect(301, googleClient.genAuthURL(scopes));
+				res.redirect(307, googleClient.genAuthURL(scopes));
 				
 			}
 			break;

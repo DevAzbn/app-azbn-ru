@@ -8,8 +8,8 @@ function _(azbn) {
 
 	azbn.echo_dev(log_tag + ' loaded');
 
-	azbn.mdl('express').set('views', azbn.mdl('cfg').path.app + '/jade');
-	azbn.mdl('express').set('view engine', 'jade');
+	azbn.mdl('express').set('views', azbn.mdl('cfg').path.app + '/pug');
+	azbn.mdl('express').set('view engine', 'pug');
 	
 	azbn.load('azbn-tple',  new require('azbn-tple')({
 		part_path : azbn.mdl('cfg').path.app + '/azbn-tple',
@@ -21,6 +21,8 @@ function _(azbn) {
 	}));
 	
 	azbn.mdl('express').get('/auth/default/',				(new require('./route/auth/default')(azbn)));
+	azbn.mdl('express').get('/auth/oauth2/:uid/',			(new require('./route/auth/oauth2')(azbn)));
+	azbn.mdl('express').get('/auth/oauth2callback/:uid/',	(new require('./route/auth/oauth2callback')(azbn)));
 	
 	
 	azbn.mdl('express').get( '/api/:ns/:service/:method/',				(new require('./route/api/get' )(azbn)));
@@ -29,11 +31,6 @@ function _(azbn) {
 	azbn.mdl('express').get('/process/forever.restart/',				(new require('./route/process/forever.restart')(azbn)));
 	azbn.mdl('express').get('/process/fork/',				(new require('./route/process/fork')(azbn)));
 	azbn.mdl('express').get('/process/memory/',				(new require('./route/process/memory')(azbn)));
-	
-	azbn.mdl('express').get('/oauth2/:uid/',				(new require('./route/oauth2')(azbn)));
-	azbn.mdl('express').get('/oauth2callback/:uid/',				(new require('./route/oauth2callback')(azbn)));
-	
-	azbn.mdl('express').get('/admin/app/fork/list/',				(new require('./route/admin/app/fork/list')(azbn)));
 	
 	azbn.mdl('express').get('/admin/app/fork/list/',				(new require('./route/admin/app/fork/list')(azbn)));
 	
@@ -61,7 +58,7 @@ function _(azbn) {
 	
 	azbn.mdl('express').get('/web/get/',						(new require('./route/web/get')(azbn)));
 	
-	azbn.mdl('express').get('/jade/index/',						(new require('./route/jade/index')(azbn)));
+	azbn.mdl('express').get('/pug/index/',						(new require('./route/pug/index')(azbn)));
 	
 	azbn.mdl('express').get('/azbn-tple/index/',						(new require('./route/azbn-tple/index')(azbn)));
 	azbn.mdl('express').get('/azbn-tple/version/',						(new require('./route/azbn-tple/version')(azbn)));
