@@ -27,6 +27,12 @@ var	_
 	, days = 0
 	;
 
+var createGitKeep = function(dir) {
+	dir = dir || '.';
+	var filepath = dir + '/' + '.gitkeep';
+	azbn.mdl('fs').closeSync(azbn.mdl('fs').openSync(filepath, 'w'));
+};
+
 var daysInMonth = function(y, m) {
 	y = y || new Date().getFullYear();
 	m = m !== null ? m : new Date().getMonth();
@@ -56,6 +62,8 @@ azbn.mdl('fs').access(root, azbn.mdl('fs').constants.F_OK | azbn.mdl('fs').const
 				
 			} else {
 				
+				createGitKeep(newDir);
+				
 				for(var m = 1; m < 13; m++) {
 					
 					(function(i){
@@ -81,6 +89,8 @@ azbn.mdl('fs').access(root, azbn.mdl('fs').constants.F_OK | azbn.mdl('fs').const
 								
 							} else {
 								
+								createGitKeep(_newDir);
+								
 								for(var d = 1; d < __i; d++) {
 									
 									(function(j){
@@ -102,6 +112,8 @@ azbn.mdl('fs').access(root, azbn.mdl('fs').constants.F_OK | azbn.mdl('fs').const
 												azbn.mdl('fork').killMe(process);
 												
 											} else {
+												
+												createGitKeep(__newDir);
 												
 												days++;
 												
