@@ -31,9 +31,11 @@ function AzbNodeWebClient(azbn) {
 	var ctrl = this;
 	
 	ctrl.r = function(method, url, data, cb){
-		data.method = method;
-		data.url = url;
-		request(data, cb);
+		request({
+			method : method,
+			url : url,
+			formData : data,
+		}, cb);
 	};
 	
 	/*
