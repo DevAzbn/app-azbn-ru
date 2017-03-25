@@ -19,7 +19,7 @@ console.log('---------------------');
 console.log('');
 console.log('');
 
-azbn.mdl('fork').run(argv.fork, {x : 0, y : 1}, function(_process, _result){
+azbn.mdl('fork').run(argv.fork, argv, function(_process, _result){
 	
 	if(_result.status == 0) {
 		
