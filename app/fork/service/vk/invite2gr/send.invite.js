@@ -78,6 +78,7 @@ var needInviteship = function(item, req, cb) {
 			var to_log = {
 				user_id : item.user_id,
 				to_user_id : req.user_id,
+				group_id : req.group_id,
 				created_at : azbn.now_sec(),
 			};
 			
