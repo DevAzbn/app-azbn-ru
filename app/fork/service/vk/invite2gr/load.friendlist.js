@@ -47,45 +47,117 @@ var mainRequest = function(item, cb){
 				
 				if(resp.response.count) {
 					
+					var friend_arr = {};
+					
+					for(var i = 0; i < resp.response.items.length; i++) {
+						
+						friend_arr[resp.response.items[i]] = 1;
+						
+					}
+					
 					var items_str = resp.response.items.join(',');
 					
-					var req2 = {
-						group_id : item.p.group_id || 39329195,
-						user_ids : items_str,
-					};
-					
-					acc.request('groups.isMember', req2, function(resp2) {
+					azbn.mdl('mysql').query("" +
+						"SELECT " +
+							"* " +
+						"FROM " +
+							"`" + azbn.mdl('cfg').mysql.t.log.invite2gr + "` " +
+						"WHERE " +
+							"1 " +
+							//azbn.mdl('cfg').mysql.t.log.invite2gr + "`
+							"AND " +
+							"`" + azbn.mdl('cfg').mysql.t.log.invite2gr + "`.user_id = '" + item.user_id + "' " +
+							"AND " +
+							"`" + azbn.mdl('cfg').mysql.t.log.invite2gr + "`.group_id = '" + (item.p.group_id || 39329195) + "' " +
+							"AND " +
+							"`" + azbn.mdl('cfg').mysql.t.log.invite2gr + "`.to_user_id IN (" + items_str + ") " +
+						"ORDER BY " +
+							"`" + azbn.mdl('cfg').mysql.t.log.invite2gr + "`.id" +
+						"", function(_err, rows, fields) {
 						
-						if(azbn.is_def(resp2.error) && !azbn.is_null(resp2.error)) {
+						if (_err) {
 							
-							if(resp2.error.error_code == 5) {
-								azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = lastact + " + azbn.mdl('cfg').vk.period.on_auth_error + ", status = '0' WHERE user_id = '" + item.user_id + "'", null);
-							}
+							azbn.mdl('winston').error(_err);
 							
-							azbn.mdl('vk').saveError(app_id, item.user_id, resp2.error, cb);
+							cb();
+							
+						} else if(rows.length == 0) {
+							
+							cb();
 							
 						} else {
 							
-							var items = [];
-							for(var i in resp2.response) {
-								var pr = resp2.response[i];
-								if(pr.member) {
-									
-								} else {
-									items.push(pr.user_id);
+							var __item_arr = [];
+							
+							for(var i = 0; i < rows.length; i++) {
+								
+								var __id = rows[i].to_user_id;
+								
+								if(friend_arr[__id]) {
+									friend_arr[__id] = 0;
+									delete friend_arr[__id];
 								}
+								
 							}
 							
-							item.p.friends = items;
-							var h_str = JSON.stringify(item.p);
+							var __friend_arr = [];
 							
-							azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET p = '" + h_str + "' WHERE user_id = '" + item.user_id + "'", function (__err, __result) { //lastact = '" + ds + "', 
-								cb();
+							for(var i in friend_arr) {
+								
+								if(friend_arr[i]) {
+									__friend_arr.push(i);
+								}
+								
+								
+							}
+							
+							var new_ids_str = __friend_arr.join(',');
+							
+							var req2 = {
+								group_id : item.p.group_id || 39329195,
+								user_ids : new_ids_str,
+							};
+							
+							acc.request('groups.isMember', req2, function(resp2) {
+								
+								if(azbn.is_def(resp2.error) && !azbn.is_null(resp2.error)) {
+									
+									if(resp2.error.error_code == 5) {
+										azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET lastact = lastact + " + azbn.mdl('cfg').vk.period.on_auth_error + ", status = '0' WHERE user_id = '" + item.user_id + "'", null);
+									}
+									
+									azbn.mdl('vk').saveError(app_id, item.user_id, resp2.error, cb);
+									
+								} else {
+									
+									var items = [];
+									for(var i in resp2.response) {
+										var pr = resp2.response[i];
+										if(pr.member) {
+											
+										} else {
+											items.push(pr.user_id);
+										}
+									}
+									
+									item.p.friends = items;
+									var h_str = JSON.stringify(item.p);
+									
+									azbn.mdl('mysql').query("UPDATE `" + azbn.mdl('cfg').mysql.t.vk.invite2gr + "` SET p = '" + h_str + "' WHERE user_id = '" + item.user_id + "'", function (__err, __result) { //lastact = '" + ds + "', 
+										cb();
+									});
+									
+								}
+								
 							});
 							
 						}
 						
 					});
+					
+				} else {
+					
+					cb();
 					
 				}
 				
