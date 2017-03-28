@@ -41,6 +41,8 @@ var formData = {
 	'profile[promocode]' : '',
 	'profile[setup]' : '1',
 	
+	'sum[deliv_sum]' : '12345',
+	
 	'cart[7][0][amount]' : '1',
 	'cart[7][0][cost]' : '1350',
 	
