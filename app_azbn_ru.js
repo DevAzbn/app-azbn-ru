@@ -35,11 +35,13 @@ azbn.mdl('mysql').connect(function(err){
 				caption : 'Подключение к Телеграму',
 			});
 			
+			azbn.mdl('tg').on('message', function (msg) {
+				require(azbn.mdl('cfg').path.app + '/bound/tgMessage')(azbn, msg);
+			});
+			
 		});
 		
-		azbn.mdl('tg').on('message', function (msg) {
-			require(azbn.mdl('cfg').path.app + '/bound/tgMessage')(azbn, msg);
-		});
+		
 		
 		azbn.load('intervals', require(azbn.mdl('cfg').path.app + '/intervals')(azbn));
 		
