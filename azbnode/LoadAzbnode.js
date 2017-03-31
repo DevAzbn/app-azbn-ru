@@ -51,6 +51,7 @@ module.exports = function(p) {
 	(!p.mdls.include.async) ||						azbn.load('async', require('async'));
 	(!p.mdls.include.email) ||						azbn.load('email', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/email')(azbn));
 	(!p.mdls.include.antigate) ||					azbn.load('antigate', new (require('antigate'))(azbn.mdl('cfg').antigate.key));
+	(!p.mdls.include.websocket) ||					azbn.load('websocket', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/websocket')(azbn));
 	
 	
 	//azbn.load('vk', require(__dirname + '/../' + azbn.mdl('cfg').path.app + '/vk'));

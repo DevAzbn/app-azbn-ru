@@ -9,6 +9,7 @@ var azbn = require('./azbnode/LoadAzbnode')({
 				mysql : true,
 				tg : true,
 				webclient : true,
+				websocket : true,
 				//https : true,
 			},
 		},
