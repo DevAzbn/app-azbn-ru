@@ -57,24 +57,44 @@
 
 function tgMessage(azbn, msg) {
 	
+	var valid = false;
+	
 	var text = msg.text || '';
 	var author = '';
 	
-	if(msg.chat.type == 'private') {
-		author = msg.from.first_name + ' ' + msg.from.last_name;
-	} else if(msg.chat.type == 'group') {
-		author = msg.from.first_name + ' ' + msg.from.last_name + '@' + msg.chat.title;
+	if(text.indexOf('/azbn') == 0) {
+		
+		valid = true;
+		
+	} else if(msg.chat.type == 'private') {
+		
+		valid = true;
+		
+	} else {
+		
 	}
+	
+	if(valid) {
+		
+		author = msg.from.first_name + ' ' + msg.from.last_name;
+		
+		if(msg.chat.type == 'private') {
+			
+		} else if(msg.chat.type == 'group') {
+			author = author + '@' + msg.chat.title;
+		}
+		
+		azbn.mdl('websocket').sockets.emit('messageToClients', msg.text, author);
+		
+	}
+	
+	/*
+	
+	//azbn.mdl('winston').info('Msg from Tg ' + msg.text);
 	
 	azbn.mdl('websocket').sockets.emit('messageToClients', msg.text, author);
 	
-	/*
-	if(text.indexOf('/app') == 0) {
-		azbn.mdl('winston').info('Msg from Tg ' + msg.text);
-	}
 	*/
-	
-	
 }
 
 module.exports = tgMessage;
