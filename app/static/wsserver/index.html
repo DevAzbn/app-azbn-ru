@@ -23,7 +23,7 @@ $(function(){
 		$('textarea').val($('textarea').val() + userName + ' connected!\n'); // Это событие было отправлено всем кроме только подключенного, по этому мы пишем другим юзерам в поле что 'подключен новый юзер' с его ником
 	});
 	
-	socket.on('messageToClients', function(msg, name){
+	socket.on('message.text', function(msg, name){
 		console.log(name + ' | => ' + msg); // Логгирование в консоль браузера
 		$('textarea').val($('textarea').val() + name + ' : '+ msg +'\n'); // Добавляем в поле для текста сообщение типа (Ник : текст)
 	});

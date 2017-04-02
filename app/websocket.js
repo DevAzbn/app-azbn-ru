@@ -17,11 +17,11 @@ var createWebSocketServer = function(azbn) {
 		//logger.info(name + ' connected to chat!'); // Логгирование
 		
 		
-		socket.on('message', function(msg){ // Обработчик на событие 'message' и аргументом (msg) из переменной message
+		socket.on('message.text', function(msg){ // Обработчик на событие 'message' и аргументом (msg) из переменной message
 			//logger.warn('-----------'); // Logging
 			//logger.warn('User: ' + name + ' | Message: ' + msg);
 			//logger.warn('====> Sending message to other chaters...');
-			io.sockets.emit('messageToClients', msg, name); // Отправляем всем сокетам событие 'messageToClients' и отправляем туда же два аргумента (текст, имя юзера)
+			io.sockets.emit('message.text', msg, name); // Отправляем всем сокетам событие 'messageToClients' и отправляем туда же два аргумента (текст, имя юзера)
 		});
 		
 		
