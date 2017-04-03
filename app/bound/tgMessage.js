@@ -33,6 +33,8 @@ function tgMessage(azbn, msg) {
 			
 		} else if(msg.chat.type == 'group') {
 			author = author + '@' + msg.chat.title;
+		} else if(msg.chat.type == 'supergroup') {
+			author = author + '@' + msg.chat.title;
 		}
 		
 		azbn.mdl('websocket').sockets.emit('message.text', msg.text, author);
