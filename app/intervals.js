@@ -46,8 +46,8 @@ var createIntervals = function(azbn) {
 		var y = '' + (nowdate.getFullYear() + 0);
 		var m = '' + (nowdate.getMonth() + 1);
 		var d = '' + (nowdate.getDate() + 0);
-		var h = '' + (nowdate.getHours() + 0);
-		var i = '' + (nowdate.getMinutes() + 0);
+		//var h = '' + (nowdate.getHours() + 0);
+		//var i = '' + (nowdate.getMinutes() + 0);
 		
 		if(m.length === 1) {
 			m = '0' + m;
@@ -57,6 +57,7 @@ var createIntervals = function(azbn) {
 			d = '0' + d;
 		}
 		
+		/*
 		if(h.length === 1) {
 			h = '0' + h;
 		}
@@ -64,8 +65,9 @@ var createIntervals = function(azbn) {
 		if(i.length === 1) {
 			i = '0' + i;
 		}
+		*/
 		
-		datestr = parseInt(datestr + y + m + d + h + i);
+		datestr = parseInt(datestr + y + m + d);// + h + i
 		
 		if(datestr == actualdb) {
 			
