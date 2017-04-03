@@ -1,5 +1,10 @@
+.idea/*
 node_modules/*
 reports/*
 app/static/youtube/_.js
 app/nedb/*
-.idea/*
+app/nedb/tgmessages/*
+app/nedb/express/*
+!app/nedb/.gitkeep
+!app/nedb/tgmessages/.gitkeep
+!app/nedb/express/.gitkeep

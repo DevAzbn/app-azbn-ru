@@ -42,7 +42,7 @@ module.exports = {
 	},
 	
 	get : function(name) {
-		return this.__param[name];
+		return (this.__param[name] ? this.__param[name] : null);
 	},
 	/* --------- /Параметры объекта --------- */
 	

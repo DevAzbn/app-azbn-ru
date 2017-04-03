@@ -1,8 +1,12 @@
 'use strict';
 
-
-
 function tgMessage(azbn, msg) {
+	
+	azbn.mdl('nedb.tgmessages').insert({
+		created_at : azbn.now(),
+		created_at_str : azbn.formattime(),
+		msg : msg,
+	});
 	
 	var valid = false;
 	

@@ -23,25 +23,22 @@ azbn.mdl('mysql').connect(function(err){
 		
 	} else {
 		
-		
 		azbn.echo_dev('DB is connected');
 		
 		azbn.mdl('tg').getMe().then(function(me) {
 			
 			//require(azbn.mdl('cfg').path.app + '/require/telegram/tg_getMe')(azbn, me);
 			
+			azbn.mdl('tg').on('message', function (msg) {
+				require(azbn.mdl('cfg').path.app + '/bound/tgMessage')(azbn, msg);
+			});
+			
 			azbn.mdl('tg').sendMessage(azbn.mdl('cfg').tg.log.chat_id, 'Бот ' + me.username + ' в сети', {
 				//reply_to_message_id : msg.message_id,
 				caption : 'Подключение к Телеграму',
 			});
 			
-			azbn.mdl('tg').on('message', function (msg) {
-				require(azbn.mdl('cfg').path.app + '/bound/tgMessage')(azbn, msg);
-			});
-			
 		});
-		
-		
 		
 		azbn.load('intervals', require(azbn.mdl('cfg').path.app + '/intervals')(azbn));
 		
@@ -99,10 +96,10 @@ azbn.mdl('express').use(express_session({
 		path : '/',
 		//httpOnly : true,
 		//secure : true,
-		maxAge : 1000 * 120 * 1,
+		maxAge : 1000 * 86400 * 30,
 	},
 	store : new NeDBStore({
-		filename : azbn.mdl('cfg').path.app + '/nedb/sessions.nedb',
+		filename : azbn.mdl('cfg').path.app + '/nedb/express/sessions.nedb',
 	}),
 }));
 
