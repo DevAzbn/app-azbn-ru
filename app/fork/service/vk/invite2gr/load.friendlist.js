@@ -45,7 +45,7 @@ var mainRequest = function(item, cb){
 				
 			} else {
 				
-				if(resp.response.count) {
+				if(resp.response.items.length) {
 					
 					var friend_arr = {};
 					
@@ -81,23 +81,21 @@ var mainRequest = function(item, cb){
 							
 							cb();
 							
-						} else if(rows.length == 0) {
-							
-							cb();
-							
 						} else {
 							
 							var __item_arr = [];
 							
-							for(var i = 0; i < rows.length; i++) {
-								
-								var __id = rows[i].to_user_id;
-								
-								if(friend_arr[__id]) {
-									friend_arr[__id] = 0;
-									delete friend_arr[__id];
+							if(rows.length > 0) {
+								for(var i = 0; i < rows.length; i++) {
+									
+									var __id = rows[i].to_user_id;
+									
+									if(friend_arr[__id]) {
+										friend_arr[__id] = 0;
+										delete friend_arr[__id];
+									}
+									
 								}
-								
 							}
 							
 							var __friend_arr = [];
