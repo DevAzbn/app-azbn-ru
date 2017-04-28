@@ -8,7 +8,7 @@ module.exports = {
 	name : 'AzbNode',
 	
 	isDev : function(dev) {
-		this.__is_dev = dev || true;
+		this.__is_dev = this.is_def(dev) ? dev : true;
 	},
 	
 	echo : function(text, tag) {
@@ -58,7 +58,7 @@ module.exports = {
 	
 	/* --------- Проверка на существование переменных и значений --------- */
 	is_def : function(v) {
-		if(v == undefined || typeof v == "undefined") {
+		if(v == undefined || typeof v == 'undefined') {
 			return false;
 		} else {
 			return true;
