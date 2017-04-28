@@ -21,12 +21,16 @@ module.exports = {
 		}
 	},
 	
-	len :function(arr) {
+	len : function(arr) {
 		if(this.is_def(arr) && !this.is_null(arr)) {
 			return arr.length;
 		} else {
 			return 0;
 		}
+	},
+	
+	randstr : function(l) {
+		return (Math.random().toString(l || 36).split('.'))[1];
 	},
 	
 	
