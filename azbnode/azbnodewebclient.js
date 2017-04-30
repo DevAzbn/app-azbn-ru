@@ -1,6 +1,4 @@
-/*
-запросы http(s) AzbNode
-*/
+'use strict';
 
 var request = require('request').defaults({
 		headers: {

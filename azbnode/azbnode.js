@@ -1,7 +1,10 @@
+'use strict';
+
 module.exports = {
 	__param : {},
 	__argv : {},
 	__mdl : {},
+	__hlp : {},
 	__event : {},
 	__is_dev : false,
 	
@@ -160,51 +163,5 @@ module.exports = {
 		return this.__mdl[name];
 	},
 	/* --------- /Модули --------- */
-	
-	
-	/* --------- События --------- */
-	
-	regEvent : function(name, uid, fnc) {
-		if(this.is_def(this.__event[name])) {
-			
-		} else {
-			this.__event[name] = {};
-		}
-		//return this.__event[name].push(fnc);
-		this.__event[name][uid] = fnc;
-		return this.len(this.__event[name]);
-	},
-	event : function(name, prm) {
-		if(this.is_def(this.__event[name])) {
-			/*
-			for (var i = 0; i < this.len(this.__event[name]); i++) {
-				var code = this.__event[name][i];
-				code(prm);
-			}
-			*/
-			/*
-			this.__event[name].forEach(function(code, i, functions){
-				code(prm);
-			});
-			*/
-			for(var uid in this.__event[name]) {
-				if(this.is_func(this.__event[name][uid])) {
-					this.__event[name][uid](prm);
-				}
-			}
-		}
-	},
-	unregEvent : function(name, uid) {
-		if(this.is_def(this.__event[name][uid]) && !this.is_null(this.__event[name][uid])) {
-			delete this.__event[name][uid];
-		}
-	},
-	clearEvent : function(name) {
-		this.__event[name] = [];
-	}
-	
-	/* --------- /События --------- */
-	
-	
 	
 };

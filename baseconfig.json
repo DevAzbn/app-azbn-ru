@@ -8,7 +8,8 @@
 		"app" : "./app",
 		"static" : "./app/static",
 		"fork" : "./app/fork",
-		"bound" : "./app/bound"
+		"bound" : "./app/bound",
+		"helper" : "./app/helper"
 	},
 	"cert" : {
 		"key" : "./cert/private.key",
@@ -27,7 +28,8 @@
 		}
 	},
 	"taskq_pause" : 350,
-  	"base_interval" : 7777,
+	"base_interval" : 7777,
+	"helper_ttl" : 1000000,
 	"mysql" : {
 		"host" : "localhost",
 		"user" : "app_azbn_ru",
