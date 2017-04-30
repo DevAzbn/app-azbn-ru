@@ -18,6 +18,7 @@ function _(azbn) {
 			lt : localtime
 		}
 		*/
+		q.ip = req.ip;
 		
 		azbn.mdl('nedb.counter.common').insert({
 			created_at : azbn.now(),
