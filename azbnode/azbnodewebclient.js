@@ -26,7 +26,11 @@ function AzbNodeWebClient(azbn) {
 	}
 	*/
 	
-	var ctrl = {};
+	var ctrl = {
+		r : null,
+		parse : null,
+		selfAPI : null,
+	};
 	
 	ctrl.r = function(method, url, data, cb){
 		request({
