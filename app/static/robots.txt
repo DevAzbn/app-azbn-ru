@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /counter/common
+Disallow: /wp-admin
+Disallow: /wp-json
+ 
+Host: app.azbn.ru
