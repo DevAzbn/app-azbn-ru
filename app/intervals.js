@@ -85,11 +85,60 @@ var createIntervals = function(azbn) {
 		
 	};
 	
+	var __connectToCounterCommonDB = function(){
+		
+		var actualdb = azbn.get('nedb.counter.common.actualdb');
+		var datestr = '';//('' + new Date().getFullYear() + )
+		var nowdate = new Date();
+		
+		var y = '' + (nowdate.getFullYear() + 0);
+		var m = '' + (nowdate.getMonth() + 1);
+		var d = '' + (nowdate.getDate() + 0);
+		//var h = '' + (nowdate.getHours() + 0);
+		//var i = '' + (nowdate.getMinutes() + 0);
+		
+		if(m.length === 1) {
+			m = '0' + m;
+		}
+		
+		if(d.length === 1) {
+			d = '0' + d;
+		}
+		
+		/*
+		if(h.length === 1) {
+			h = '0' + h;
+		}
+		
+		if(i.length === 1) {
+			i = '0' + i;
+		}
+		*/
+		
+		datestr = parseInt(datestr + y + m + d);// + h + i
+		
+		if(datestr == actualdb) {
+			
+		} else {
+			
+			actualdb = datestr;
+			
+			azbn.set('nedb.counter.common.actualdb', actualdb);
+			
+			azbn.load('nedb.counter.common', new NeDB({filename : azbn.mdl('cfg').path.app + '/nedb/counter/common/' + actualdb + '.nedb'}));
+			azbn.mdl('nedb.counter.common').loadDatabase();
+			//azbn.mdl('nedb.entity').ensureIndex({fieldName : 'uid'});
+			
+		}
+		
+	};
+	
 	
 	var appTasks = setInterval(function(){
 		
 		
 		__connectToTelegramMessageDB();
+		__connectToCounterCommonDB();
 		
 		
 	}, taskLoader_period * 5);
@@ -185,6 +234,7 @@ var createIntervals = function(azbn) {
 	
 	
 	__connectToTelegramMessageDB();
+	__connectToCounterCommonDB();
 	
 	
 }

@@ -20,6 +20,8 @@ function _(azbn) {
 		},
 	}));
 	
+	azbn.mdl('express').get('/counter/common/',				(new require('./route/counter/common')(azbn)));
+	
 	azbn.mdl('express').get('/auth/default/',				(new require('./route/auth/default')(azbn)));
 	azbn.mdl('express').get('/auth/oauth2/:uid/',			(new require('./route/auth/oauth2')(azbn)));
 	azbn.mdl('express').get('/auth/oauth2callback/:uid/',	(new require('./route/auth/oauth2callback')(azbn)));
