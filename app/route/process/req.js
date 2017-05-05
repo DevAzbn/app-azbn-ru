@@ -7,7 +7,10 @@ function _(azbn) {
 	
 	var handler = function(req, res) {
 		
-		res.send(req);
+		res.send({
+			ip : req.ip,
+			ips : req.ips,
+		});
 		
 	}
 	

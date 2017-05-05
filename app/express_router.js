@@ -33,6 +33,7 @@ function _(azbn) {
 	azbn.mdl('express').get('/process/forever.restart/',				(new require('./route/process/forever.restart')(azbn)));
 	azbn.mdl('express').get('/process/fork/',				(new require('./route/process/fork')(azbn)));
 	azbn.mdl('express').get('/process/memory/',				(new require('./route/process/memory')(azbn)));
+	azbn.mdl('express').get('/process/req/',				(new require('./route/process/req')(azbn)));
 	
 	azbn.mdl('express').get('/admin/app/fork/list/',				(new require('./route/admin/app/fork/list')(azbn)));
 	
