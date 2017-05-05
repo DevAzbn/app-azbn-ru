@@ -11,7 +11,7 @@ function _(azbn) {
 		
 		azbn.mdl('taskq').add(function(afterTask){
 			
-			azbn.mdl('fork').run(_p.uid, {}, function(_process, _result){
+			azbn.mdl('fork').run(_p.uid, req, function(_process, _result){
 				
 				if(_result.status == 0) {
 					
