@@ -161,13 +161,15 @@ function createVK(azbn) {
 					'language'	:	azbn.mdl('cfg').vk.language,
 				});
 				
-				/*
+				
 				__tokens[item.token_id].on('serverTokenReady', function(_o) {
 					__tokens[item.token_id].setToken(_o.access_token);
 				});
 				
+				
 				__tokens[item.token_id].setToken(item.access_token);
-				*/
+				
+				
 			}
 			
 			return __tokens[item.token_id];
