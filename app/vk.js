@@ -41,13 +41,13 @@ function createVK(azbn) {
 					"LIMIT " +
 						"1 " +
 					"", function(_err, rows, fields) {
-
+						
 						if (_err) {
-
+							
 							azbn.mdl('winston').warn('Error on search emails in queue: ' + _err);
-
+							
 							cb();
-
+							
 						} else if(rows.length > 0) {
 							
 							rows.forEach(function(_profile){
@@ -141,48 +141,49 @@ function createVK(azbn) {
 	};
 	
 	ctrl.account = function(item) {
-
+		
 		var app = __apps[item.app_id];
-
+		
 		if(app) {
-
+			
 			if(__tokens[item.token_id]) {
-
-
-
+			
+			
+			
 			} else {
-
+				
 				__tokens[item.token_id] = new VKSDK({
-					'appId'     :	app.appId,
-					'appSecret' :	app.appSecret,
+					'appId'		:	app.appId,
+					'appSecret'	:	app.appSecret,
 					'https'		:	true,
-					'secure'	:	true,
+					//'secure'	:	true,
 					'version'	: 	azbn.mdl('cfg').vk.version,
 					'language'	:	azbn.mdl('cfg').vk.language,
 				});
-
+				
+				/*
 				__tokens[item.token_id].on('serverTokenReady', function(_o) {
 					__tokens[item.token_id].setToken(_o.access_token);
 				});
-
+				
 				__tokens[item.token_id].setToken(item.access_token);
-
+				*/
 			}
-
+			
 			return __tokens[item.token_id];
-
+			
 		} else {
-
+			
 			return null;
-
+			
 		}
-
+		
 	};
-
+	
 	//
-
+	
 	return ctrl;
-
+	
 }
 
 module.exports = createVK;
